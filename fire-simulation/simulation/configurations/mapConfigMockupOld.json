@@ -1,0 +1,2096 @@
+{
+  "forestId": 1,
+  "forestName": "Ochotnica",
+  "width": 1200,
+  "height": 800,
+  "sectorSize": 100,
+  "imageReference": "string",
+  "location": [
+    {
+      "longitude": 20.132385645406604,
+      "latitude": 49.5599264763197
+    },
+    {
+      "longitude": 20.254446675807113,
+      "latitude": 49.5599264763197
+    },
+    {
+      "longitude": 20.254446675807113,
+      "latitude": 49.49921247019953
+    },
+    {
+      "longitude": 20.132385645406604,
+      "latitude": 49.49921247019953
+    }
+  ],
+  "sectors": [
+    {
+      "sectorId": 1,
+      "row": 1,
+      "column": 1,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -1.0656686301415164,
+        "windSpeed": 67,
+        "windDirection": "NE",
+        "airHumidity": 26.17989866958328,
+        "plantLitterMoisture": 12.971401721877607,
+        "co2Concentration": 46.20186185772541,
+        "pm2_5Concentration": 62.97674133864919
+      },
+      "contours": [
+        [20.132385645406604, 49.49921247019953],
+        [20.132385645406604, 49.50680172096455],
+        [20.14255739793998, 49.50680172096455],
+        [20.14255739793998, 49.49921247019953]
+      ]
+    },
+    {
+      "sectorId": 2,
+      "row": 1,
+      "column": 2,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 23.405265858595584,
+        "windSpeed": 10,
+        "windDirection": "NE",
+        "airHumidity": 30.573732213671477,
+        "plantLitterMoisture": 22.7967905012193,
+        "co2Concentration": 0.4909450816421579,
+        "pm2_5Concentration": 4.062487999156716
+      },
+      "contours": [
+        [20.14255739793998, 49.49921247019953],
+        [20.14255739793998, 49.50680172096455],
+        [20.152729150473355, 49.50680172096455],
+        [20.152729150473355, 49.49921247019953]
+      ]
+    },
+    {
+      "sectorId": 3,
+      "row": 1,
+      "column": 3,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 14.278781717113198,
+        "windSpeed": 159,
+        "windDirection": "NE",
+        "airHumidity": 21.516255487190207,
+        "plantLitterMoisture": 69.5927439937031,
+        "co2Concentration": 87.00310418038293,
+        "pm2_5Concentration": 6.04060161365747
+      },
+      "contours": [
+        [20.152729150473355, 49.49921247019953],
+        [20.152729150473355, 49.50680172096455],
+        [20.16290090300673, 49.50680172096455],
+        [20.16290090300673, 49.49921247019953]
+      ]
+    },
+    {
+      "sectorId": 4,
+      "row": 1,
+      "column": 4,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -3.329544151481123,
+        "windSpeed": 152,
+        "windDirection": "NE",
+        "airHumidity": 9.028635355404546,
+        "plantLitterMoisture": 70.50994997056392,
+        "co2Concentration": 54.86990436542989,
+        "pm2_5Concentration": 7.0776482535796825
+      },
+      "contours": [
+        [20.16290090300673, 49.49921247019953],
+        [20.16290090300673, 49.50680172096455],
+        [20.173072655540107, 49.50680172096455],
+        [20.173072655540107, 49.49921247019953]
+      ]
+    },
+    {
+      "sectorId": 5,
+      "row": 1,
+      "column": 5,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 26.301295575515212,
+        "windSpeed": 142,
+        "windDirection": "NE",
+        "airHumidity": 42.07749803621332,
+        "plantLitterMoisture": 16.06204046885371,
+        "co2Concentration": 10.770372731322485,
+        "pm2_5Concentration": 8.726479339195592
+      },
+      "contours": [
+        [20.173072655540107, 49.49921247019953],
+        [20.173072655540107, 49.50680172096455],
+        [20.183244408073485, 49.50680172096455],
+        [20.183244408073485, 49.49921247019953]
+      ]
+    },
+    {
+      "sectorId": 6,
+      "row": 1,
+      "column": 6,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -1.9186628146450246,
+        "windSpeed": 88,
+        "windDirection": "NE",
+        "airHumidity": 13.63359208842574,
+        "plantLitterMoisture": 55.1985043241982,
+        "co2Concentration": 65.09588998986018,
+        "pm2_5Concentration": 78.31051217260398
+      },
+      "contours": [
+        [20.183244408073485, 49.49921247019953],
+        [20.183244408073485, 49.50680172096455],
+        [20.19341616060686, 49.50680172096455],
+        [20.19341616060686, 49.49921247019953]
+      ]
+    },
+    {
+      "sectorId": 7,
+      "row": 1,
+      "column": 7,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 3.283659142864783,
+        "windSpeed": 73,
+        "windDirection": "NE",
+        "airHumidity": 7.582404659926878,
+        "plantLitterMoisture": 67.46588710372427,
+        "co2Concentration": 14.143712628381166,
+        "pm2_5Concentration": 23.170324593214886
+      },
+      "contours": [
+        [20.19341616060686, 49.49921247019953],
+        [20.19341616060686, 49.50680172096455],
+        [20.203587913140233, 49.50680172096455],
+        [20.203587913140233, 49.49921247019953]
+      ]
+    },
+    {
+      "sectorId": 8,
+      "row": 1,
+      "column": 8,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 3.6180080521761138,
+        "windSpeed": 39,
+        "windDirection": "NE",
+        "airHumidity": 39.082003327696135,
+        "plantLitterMoisture": 24.658863561149214,
+        "co2Concentration": 79.72353208953562,
+        "pm2_5Concentration": 11.099802673168968
+      },
+      "contours": [
+        [20.203587913140233, 49.49921247019953],
+        [20.203587913140233, 49.50680172096455],
+        [20.21375966567361, 49.50680172096455],
+        [20.21375966567361, 49.49921247019953]
+      ]
+    },
+    {
+      "sectorId": 9,
+      "row": 1,
+      "column": 9,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 17.543374900321858,
+        "windSpeed": 75,
+        "windDirection": "NE",
+        "airHumidity": 80.80246488977443,
+        "plantLitterMoisture": 79.72149201108394,
+        "co2Concentration": 64.76856055711187,
+        "pm2_5Concentration": 89.8311561059845
+      },
+      "contours": [
+        [20.21375966567361, 49.49921247019953],
+        [20.21375966567361, 49.50680172096455],
+        [20.223931418206988, 49.50680172096455],
+        [20.223931418206988, 49.49921247019953]
+      ]
+    },
+    {
+      "sectorId": 10,
+      "row": 1,
+      "column": 10,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 17.867402776670804,
+        "windSpeed": 161,
+        "windDirection": "NE",
+        "airHumidity": 54.9481602920862,
+        "plantLitterMoisture": 93.51727478654827,
+        "co2Concentration": 33.658936149573314,
+        "pm2_5Concentration": 39.6762473915532
+      },
+      "contours": [
+        [20.223931418206988, 49.49921247019953],
+        [20.223931418206988, 49.50680172096455],
+        [20.23410317074036, 49.50680172096455],
+        [20.23410317074036, 49.49921247019953]
+      ]
+    },
+    {
+      "sectorId": 11,
+      "row": 1,
+      "column": 11,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 26.005472351663947,
+        "windSpeed": 147,
+        "windDirection": "NE",
+        "airHumidity": 47.03691564656764,
+        "plantLitterMoisture": 36.22232390864792,
+        "co2Concentration": 23.301989283899527,
+        "pm2_5Concentration": 50.2954978794266
+      },
+      "contours": [
+        [20.23410317074036, 49.49921247019953],
+        [20.23410317074036, 49.50680172096455],
+        [20.244274923273736, 49.50680172096455],
+        [20.244274923273736, 49.49921247019953]
+      ]
+    },
+    {
+      "sectorId": 12,
+      "row": 1,
+      "column": 12,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 15.780711762625657,
+        "windSpeed": 121,
+        "windDirection": "NE",
+        "airHumidity": 19.863965153676478,
+        "plantLitterMoisture": 80.29192997897661,
+        "co2Concentration": 13.234279990020736,
+        "pm2_5Concentration": 55.42285896603101
+      },
+      "contours": [
+        [20.244274923273736, 49.49921247019953],
+        [20.244274923273736, 49.50680172096455],
+        [20.254446675807113, 49.50680172096455],
+        [20.254446675807113, 49.49921247019953]
+      ]
+    },
+    {
+      "sectorId": 13,
+      "row": 2,
+      "column": 1,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 29.842411633381964,
+        "windSpeed": 85,
+        "windDirection": "NE",
+        "airHumidity": 75.0223007418359,
+        "plantLitterMoisture": 26.356613882680136,
+        "co2Concentration": 18.151255557374334,
+        "pm2_5Concentration": 64.51667287166904
+      },
+      "contours": [
+        [20.132385645406604, 49.50680172096455],
+        [20.132385645406604, 49.514390971729576],
+        [20.14255739793998, 49.514390971729576],
+        [20.14255739793998, 49.50680172096455]
+      ]
+    },
+    {
+      "sectorId": 14,
+      "row": 2,
+      "column": 2,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -7.422897310450347,
+        "windSpeed": 103,
+        "windDirection": "NE",
+        "airHumidity": 55.57964142330005,
+        "plantLitterMoisture": 29.549055032459435,
+        "co2Concentration": 64.2405436187151,
+        "pm2_5Concentration": 26.977487414554414
+      },
+      "contours": [
+        [20.14255739793998, 49.50680172096455],
+        [20.14255739793998, 49.514390971729576],
+        [20.152729150473355, 49.514390971729576],
+        [20.152729150473355, 49.50680172096455]
+      ]
+    },
+    {
+      "sectorId": 15,
+      "row": 2,
+      "column": 3,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 0.8182317815767526,
+        "windSpeed": 114,
+        "windDirection": "NE",
+        "airHumidity": 50.80346422314543,
+        "plantLitterMoisture": 88.99681345342852,
+        "co2Concentration": 16.065517486094215,
+        "pm2_5Concentration": 50.106588504058045
+      },
+      "contours": [
+        [20.152729150473355, 49.50680172096455],
+        [20.152729150473355, 49.514390971729576],
+        [20.16290090300673, 49.514390971729576],
+        [20.16290090300673, 49.50680172096455]
+      ]
+    },
+    {
+      "sectorId": 16,
+      "row": 2,
+      "column": 4,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 6.036461885605327,
+        "windSpeed": 11,
+        "windDirection": "NE",
+        "airHumidity": 56.39783028019423,
+        "plantLitterMoisture": 10.272688975619747,
+        "co2Concentration": 36.81382928382693,
+        "pm2_5Concentration": 10.706679481262448
+      },
+      "contours": [
+        [20.16290090300673, 49.50680172096455],
+        [20.16290090300673, 49.514390971729576],
+        [20.173072655540107, 49.514390971729576],
+        [20.173072655540107, 49.50680172096455]
+      ]
+    },
+    {
+      "sectorId": 17,
+      "row": 2,
+      "column": 5,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 5.0650460503146455,
+        "windSpeed": 121,
+        "windDirection": "NE",
+        "airHumidity": 32.98773216004791,
+        "plantLitterMoisture": 63.192120582372134,
+        "co2Concentration": 26.9375526002364,
+        "pm2_5Concentration": 93.26217230125408
+      },
+      "contours": [
+        [20.173072655540107, 49.50680172096455],
+        [20.173072655540107, 49.514390971729576],
+        [20.183244408073485, 49.514390971729576],
+        [20.183244408073485, 49.50680172096455]
+      ]
+    },
+    {
+      "sectorId": 18,
+      "row": 2,
+      "column": 6,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 9.022745258048399,
+        "windSpeed": 33,
+        "windDirection": "NE",
+        "airHumidity": 8.690003823499225,
+        "plantLitterMoisture": 47.471730185360215,
+        "co2Concentration": 53.13203221824809,
+        "pm2_5Concentration": 83.74986834344456
+      },
+      "contours": [
+        [20.183244408073485, 49.50680172096455],
+        [20.183244408073485, 49.514390971729576],
+        [20.19341616060686, 49.514390971729576],
+        [20.19341616060686, 49.50680172096455]
+      ]
+    },
+    {
+      "sectorId": 19,
+      "row": 2,
+      "column": 7,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 9.952097569139582,
+        "windSpeed": 10,
+        "windDirection": "NE",
+        "airHumidity": 93.17403443650794,
+        "plantLitterMoisture": 76.18980692036045,
+        "co2Concentration": 25.112586364519494,
+        "pm2_5Concentration": 63.21998995655584
+      },
+      "contours": [
+        [20.19341616060686, 49.50680172096455],
+        [20.19341616060686, 49.514390971729576],
+        [20.203587913140233, 49.514390971729576],
+        [20.203587913140233, 49.50680172096455]
+      ]
+    },
+    {
+      "sectorId": 20,
+      "row": 2,
+      "column": 8,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 0.8465654581508453,
+        "windSpeed": 37,
+        "windDirection": "NE",
+        "airHumidity": 13.051001673204322,
+        "plantLitterMoisture": 68.71169453240478,
+        "co2Concentration": 68.75399642397522,
+        "pm2_5Concentration": 32.24587800957317
+      },
+      "contours": [
+        [20.203587913140233, 49.50680172096455],
+        [20.203587913140233, 49.514390971729576],
+        [20.21375966567361, 49.514390971729576],
+        [20.21375966567361, 49.50680172096455]
+      ]
+    },
+    {
+      "sectorId": 21,
+      "row": 2,
+      "column": 9,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 7.941906756769459,
+        "windSpeed": 84,
+        "windDirection": "NE",
+        "airHumidity": 49.748677462631164,
+        "plantLitterMoisture": 73.36491647281021,
+        "co2Concentration": 34.25040930253462,
+        "pm2_5Concentration": 81.97354365337328
+      },
+      "contours": [
+        [20.21375966567361, 49.50680172096455],
+        [20.21375966567361, 49.514390971729576],
+        [20.223931418206988, 49.514390971729576],
+        [20.223931418206988, 49.50680172096455]
+      ]
+    },
+    {
+      "sectorId": 22,
+      "row": 2,
+      "column": 10,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 17.704211310092496,
+        "windSpeed": 102,
+        "windDirection": "NE",
+        "airHumidity": 2.4036474193145585,
+        "plantLitterMoisture": 36.40935719187483,
+        "co2Concentration": 63.82627452103402,
+        "pm2_5Concentration": 56.468575395287715
+      },
+      "contours": [
+        [20.223931418206988, 49.50680172096455],
+        [20.223931418206988, 49.514390971729576],
+        [20.23410317074036, 49.514390971729576],
+        [20.23410317074036, 49.50680172096455]
+      ]
+    },
+    {
+      "sectorId": 23,
+      "row": 2,
+      "column": 11,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 10.022119056535985,
+        "windSpeed": 51,
+        "windDirection": "NE",
+        "airHumidity": 7.547698755837162,
+        "plantLitterMoisture": 74.8226152375058,
+        "co2Concentration": 27.35738655636901,
+        "pm2_5Concentration": 65.38933957465535
+      },
+      "contours": [
+        [20.23410317074036, 49.50680172096455],
+        [20.23410317074036, 49.514390971729576],
+        [20.244274923273736, 49.514390971729576],
+        [20.244274923273736, 49.50680172096455]
+      ]
+    },
+    {
+      "sectorId": 24,
+      "row": 2,
+      "column": 12,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 24.535857372292618,
+        "windSpeed": 130,
+        "windDirection": "NE",
+        "airHumidity": 82.8415962583819,
+        "plantLitterMoisture": 41.31191305963284,
+        "co2Concentration": 86.28027891714349,
+        "pm2_5Concentration": 97.13449839196223
+      },
+      "contours": [
+        [20.244274923273736, 49.50680172096455],
+        [20.244274923273736, 49.514390971729576],
+        [20.254446675807113, 49.514390971729576],
+        [20.254446675807113, 49.50680172096455]
+      ]
+    },
+    {
+      "sectorId": 25,
+      "row": 3,
+      "column": 1,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 27.372707340825798,
+        "windSpeed": 2,
+        "windDirection": "NE",
+        "airHumidity": 93.86707670520462,
+        "plantLitterMoisture": 90.22427884911939,
+        "co2Concentration": 54.772181553321,
+        "pm2_5Concentration": 3.438095842119937
+      },
+      "contours": [
+        [20.132385645406604, 49.514390971729576],
+        [20.132385645406604, 49.5219802224946],
+        [20.14255739793998, 49.5219802224946],
+        [20.14255739793998, 49.514390971729576]
+      ]
+    },
+    {
+      "sectorId": 26,
+      "row": 3,
+      "column": 2,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 25.586540237632462,
+        "windSpeed": 101,
+        "windDirection": "NE",
+        "airHumidity": 31.342925771018738,
+        "plantLitterMoisture": 99.59299790373845,
+        "co2Concentration": 79.94101505897903,
+        "pm2_5Concentration": 39.54413344197083
+      },
+      "contours": [
+        [20.14255739793998, 49.514390971729576],
+        [20.14255739793998, 49.5219802224946],
+        [20.152729150473355, 49.5219802224946],
+        [20.152729150473355, 49.514390971729576]
+      ]
+    },
+    {
+      "sectorId": 27,
+      "row": 3,
+      "column": 3,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 2.9376315198053593,
+        "windSpeed": 90,
+        "windDirection": "NE",
+        "airHumidity": 44.82020948831309,
+        "plantLitterMoisture": 60.3226828102901,
+        "co2Concentration": 30.728800896455198,
+        "pm2_5Concentration": 81.23660214190363
+      },
+      "contours": [
+        [20.152729150473355, 49.514390971729576],
+        [20.152729150473355, 49.5219802224946],
+        [20.16290090300673, 49.5219802224946],
+        [20.16290090300673, 49.514390971729576]
+      ]
+    },
+    {
+      "sectorId": 28,
+      "row": 3,
+      "column": 4,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 15.636106232352532,
+        "windSpeed": 45,
+        "windDirection": "NE",
+        "airHumidity": 77.72050072488892,
+        "plantLitterMoisture": 49.47504990268909,
+        "co2Concentration": 21.96527125386929,
+        "pm2_5Concentration": 10.60004670837671
+      },
+      "contours": [
+        [20.16290090300673, 49.514390971729576],
+        [20.16290090300673, 49.5219802224946],
+        [20.173072655540107, 49.5219802224946],
+        [20.173072655540107, 49.514390971729576]
+      ]
+    },
+    {
+      "sectorId": 29,
+      "row": 3,
+      "column": 5,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 0.053693713714704216,
+        "windSpeed": 26,
+        "windDirection": "NE",
+        "airHumidity": 16.88615387824197,
+        "plantLitterMoisture": 82.68406180207765,
+        "co2Concentration": 45.7101768620662,
+        "pm2_5Concentration": 73.63915565278472
+      },
+      "contours": [
+        [20.173072655540107, 49.514390971729576],
+        [20.173072655540107, 49.5219802224946],
+        [20.183244408073485, 49.5219802224946],
+        [20.183244408073485, 49.514390971729576]
+      ]
+    },
+    {
+      "sectorId": 30,
+      "row": 3,
+      "column": 6,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 6.932762374522248,
+        "windSpeed": 156,
+        "windDirection": "NE",
+        "airHumidity": 2.199680981454133,
+        "plantLitterMoisture": 38.959211972599505,
+        "co2Concentration": 49.1687429957574,
+        "pm2_5Concentration": 82.0279218079432
+      },
+      "contours": [
+        [20.183244408073485, 49.514390971729576],
+        [20.183244408073485, 49.5219802224946],
+        [20.19341616060686, 49.5219802224946],
+        [20.19341616060686, 49.514390971729576]
+      ]
+    },
+    {
+      "sectorId": 31,
+      "row": 3,
+      "column": 7,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 12.285834001641483,
+        "windSpeed": 77,
+        "windDirection": "NE",
+        "airHumidity": 71.15336963364274,
+        "plantLitterMoisture": 52.12449180897196,
+        "co2Concentration": 93.71818139850356,
+        "pm2_5Concentration": 54.7384846362942
+      },
+      "contours": [
+        [20.19341616060686, 49.514390971729576],
+        [20.19341616060686, 49.5219802224946],
+        [20.203587913140233, 49.5219802224946],
+        [20.203587913140233, 49.514390971729576]
+      ]
+    },
+    {
+      "sectorId": 32,
+      "row": 3,
+      "column": 8,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 18.794049536979287,
+        "windSpeed": 71,
+        "windDirection": "NE",
+        "airHumidity": 44.93499567638386,
+        "plantLitterMoisture": 18.218781917437042,
+        "co2Concentration": 13.236230438830198,
+        "pm2_5Concentration": 57.71921409822769
+      },
+      "contours": [
+        [20.203587913140233, 49.514390971729576],
+        [20.203587913140233, 49.5219802224946],
+        [20.21375966567361, 49.5219802224946],
+        [20.21375966567361, 49.514390971729576]
+      ]
+    },
+    {
+      "sectorId": 33,
+      "row": 3,
+      "column": 9,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 10.76365216854267,
+        "windSpeed": 89,
+        "windDirection": "NE",
+        "airHumidity": 13.041748795231346,
+        "plantLitterMoisture": 85.21067425801989,
+        "co2Concentration": 87.01811011504601,
+        "pm2_5Concentration": 71.29236098366046
+      },
+      "contours": [
+        [20.21375966567361, 49.514390971729576],
+        [20.21375966567361, 49.5219802224946],
+        [20.223931418206988, 49.5219802224946],
+        [20.223931418206988, 49.514390971729576]
+      ]
+    },
+    {
+      "sectorId": 34,
+      "row": 3,
+      "column": 10,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -1.5972978341728794,
+        "windSpeed": 65,
+        "windDirection": "NE",
+        "airHumidity": 65.60190862460277,
+        "plantLitterMoisture": 81.98580818019745,
+        "co2Concentration": 98.87605360958665,
+        "pm2_5Concentration": 39.50645075523616
+      },
+      "contours": [
+        [20.223931418206988, 49.514390971729576],
+        [20.223931418206988, 49.5219802224946],
+        [20.23410317074036, 49.5219802224946],
+        [20.23410317074036, 49.514390971729576]
+      ]
+    },
+    {
+      "sectorId": 35,
+      "row": 3,
+      "column": 11,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -2.0007816879487983,
+        "windSpeed": 3,
+        "windDirection": "NE",
+        "airHumidity": 54.493459945220145,
+        "plantLitterMoisture": 28.932580569634435,
+        "co2Concentration": 59.66930805317687,
+        "pm2_5Concentration": 62.416414036295656
+      },
+      "contours": [
+        [20.23410317074036, 49.514390971729576],
+        [20.23410317074036, 49.5219802224946],
+        [20.244274923273736, 49.5219802224946],
+        [20.244274923273736, 49.514390971729576]
+      ]
+    },
+    {
+      "sectorId": 36,
+      "row": 3,
+      "column": 12,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -9.977431163633383,
+        "windSpeed": 71,
+        "windDirection": "NE",
+        "airHumidity": 0.5316547472339117,
+        "plantLitterMoisture": 48.93103929447478,
+        "co2Concentration": 17.935542108372914,
+        "pm2_5Concentration": 54.073677713472115
+      },
+      "contours": [
+        [20.244274923273736, 49.514390971729576],
+        [20.244274923273736, 49.5219802224946],
+        [20.254446675807113, 49.5219802224946],
+        [20.254446675807113, 49.514390971729576]
+      ]
+    },
+    {
+      "sectorId": 37,
+      "row": 4,
+      "column": 1,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -1.4611074117573786,
+        "windSpeed": 101,
+        "windDirection": "NE",
+        "airHumidity": 98.79234234328267,
+        "plantLitterMoisture": 12.252479638828962,
+        "co2Concentration": 5.64325963048895,
+        "pm2_5Concentration": 1.6032467227273584
+      },
+      "contours": [
+        [20.132385645406604, 49.5219802224946],
+        [20.132385645406604, 49.52956947325961],
+        [20.14255739793998, 49.52956947325961],
+        [20.14255739793998, 49.5219802224946]
+      ]
+    },
+    {
+      "sectorId": 38,
+      "row": 4,
+      "column": 2,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 4.528376284553817,
+        "windSpeed": 68,
+        "windDirection": "NE",
+        "airHumidity": 37.89284631610157,
+        "plantLitterMoisture": 71.49431396314787,
+        "co2Concentration": 21.51359175708849,
+        "pm2_5Concentration": 65.65119214443264
+      },
+      "contours": [
+        [20.14255739793998, 49.5219802224946],
+        [20.14255739793998, 49.52956947325961],
+        [20.152729150473355, 49.52956947325961],
+        [20.152729150473355, 49.5219802224946]
+      ]
+    },
+    {
+      "sectorId": 39,
+      "row": 4,
+      "column": 3,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 27.01759077462124,
+        "windSpeed": 143,
+        "windDirection": "NE",
+        "airHumidity": 67.17998498900144,
+        "plantLitterMoisture": 76.15680351186505,
+        "co2Concentration": 65.05682242688766,
+        "pm2_5Concentration": 52.03841781666023
+      },
+      "contours": [
+        [20.152729150473355, 49.5219802224946],
+        [20.152729150473355, 49.52956947325961],
+        [20.16290090300673, 49.52956947325961],
+        [20.16290090300673, 49.5219802224946]
+      ]
+    },
+    {
+      "sectorId": 40,
+      "row": 4,
+      "column": 4,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 23.8511370700065,
+        "windSpeed": 128,
+        "windDirection": "NE",
+        "airHumidity": 17.61498737880689,
+        "plantLitterMoisture": 81.0569067795069,
+        "co2Concentration": 54.21854743427126,
+        "pm2_5Concentration": 82.78114305113543
+      },
+      "contours": [
+        [20.16290090300673, 49.5219802224946],
+        [20.16290090300673, 49.52956947325961],
+        [20.173072655540107, 49.52956947325961],
+        [20.173072655540107, 49.5219802224946]
+      ]
+    },
+    {
+      "sectorId": 41,
+      "row": 4,
+      "column": 5,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 22.027447630985208,
+        "windSpeed": 112,
+        "windDirection": "NE",
+        "airHumidity": 97.72501707138058,
+        "plantLitterMoisture": 93.88258034374073,
+        "co2Concentration": 10.926485877143467,
+        "pm2_5Concentration": 26.94034200863049
+      },
+      "contours": [
+        [20.173072655540107, 49.5219802224946],
+        [20.173072655540107, 49.52956947325961],
+        [20.183244408073485, 49.52956947325961],
+        [20.183244408073485, 49.5219802224946]
+      ]
+    },
+    {
+      "sectorId": 42,
+      "row": 4,
+      "column": 6,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 26.118811222729505,
+        "windSpeed": 100,
+        "windDirection": "NE",
+        "airHumidity": 31.401588569317028,
+        "plantLitterMoisture": 10.351632073500983,
+        "co2Concentration": 60.19561071784463,
+        "pm2_5Concentration": 50.58021554245924
+      },
+      "contours": [
+        [20.183244408073485, 49.5219802224946],
+        [20.183244408073485, 49.52956947325961],
+        [20.19341616060686, 49.52956947325961],
+        [20.19341616060686, 49.5219802224946]
+      ]
+    },
+    {
+      "sectorId": 43,
+      "row": 4,
+      "column": 7,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 18.066709801058032,
+        "windSpeed": 57,
+        "windDirection": "NE",
+        "airHumidity": 57.21120217875861,
+        "plantLitterMoisture": 10.589454469932292,
+        "co2Concentration": 16.59693168847438,
+        "pm2_5Concentration": 3.9306755926289405
+      },
+      "contours": [
+        [20.19341616060686, 49.5219802224946],
+        [20.19341616060686, 49.52956947325961],
+        [20.203587913140233, 49.52956947325961],
+        [20.203587913140233, 49.5219802224946]
+      ]
+    },
+    {
+      "sectorId": 44,
+      "row": 4,
+      "column": 8,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 5.881158221697618,
+        "windSpeed": 64,
+        "windDirection": "NE",
+        "airHumidity": 33.229724511440885,
+        "plantLitterMoisture": 21.464312424710652,
+        "co2Concentration": 36.63860848919222,
+        "pm2_5Concentration": 68.89737673791407
+      },
+      "contours": [
+        [20.203587913140233, 49.5219802224946],
+        [20.203587913140233, 49.52956947325961],
+        [20.21375966567361, 49.52956947325961],
+        [20.21375966567361, 49.5219802224946]
+      ]
+    },
+    {
+      "sectorId": 45,
+      "row": 4,
+      "column": 9,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 29.5519831877303,
+        "windSpeed": 151,
+        "windDirection": "NE",
+        "airHumidity": 32.65166591740973,
+        "plantLitterMoisture": 75.06521341477746,
+        "co2Concentration": 77.65014569533919,
+        "pm2_5Concentration": 3.6752827252378717
+      },
+      "contours": [
+        [20.21375966567361, 49.5219802224946],
+        [20.21375966567361, 49.52956947325961],
+        [20.223931418206988, 49.52956947325961],
+        [20.223931418206988, 49.5219802224946]
+      ]
+    },
+    {
+      "sectorId": 46,
+      "row": 4,
+      "column": 10,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 18.04578060038625,
+        "windSpeed": 80,
+        "windDirection": "NE",
+        "airHumidity": 19.60201249419098,
+        "plantLitterMoisture": 79.81383222238685,
+        "co2Concentration": 44.69252285004679,
+        "pm2_5Concentration": 85.6856154921458
+      },
+      "contours": [
+        [20.223931418206988, 49.5219802224946],
+        [20.223931418206988, 49.52956947325961],
+        [20.23410317074036, 49.52956947325961],
+        [20.23410317074036, 49.5219802224946]
+      ]
+    },
+    {
+      "sectorId": 47,
+      "row": 4,
+      "column": 11,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 28.05547883247123,
+        "windSpeed": 99,
+        "windDirection": "NE",
+        "airHumidity": 53.22641021910781,
+        "plantLitterMoisture": 82.44105313749452,
+        "co2Concentration": 57.37054094507972,
+        "pm2_5Concentration": 16.45370031727822
+      },
+      "contours": [
+        [20.23410317074036, 49.5219802224946],
+        [20.23410317074036, 49.52956947325961],
+        [20.244274923273736, 49.52956947325961],
+        [20.244274923273736, 49.5219802224946]
+      ]
+    },
+    {
+      "sectorId": 48,
+      "row": 4,
+      "column": 12,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 3.683986353192079,
+        "windSpeed": 124,
+        "windDirection": "NE",
+        "airHumidity": 98.02270456929334,
+        "plantLitterMoisture": 73.45824858310452,
+        "co2Concentration": 49.63507922025978,
+        "pm2_5Concentration": 32.41635048202751
+      },
+      "contours": [
+        [20.244274923273736, 49.5219802224946],
+        [20.244274923273736, 49.52956947325961],
+        [20.254446675807113, 49.52956947325961],
+        [20.254446675807113, 49.5219802224946]
+      ]
+    },
+    {
+      "sectorId": 49,
+      "row": 5,
+      "column": 1,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -3.916311058916442,
+        "windSpeed": 27,
+        "windDirection": "NE",
+        "airHumidity": 96.60521721202404,
+        "plantLitterMoisture": 70.96258895396484,
+        "co2Concentration": 93.61517044066625,
+        "pm2_5Concentration": 91.22043492020411
+      },
+      "contours": [
+        [20.132385645406604, 49.52956947325961],
+        [20.132385645406604, 49.537158724024636],
+        [20.14255739793998, 49.537158724024636],
+        [20.14255739793998, 49.52956947325961]
+      ]
+    },
+    {
+      "sectorId": 50,
+      "row": 5,
+      "column": 2,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 10.701520486965723,
+        "windSpeed": 123,
+        "windDirection": "NE",
+        "airHumidity": 17.235415103951503,
+        "plantLitterMoisture": 47.452683188413445,
+        "co2Concentration": 28.25889723355559,
+        "pm2_5Concentration": 62.47998098254952
+      },
+      "contours": [
+        [20.14255739793998, 49.52956947325961],
+        [20.14255739793998, 49.537158724024636],
+        [20.152729150473355, 49.537158724024636],
+        [20.152729150473355, 49.52956947325961]
+      ]
+    },
+    {
+      "sectorId": 51,
+      "row": 5,
+      "column": 3,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -8.63889755540721,
+        "windSpeed": 124,
+        "windDirection": "NE",
+        "airHumidity": 39.40426923914466,
+        "plantLitterMoisture": 86.23161888403246,
+        "co2Concentration": 85.1111100049915,
+        "pm2_5Concentration": 43.70686312924068
+      },
+      "contours": [
+        [20.152729150473355, 49.52956947325961],
+        [20.152729150473355, 49.537158724024636],
+        [20.16290090300673, 49.537158724024636],
+        [20.16290090300673, 49.52956947325961]
+      ]
+    },
+    {
+      "sectorId": 52,
+      "row": 5,
+      "column": 4,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 19.805374308537893,
+        "windSpeed": 15,
+        "windDirection": "NE",
+        "airHumidity": 40.18426836585962,
+        "plantLitterMoisture": 89.74184520881198,
+        "co2Concentration": 13.893587931501706,
+        "pm2_5Concentration": 53.675702925273995
+      },
+      "contours": [
+        [20.16290090300673, 49.52956947325961],
+        [20.16290090300673, 49.537158724024636],
+        [20.173072655540107, 49.537158724024636],
+        [20.173072655540107, 49.52956947325961]
+      ]
+    },
+    {
+      "sectorId": 53,
+      "row": 5,
+      "column": 5,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 14.75185015359753,
+        "windSpeed": 128,
+        "windDirection": "NE",
+        "airHumidity": 45.1495307207415,
+        "plantLitterMoisture": 0.06134189339312979,
+        "co2Concentration": 56.46389588675129,
+        "pm2_5Concentration": 95.71485992708378
+      },
+      "contours": [
+        [20.173072655540107, 49.52956947325961],
+        [20.173072655540107, 49.537158724024636],
+        [20.183244408073485, 49.537158724024636],
+        [20.183244408073485, 49.52956947325961]
+      ]
+    },
+    {
+      "sectorId": 54,
+      "row": 5,
+      "column": 6,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 17.668818619511157,
+        "windSpeed": 42,
+        "windDirection": "NE",
+        "airHumidity": 92.69721622492024,
+        "plantLitterMoisture": 30.086228039486773,
+        "co2Concentration": 95.09485155473372,
+        "pm2_5Concentration": 15.865249508578906
+      },
+      "contours": [
+        [20.183244408073485, 49.52956947325961],
+        [20.183244408073485, 49.537158724024636],
+        [20.19341616060686, 49.537158724024636],
+        [20.19341616060686, 49.52956947325961]
+      ]
+    },
+    {
+      "sectorId": 55,
+      "row": 5,
+      "column": 7,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -2.4089006432758353,
+        "windSpeed": 32,
+        "windDirection": "NE",
+        "airHumidity": 25.692203804909862,
+        "plantLitterMoisture": 50.664471957768356,
+        "co2Concentration": 43.064578542633654,
+        "pm2_5Concentration": 35.471817351027845
+      },
+      "contours": [
+        [20.19341616060686, 49.52956947325961],
+        [20.19341616060686, 49.537158724024636],
+        [20.203587913140233, 49.537158724024636],
+        [20.203587913140233, 49.52956947325961]
+      ]
+    },
+    {
+      "sectorId": 56,
+      "row": 5,
+      "column": 8,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 27.30982710086775,
+        "windSpeed": 47,
+        "windDirection": "NE",
+        "airHumidity": 44.61874769410039,
+        "plantLitterMoisture": 77.23211039895368,
+        "co2Concentration": 16.848154211449607,
+        "pm2_5Concentration": 40.4652420897865
+      },
+      "contours": [
+        [20.203587913140233, 49.52956947325961],
+        [20.203587913140233, 49.537158724024636],
+        [20.21375966567361, 49.537158724024636],
+        [20.21375966567361, 49.52956947325961]
+      ]
+    },
+    {
+      "sectorId": 57,
+      "row": 5,
+      "column": 9,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 13.282293560279712,
+        "windSpeed": 4,
+        "windDirection": "NE",
+        "airHumidity": 4.891450694254296,
+        "plantLitterMoisture": 49.46950024069376,
+        "co2Concentration": 61.41484897108356,
+        "pm2_5Concentration": 2.338420151580367
+      },
+      "contours": [
+        [20.21375966567361, 49.52956947325961],
+        [20.21375966567361, 49.537158724024636],
+        [20.223931418206988, 49.537158724024636],
+        [20.223931418206988, 49.52956947325961]
+      ]
+    },
+    {
+      "sectorId": 58,
+      "row": 5,
+      "column": 10,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 10.997439001670351,
+        "windSpeed": 90,
+        "windDirection": "NE",
+        "airHumidity": 45.78339450572679,
+        "plantLitterMoisture": 8.437167735552942,
+        "co2Concentration": 44.13007573836958,
+        "pm2_5Concentration": 39.749527007010464
+      },
+      "contours": [
+        [20.223931418206988, 49.52956947325961],
+        [20.223931418206988, 49.537158724024636],
+        [20.23410317074036, 49.537158724024636],
+        [20.23410317074036, 49.52956947325961]
+      ]
+    },
+    {
+      "sectorId": 59,
+      "row": 5,
+      "column": 11,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 25.03411749470424,
+        "windSpeed": 76,
+        "windDirection": "NE",
+        "airHumidity": 25.454912657530105,
+        "plantLitterMoisture": 34.51151170304592,
+        "co2Concentration": 67.92641526974043,
+        "pm2_5Concentration": 82.35386793642408
+      },
+      "contours": [
+        [20.23410317074036, 49.52956947325961],
+        [20.23410317074036, 49.537158724024636],
+        [20.244274923273736, 49.537158724024636],
+        [20.244274923273736, 49.52956947325961]
+      ]
+    },
+    {
+      "sectorId": 60,
+      "row": 5,
+      "column": 12,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -5.808775911139534,
+        "windSpeed": 26,
+        "windDirection": "NE",
+        "airHumidity": 36.295240352280004,
+        "plantLitterMoisture": 29.69060210771619,
+        "co2Concentration": 49.075393997644355,
+        "pm2_5Concentration": 77.18772833352683
+      },
+      "contours": [
+        [20.244274923273736, 49.52956947325961],
+        [20.244274923273736, 49.537158724024636],
+        [20.254446675807113, 49.537158724024636],
+        [20.254446675807113, 49.52956947325961]
+      ]
+    },
+    {
+      "sectorId": 61,
+      "row": 6,
+      "column": 1,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 21.37436600286889,
+        "windSpeed": 83,
+        "windDirection": "NE",
+        "airHumidity": 66.46535262147253,
+        "plantLitterMoisture": 2.365054837663183,
+        "co2Concentration": 86.80421645169176,
+        "pm2_5Concentration": 94.18728543297217
+      },
+      "contours": [
+        [20.132385645406604, 49.537158724024636],
+        [20.132385645406604, 49.54474797478966],
+        [20.14255739793998, 49.54474797478966],
+        [20.14255739793998, 49.537158724024636]
+      ]
+    },
+    {
+      "sectorId": 62,
+      "row": 6,
+      "column": 2,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -5.1631155270838835,
+        "windSpeed": 122,
+        "windDirection": "NE",
+        "airHumidity": 17.149228402420967,
+        "plantLitterMoisture": 42.36396519486541,
+        "co2Concentration": 53.397629370697544,
+        "pm2_5Concentration": 74.59320249983719
+      },
+      "contours": [
+        [20.14255739793998, 49.537158724024636],
+        [20.14255739793998, 49.54474797478966],
+        [20.152729150473355, 49.54474797478966],
+        [20.152729150473355, 49.537158724024636]
+      ]
+    },
+    {
+      "sectorId": 63,
+      "row": 6,
+      "column": 3,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 13.767507939735843,
+        "windSpeed": 36,
+        "windDirection": "NE",
+        "airHumidity": 82.45983662338703,
+        "plantLitterMoisture": 52.50856195763583,
+        "co2Concentration": 84.14445529272258,
+        "pm2_5Concentration": 33.54864143306271
+      },
+      "contours": [
+        [20.152729150473355, 49.537158724024636],
+        [20.152729150473355, 49.54474797478966],
+        [20.16290090300673, 49.54474797478966],
+        [20.16290090300673, 49.537158724024636]
+      ]
+    },
+    {
+      "sectorId": 64,
+      "row": 6,
+      "column": 4,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 7.768144369878122,
+        "windSpeed": 115,
+        "windDirection": "NE",
+        "airHumidity": 43.37862345796175,
+        "plantLitterMoisture": 28.760773940904816,
+        "co2Concentration": 46.72819754122028,
+        "pm2_5Concentration": 84.36130181807566
+      },
+      "contours": [
+        [20.16290090300673, 49.537158724024636],
+        [20.16290090300673, 49.54474797478966],
+        [20.173072655540107, 49.54474797478966],
+        [20.173072655540107, 49.537158724024636]
+      ]
+    },
+    {
+      "sectorId": 65,
+      "row": 6,
+      "column": 5,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 2.794604614174885,
+        "windSpeed": 58,
+        "windDirection": "NE",
+        "airHumidity": 39.5918421160746,
+        "plantLitterMoisture": 41.37875248801812,
+        "co2Concentration": 92.65466786550714,
+        "pm2_5Concentration": 8.621711414481648
+      },
+      "contours": [
+        [20.173072655540107, 49.537158724024636],
+        [20.173072655540107, 49.54474797478966],
+        [20.183244408073485, 49.54474797478966],
+        [20.183244408073485, 49.537158724024636]
+      ]
+    },
+    {
+      "sectorId": 66,
+      "row": 6,
+      "column": 6,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 25.81889685459182,
+        "windSpeed": 4,
+        "windDirection": "NE",
+        "airHumidity": 91.69101755547385,
+        "plantLitterMoisture": 0.19578845489067742,
+        "co2Concentration": 69.19708676279753,
+        "pm2_5Concentration": 44.1271275897066
+      },
+      "contours": [
+        [20.183244408073485, 49.537158724024636],
+        [20.183244408073485, 49.54474797478966],
+        [20.19341616060686, 49.54474797478966],
+        [20.19341616060686, 49.537158724024636]
+      ]
+    },
+    {
+      "sectorId": 67,
+      "row": 6,
+      "column": 7,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 2.7543476307615933,
+        "windSpeed": 77,
+        "windDirection": "NE",
+        "airHumidity": 68.24162639575783,
+        "plantLitterMoisture": 81.95941483322903,
+        "co2Concentration": 2.359491279701187,
+        "pm2_5Concentration": 8.139500163925506
+      },
+      "contours": [
+        [20.19341616060686, 49.537158724024636],
+        [20.19341616060686, 49.54474797478966],
+        [20.203587913140233, 49.54474797478966],
+        [20.203587913140233, 49.537158724024636]
+      ]
+    },
+    {
+      "sectorId": 68,
+      "row": 6,
+      "column": 8,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 1.8358390292094828,
+        "windSpeed": 39,
+        "windDirection": "NE",
+        "airHumidity": 31.837453293725027,
+        "plantLitterMoisture": 61.81793150372319,
+        "co2Concentration": 64.73278303003605,
+        "pm2_5Concentration": 61.20196168102841
+      },
+      "contours": [
+        [20.203587913140233, 49.537158724024636],
+        [20.203587913140233, 49.54474797478966],
+        [20.21375966567361, 49.54474797478966],
+        [20.21375966567361, 49.537158724024636]
+      ]
+    },
+    {
+      "sectorId": 69,
+      "row": 6,
+      "column": 9,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -2.2072027479807943,
+        "windSpeed": 142,
+        "windDirection": "NE",
+        "airHumidity": 1.6098726739877778,
+        "plantLitterMoisture": 64.0303787935644,
+        "co2Concentration": 13.551861293117874,
+        "pm2_5Concentration": 62.87157692284999
+      },
+      "contours": [
+        [20.21375966567361, 49.537158724024636],
+        [20.21375966567361, 49.54474797478966],
+        [20.223931418206988, 49.54474797478966],
+        [20.223931418206988, 49.537158724024636]
+      ]
+    },
+    {
+      "sectorId": 70,
+      "row": 6,
+      "column": 10,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 10.177841249532165,
+        "windSpeed": 79,
+        "windDirection": "NE",
+        "airHumidity": 37.38590045273844,
+        "plantLitterMoisture": 2.4913209321242746,
+        "co2Concentration": 94.2962009780492,
+        "pm2_5Concentration": 9.270189737156453
+      },
+      "contours": [
+        [20.223931418206988, 49.537158724024636],
+        [20.223931418206988, 49.54474797478966],
+        [20.23410317074036, 49.54474797478966],
+        [20.23410317074036, 49.537158724024636]
+      ]
+    },
+    {
+      "sectorId": 71,
+      "row": 6,
+      "column": 11,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 4.662474301309922,
+        "windSpeed": 56,
+        "windDirection": "NE",
+        "airHumidity": 20.095791956175567,
+        "plantLitterMoisture": 81.34137074753252,
+        "co2Concentration": 28.55280238767921,
+        "pm2_5Concentration": 53.075624955150566
+      },
+      "contours": [
+        [20.23410317074036, 49.537158724024636],
+        [20.23410317074036, 49.54474797478966],
+        [20.244274923273736, 49.54474797478966],
+        [20.244274923273736, 49.537158724024636]
+      ]
+    },
+    {
+      "sectorId": 72,
+      "row": 6,
+      "column": 12,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 3.3801346159899293,
+        "windSpeed": 24,
+        "windDirection": "NE",
+        "airHumidity": 89.3850278000929,
+        "plantLitterMoisture": 55.390564336803514,
+        "co2Concentration": 81.74543047116913,
+        "pm2_5Concentration": 3.902081654273948
+      },
+      "contours": [
+        [20.244274923273736, 49.537158724024636],
+        [20.244274923273736, 49.54474797478966],
+        [20.254446675807113, 49.54474797478966],
+        [20.254446675807113, 49.537158724024636]
+      ]
+    },
+    {
+      "sectorId": 73,
+      "row": 7,
+      "column": 1,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 5.10715350669015,
+        "windSpeed": 118,
+        "windDirection": "NE",
+        "airHumidity": 88.34078589029299,
+        "plantLitterMoisture": 31.28063731017392,
+        "co2Concentration": 77.1595653008287,
+        "pm2_5Concentration": 95.15700815410126
+      },
+      "contours": [
+        [20.132385645406604, 49.54474797478966],
+        [20.132385645406604, 49.55233722555468],
+        [20.14255739793998, 49.55233722555468],
+        [20.14255739793998, 49.54474797478966]
+      ]
+    },
+    {
+      "sectorId": 74,
+      "row": 7,
+      "column": 2,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 17.878573023556356,
+        "windSpeed": 138,
+        "windDirection": "NE",
+        "airHumidity": 26.621212738927703,
+        "plantLitterMoisture": 35.421952917685196,
+        "co2Concentration": 89.33742019516973,
+        "pm2_5Concentration": 75.59562323659583
+      },
+      "contours": [
+        [20.14255739793998, 49.54474797478966],
+        [20.14255739793998, 49.55233722555468],
+        [20.152729150473355, 49.55233722555468],
+        [20.152729150473355, 49.54474797478966]
+      ]
+    },
+    {
+      "sectorId": 75,
+      "row": 7,
+      "column": 3,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 4.271204441870777,
+        "windSpeed": 127,
+        "windDirection": "NE",
+        "airHumidity": 93.31543979493708,
+        "plantLitterMoisture": 10.6347465327296,
+        "co2Concentration": 13.146839322513904,
+        "pm2_5Concentration": 33.32626862929149
+      },
+      "contours": [
+        [20.152729150473355, 49.54474797478966],
+        [20.152729150473355, 49.55233722555468],
+        [20.16290090300673, 49.55233722555468],
+        [20.16290090300673, 49.54474797478966]
+      ]
+    },
+    {
+      "sectorId": 76,
+      "row": 7,
+      "column": 4,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -5.280931391398829,
+        "windSpeed": 144,
+        "windDirection": "NE",
+        "airHumidity": 69.10990840095957,
+        "plantLitterMoisture": 26.6829023348619,
+        "co2Concentration": 15.151856207494996,
+        "pm2_5Concentration": 21.945838381610685
+      },
+      "contours": [
+        [20.16290090300673, 49.54474797478966],
+        [20.16290090300673, 49.55233722555468],
+        [20.173072655540107, 49.55233722555468],
+        [20.173072655540107, 49.54474797478966]
+      ]
+    },
+    {
+      "sectorId": 77,
+      "row": 7,
+      "column": 5,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 29.289340480768153,
+        "windSpeed": 151,
+        "windDirection": "NE",
+        "airHumidity": 96.39575337547761,
+        "plantLitterMoisture": 93.04852431472843,
+        "co2Concentration": 9.31522916825176,
+        "pm2_5Concentration": 7.1917881966973685
+      },
+      "contours": [
+        [20.173072655540107, 49.54474797478966],
+        [20.173072655540107, 49.55233722555468],
+        [20.183244408073485, 49.55233722555468],
+        [20.183244408073485, 49.54474797478966]
+      ]
+    },
+    {
+      "sectorId": 78,
+      "row": 7,
+      "column": 6,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -3.9098017793874895,
+        "windSpeed": 131,
+        "windDirection": "NE",
+        "airHumidity": 46.00542335490552,
+        "plantLitterMoisture": 69.75172813237718,
+        "co2Concentration": 43.43469927105017,
+        "pm2_5Concentration": 51.24168836274321
+      },
+      "contours": [
+        [20.183244408073485, 49.54474797478966],
+        [20.183244408073485, 49.55233722555468],
+        [20.19341616060686, 49.55233722555468],
+        [20.19341616060686, 49.54474797478966]
+      ]
+    },
+    {
+      "sectorId": 79,
+      "row": 7,
+      "column": 7,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -8.119230864861038,
+        "windSpeed": 136,
+        "windDirection": "NE",
+        "airHumidity": 33.1721371755257,
+        "plantLitterMoisture": 13.418145657068848,
+        "co2Concentration": 28.99990363791676,
+        "pm2_5Concentration": 55.52620767871645
+      },
+      "contours": [
+        [20.19341616060686, 49.54474797478966],
+        [20.19341616060686, 49.55233722555468],
+        [20.203587913140233, 49.55233722555468],
+        [20.203587913140233, 49.54474797478966]
+      ]
+    },
+    {
+      "sectorId": 80,
+      "row": 7,
+      "column": 8,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 27.25749571647946,
+        "windSpeed": 126,
+        "windDirection": "NE",
+        "airHumidity": 84.57597434736432,
+        "plantLitterMoisture": 0.45197142272712654,
+        "co2Concentration": 96.66276196349295,
+        "pm2_5Concentration": 74.38800671121433
+      },
+      "contours": [
+        [20.203587913140233, 49.54474797478966],
+        [20.203587913140233, 49.55233722555468],
+        [20.21375966567361, 49.55233722555468],
+        [20.21375966567361, 49.54474797478966]
+      ]
+    },
+    {
+      "sectorId": 81,
+      "row": 7,
+      "column": 9,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -9.13900232695342,
+        "windSpeed": 83,
+        "windDirection": "NE",
+        "airHumidity": 72.44221264688902,
+        "plantLitterMoisture": 46.99675157214431,
+        "co2Concentration": 6.2775351656653156,
+        "pm2_5Concentration": 92.67607355100438
+      },
+      "contours": [
+        [20.21375966567361, 49.54474797478966],
+        [20.21375966567361, 49.55233722555468],
+        [20.223931418206988, 49.55233722555468],
+        [20.223931418206988, 49.54474797478966]
+      ]
+    },
+    {
+      "sectorId": 82,
+      "row": 7,
+      "column": 10,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 4.525497586352989,
+        "windSpeed": 143,
+        "windDirection": "NE",
+        "airHumidity": 47.86958665472978,
+        "plantLitterMoisture": 47.68211688514445,
+        "co2Concentration": 10.838450265176046,
+        "pm2_5Concentration": 56.3041680282671
+      },
+      "contours": [
+        [20.223931418206988, 49.54474797478966],
+        [20.223931418206988, 49.55233722555468],
+        [20.23410317074036, 49.55233722555468],
+        [20.23410317074036, 49.54474797478966]
+      ]
+    },
+    {
+      "sectorId": 83,
+      "row": 7,
+      "column": 11,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 21.674681923750747,
+        "windSpeed": 107,
+        "windDirection": "NE",
+        "airHumidity": 38.612782955681354,
+        "plantLitterMoisture": 92.02907239912639,
+        "co2Concentration": 27.47484217775824,
+        "pm2_5Concentration": 8.423277380248596
+      },
+      "contours": [
+        [20.23410317074036, 49.54474797478966],
+        [20.23410317074036, 49.55233722555468],
+        [20.244274923273736, 49.55233722555468],
+        [20.244274923273736, 49.54474797478966]
+      ]
+    },
+    {
+      "sectorId": 84,
+      "row": 7,
+      "column": 12,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -8.7235290569624,
+        "windSpeed": 95,
+        "windDirection": "NE",
+        "airHumidity": 28.61944239347045,
+        "plantLitterMoisture": 34.22661471300999,
+        "co2Concentration": 50.07601524322849,
+        "pm2_5Concentration": 13.634407021170736
+      },
+      "contours": [
+        [20.244274923273736, 49.54474797478966],
+        [20.244274923273736, 49.55233722555468],
+        [20.254446675807113, 49.55233722555468],
+        [20.254446675807113, 49.54474797478966]
+      ]
+    },
+    {
+      "sectorId": 85,
+      "row": 8,
+      "column": 1,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 12.737537386410569,
+        "windSpeed": 82,
+        "windDirection": "NE",
+        "airHumidity": 23.225977026816167,
+        "plantLitterMoisture": 13.36866137590147,
+        "co2Concentration": 32.50587333371395,
+        "pm2_5Concentration": 39.55876921741115
+      },
+      "contours": [
+        [20.132385645406604, 49.55233722555468],
+        [20.132385645406604, 49.5599264763197],
+        [20.14255739793998, 49.5599264763197],
+        [20.14255739793998, 49.55233722555468]
+      ]
+    },
+    {
+      "sectorId": 86,
+      "row": 8,
+      "column": 2,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 14.708717620299232,
+        "windSpeed": 142,
+        "windDirection": "NE",
+        "airHumidity": 96.7892227040835,
+        "plantLitterMoisture": 10.442245976203669,
+        "co2Concentration": 60.1360017692816,
+        "pm2_5Concentration": 64.87819130398339
+      },
+      "contours": [
+        [20.14255739793998, 49.55233722555468],
+        [20.14255739793998, 49.5599264763197],
+        [20.152729150473355, 49.5599264763197],
+        [20.152729150473355, 49.55233722555468]
+      ]
+    },
+    {
+      "sectorId": 87,
+      "row": 8,
+      "column": 3,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 5.3455131840114944,
+        "windSpeed": 88,
+        "windDirection": "NE",
+        "airHumidity": 60.80427709751943,
+        "plantLitterMoisture": 51.50609696744197,
+        "co2Concentration": 57.74422342091496,
+        "pm2_5Concentration": 83.88989897399995
+      },
+      "contours": [
+        [20.152729150473355, 49.55233722555468],
+        [20.152729150473355, 49.5599264763197],
+        [20.16290090300673, 49.5599264763197],
+        [20.16290090300673, 49.55233722555468]
+      ]
+    },
+    {
+      "sectorId": 88,
+      "row": 8,
+      "column": 4,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 4.413977138368086,
+        "windSpeed": 25,
+        "windDirection": "NE",
+        "airHumidity": 15.672246514698674,
+        "plantLitterMoisture": 42.22501977530635,
+        "co2Concentration": 41.769780912815776,
+        "pm2_5Concentration": 8.502126634516461
+      },
+      "contours": [
+        [20.16290090300673, 49.55233722555468],
+        [20.16290090300673, 49.5599264763197],
+        [20.173072655540107, 49.5599264763197],
+        [20.173072655540107, 49.55233722555468]
+      ]
+    },
+    {
+      "sectorId": 89,
+      "row": 8,
+      "column": 5,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -1.9298872994910887,
+        "windSpeed": 115,
+        "windDirection": "NE",
+        "airHumidity": 68.62950511889923,
+        "plantLitterMoisture": 10.063552962067913,
+        "co2Concentration": 24.173337759599512,
+        "pm2_5Concentration": 55.40074901400682
+      },
+      "contours": [
+        [20.173072655540107, 49.55233722555468],
+        [20.173072655540107, 49.5599264763197],
+        [20.183244408073485, 49.5599264763197],
+        [20.183244408073485, 49.55233722555468]
+      ]
+    },
+    {
+      "sectorId": 90,
+      "row": 8,
+      "column": 6,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 12.135063365211636,
+        "windSpeed": 31,
+        "windDirection": "NE",
+        "airHumidity": 26.953088880983735,
+        "plantLitterMoisture": 45.34034737765287,
+        "co2Concentration": 56.1076968586554,
+        "pm2_5Concentration": 49.27751447940205
+      },
+      "contours": [
+        [20.183244408073485, 49.55233722555468],
+        [20.183244408073485, 49.5599264763197],
+        [20.19341616060686, 49.5599264763197],
+        [20.19341616060686, 49.55233722555468]
+      ]
+    },
+    {
+      "sectorId": 91,
+      "row": 8,
+      "column": 7,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -4.402838603844819,
+        "windSpeed": 110,
+        "windDirection": "NE",
+        "airHumidity": 35.770938719863786,
+        "plantLitterMoisture": 96.3842514354826,
+        "co2Concentration": 96.51271525043632,
+        "pm2_5Concentration": 65.19389931518809
+      },
+      "contours": [
+        [20.19341616060686, 49.55233722555468],
+        [20.19341616060686, 49.5599264763197],
+        [20.203587913140233, 49.5599264763197],
+        [20.203587913140233, 49.55233722555468]
+      ]
+    },
+    {
+      "sectorId": 92,
+      "row": 8,
+      "column": 8,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": -6.970142078071815,
+        "windSpeed": 80,
+        "windDirection": "NE",
+        "airHumidity": 61.26044929467662,
+        "plantLitterMoisture": 85.69054880373712,
+        "co2Concentration": 46.20744221741404,
+        "pm2_5Concentration": 51.00357753786457
+      },
+      "contours": [
+        [20.203587913140233, 49.55233722555468],
+        [20.203587913140233, 49.5599264763197],
+        [20.21375966567361, 49.5599264763197],
+        [20.21375966567361, 49.55233722555468]
+      ]
+    },
+    {
+      "sectorId": 93,
+      "row": 8,
+      "column": 9,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 23.439336472096727,
+        "windSpeed": 159,
+        "windDirection": "NE",
+        "airHumidity": 75.91131841255327,
+        "plantLitterMoisture": 10.876847815099921,
+        "co2Concentration": 9.957549019752921,
+        "pm2_5Concentration": 48.53104942463376
+      },
+      "contours": [
+        [20.21375966567361, 49.55233722555468],
+        [20.21375966567361, 49.5599264763197],
+        [20.223931418206988, 49.5599264763197],
+        [20.223931418206988, 49.55233722555468]
+      ]
+    },
+    {
+      "sectorId": 94,
+      "row": 8,
+      "column": 10,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 0.3214938809127066,
+        "windSpeed": 91,
+        "windDirection": "NE",
+        "airHumidity": 79.07074719420216,
+        "plantLitterMoisture": 35.50020599347852,
+        "co2Concentration": 40.72768654617076,
+        "pm2_5Concentration": 36.546390465300036
+      },
+      "contours": [
+        [20.223931418206988, 49.55233722555468],
+        [20.223931418206988, 49.5599264763197],
+        [20.23410317074036, 49.5599264763197],
+        [20.23410317074036, 49.55233722555468]
+      ]
+    },
+    {
+      "sectorId": 95,
+      "row": 8,
+      "column": 11,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 0.40899498986709304,
+        "windSpeed": 150,
+        "windDirection": "NE",
+        "airHumidity": 95.0170678091887,
+        "plantLitterMoisture": 93.84860884678471,
+        "co2Concentration": 64.02059349247055,
+        "pm2_5Concentration": 57.451567087135594
+      },
+      "contours": [
+        [20.23410317074036, 49.55233722555468],
+        [20.23410317074036, 49.5599264763197],
+        [20.244274923273736, 49.5599264763197],
+        [20.244274923273736, 49.55233722555468]
+      ]
+    },
+    {
+      "sectorId": 96,
+      "row": 8,
+      "column": 12,
+      "sectorType": "MIXED",
+      "initialState": {
+        "temperature": 6.989180376764956,
+        "windSpeed": 12,
+        "windDirection": "NE",
+        "airHumidity": 72.9935857433286,
+        "plantLitterMoisture": 6.620487274802844,
+        "co2Concentration": 54.961563954583156,
+        "pm2_5Concentration": 49.11197284147517
+      },
+      "contours": [
+        [20.244274923273736, 49.55233722555468],
+        [20.244274923273736, 49.5599264763197],
+        [20.254446675807113, 49.5599264763197],
+        [20.254446675807113, 49.55233722555468]
+      ]
+    }
+  ],
+  "sensors": [
+    {
+      "sensorId": 1,
+      "sensorType": "PM2_5",
+      "location": {
+        "longitude": 20.132395645406604,
+        "latitude": 49.5588264763197
+      },
+      "timestamp": 1715762597000
+    }
+  ],
+  "cameras": [
+    {
+      "cameraId": 1,
+      "location": {
+        "longitude": 0,
+        "latitude": 0
+      },
+      "range": 1,
+      "timestamp": 1715762597000
+    }
+  ],
+  "fireBrigades": [
+    {
+      "fireBrigadeId": 1,
+      "timestamp": 1715762597000,
+      "state": "AVAILABLE",
+      "baseLocation": {
+        "longitude": 0,
+        "latitude": 0
+      },
+      "currentLocation": {
+        "longitude": 0,
+        "latitude": 0
+      }
+    }
+  ],
+  "foresterPatrols": [
+    {
+      "foresterPatrolId": 1,
+      "timestamp": 1715762597000,
+      "state": "AVAILABLE",
+      "baseLocation": {
+        "longitude": 0,
+        "latitude": 0
+      },
+      "currentLocation": {
+        "longitude": 0,
+        "latitude": 0
+      }
+    }
+  ]
+}

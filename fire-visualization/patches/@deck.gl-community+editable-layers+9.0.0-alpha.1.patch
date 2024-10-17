@@ -1,0 +1,12 @@
+diff --git a/node_modules/@deck.gl-community/editable-layers/package.json b/node_modules/@deck.gl-community/editable-layers/package.json
+index 64d113d..76b5d17 100644
+--- a/node_modules/@deck.gl-community/editable-layers/package.json
++++ b/node_modules/@deck.gl-community/editable-layers/package.json
+@@ -17,7 +17,6 @@
+     "overlay",
+     "layer"
+   ],
+-  "type": "module",
+   "types": "dist/index.d.ts",
+   "main": "dist/index.cjs",
+   "module": "dist/index.js",
