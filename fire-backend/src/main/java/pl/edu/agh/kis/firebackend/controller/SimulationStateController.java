@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.kis.firebackend.model.configuration.Configuration;
 import pl.edu.agh.kis.firebackend.model.simulation.SimulationStateDto;
+import pl.edu.agh.kis.firebackend.service.HttpRequestService;
 import pl.edu.agh.kis.firebackend.service.SimulationStateService;
 import reactor.core.publisher.Flux;
 
@@ -18,6 +19,7 @@ import java.time.Duration;
 @AllArgsConstructor
 public class SimulationStateController {
     private SimulationStateService simulationStateService;
+    private HttpRequestService httpRequestService;
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/run-simulation", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -25,6 +27,7 @@ public class SimulationStateController {
             @RequestParam(required = false, defaultValue = "5") long interval,
             @RequestBody Configuration configuration) {
 
+        httpRequestService.sendPostRequest("http://127.0.0.1:5000/run_simulation", configuration);
         return simulationStateService.runSimulation(configuration, Duration.ofSeconds(interval));
     }
 }

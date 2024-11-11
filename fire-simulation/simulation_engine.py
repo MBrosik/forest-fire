@@ -21,10 +21,6 @@ logging.basicConfig(
     level=logging.INFO,
     datefmt='%Y-%m-%d %H:%M:%S'
 )
-image = cv2.imread('map.png')
-cv2.imshow('image', image)
-cv2.waitKey(1000)
-cv2.destroyAllWindows()
 
 
 
@@ -221,8 +217,8 @@ def run_simulation(configuration):
 
         time.sleep(2.0)
 
-        if i % 10 == 0:
-            visualize_fire(map)
+        #if i % 10 == 0:
+            #visualize_fire(map)
 
         print('-----------------------')
     closing_connection(connection)
