@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class ForesterPatrolState(Enum):
+class MOVING_AGENT_STATE(Enum):
     AVAILABLE = 1
     TRAVELLING = 2
-    PATROLLING = 3
+    EXECUTING = 3

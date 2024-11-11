@@ -3,7 +3,7 @@ from datetime import datetime
 
 from simulation.agent import MovingAgent
 from simulation.forest_map import ForestMap
-from simulation.forester_patrols.forester_patrol_state import ForesterPatrolState
+from simulation.agent_state import MOVING_AGENT_STATE
 from simulation.location import Location
 
 
@@ -13,7 +13,7 @@ class ForesterPatrol(MovingAgent):
         forest_map: ForestMap,
         forester_patrol_id: str,
         timestamp: datetime,
-        initial_state: ForesterPatrolState,
+        initial_state: MOVING_AGENT_STATE,
         base_location: Location,
         initial_location: Location
     ):
@@ -26,14 +26,23 @@ class ForesterPatrol(MovingAgent):
         return self._forester_patrol_id
 
     @property
-    def state(self) -> ForesterPatrolState:
+    def state(self) -> MOVING_AGENT_STATE:
         return self._state
 
     def next(self):
         pass
 
-    def move(self) -> None:
-        pass
+    def from_conf(cls, conf):
+        forester_patrols = []
+        for val in conf["foresterPatrols"]:
+            forester_patrols.append(cls(
+                forester_patrol_id=val["foresterPatrolId"],
+                timestamp=val["timestamp"],
+                initial_state=MOVING_AGENT_STATE.AVAILABLE,
+                base_location=Location(**val["baseLocation"]),
+                initial_location=Location(**val["currentLocation"])
+            ))
+        return forester_patrols
 
     def log(self) -> None:
         logging.debug(f'Forester patrol {self._forester_patrol_id} is in state: {self._state}.')
