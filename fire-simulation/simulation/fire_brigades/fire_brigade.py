@@ -41,9 +41,7 @@ class FireBrigade(MovingAgent):
 
 
     @classmethod
-    def from_conf(cls, conf_file: str):
-        with open(conf_file, 'r') as fp:
-            conf = json.load(fp)
+    def from_conf(cls, conf):
 
         fire_brigades = []
         for val in conf["fireBrigades"]:

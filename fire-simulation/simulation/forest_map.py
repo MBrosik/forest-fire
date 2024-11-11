@@ -29,9 +29,7 @@ class ForestMap:
 
 
     @classmethod
-    def from_conf(cls, conf_file: str):
-        with open(conf_file, 'r') as fp:
-            conf = json.load(fp)
+    def from_conf(cls, conf):
 
         locations = conf["location"]
         sectors_:list[list[Sector | None]] = [[None for _ in range(conf["columns"] + 1)] for _ in range(conf["rows"] + 1)]

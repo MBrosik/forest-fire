@@ -108,10 +108,10 @@ def callback(ch, method, properties, body):
 #     message_producer(exchange, channel, queue_name, message)
 
 
-def main():
-    
-    map = ForestMap.from_conf("simulation/configurations/confD.json")
-    fire_brigades = FireBrigade.from_conf("simulation/configurations/confD.json")
+def run_simulation(configuration):
+
+    map = ForestMap.from_conf(configuration)
+    fire_brigades = FireBrigade.from_conf(configuration)
     
     EXCHANGE_NAME = "updates"
     USERNAME = "guest"
@@ -287,7 +287,3 @@ def visualize_fire(map: ForestMap):
 
     cv2.waitKey(1000)
     cv2.destroyAllWindows()
-
-
-if __name__ == '__main__':
-    main()
