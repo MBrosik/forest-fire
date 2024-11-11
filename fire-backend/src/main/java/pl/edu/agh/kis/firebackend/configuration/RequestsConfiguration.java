@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @AllArgsConstructor
-public class PostRequestsConfiguration {
+public class RequestsConfiguration {
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {

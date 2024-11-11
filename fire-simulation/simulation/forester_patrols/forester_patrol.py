@@ -31,7 +31,8 @@ class ForesterPatrol(MovingAgent):
 
     def next(self):
         pass
-
+    
+    @classmethod
     def from_conf(cls, conf):
         forester_patrols = []
         for val in conf["foresterPatrols"]:

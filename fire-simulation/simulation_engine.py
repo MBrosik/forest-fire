@@ -95,9 +95,9 @@ def run_simulation(configuration):
         connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', port='5672', credentials=CONNECTION_CREDENTIALS))
         channel = connection.channel()
         
-        channel.basic_consume(queue='fire-brigades-action', on_message_callback=callback_fire_brigade, auto_ack=True)
+        channel.basic_consume(queue='fireBrigade', on_message_callback=callback_fire_brigade, auto_ack=True)
 
-        channel.basic_consume(queue='forest-patrol-action', on_message_callback=callback, auto_ack=True)
+        channel.basic_consume(queue='foresterPatrol', on_message_callback=callback, auto_ack=True)
 
         Thread(target=channel.start_consuming).start()
         return connection, channel

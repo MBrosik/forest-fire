@@ -1,23 +1,33 @@
 package pl.edu.agh.kis.firebackend.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import pl.edu.agh.kis.firebackend.model.events.EvFireBrigade;
+import pl.edu.agh.kis.firebackend.model.primitives.Location;
+import pl.edu.agh.kis.firebackend.model.test.ForesterDecision;
 import pl.edu.agh.kis.firebackend.service.HttpRequestService;
+import pl.edu.agh.kis.firebackend.service.SimulationStateService;
+import pl.edu.agh.kis.firebackend.service.StateUpdatesService;
 
 import java.util.Map;
 
 @RestController
+@AllArgsConstructor
+@RequestMapping("/test")
 public class TestController {
 
-    @Autowired
-    private HttpRequestService myService;
+    private StateUpdatesService stateUpdatesService;
+    private HttpRequestService httpRequestService;
 
     @PostMapping("/sendData")
     public String sendData(@RequestBody Map<String, Object> data) {
         String url = "http://127.0.0.1:5000/run_simulation";
-        return myService.sendPostRequest(url, data);
+        return httpRequestService.sendPostRequest(url, data);
+    }
+
+    @GetMapping("/sendTestDataToMQ")
+    public String sendToMQ(){
+        stateUpdatesService.sendMessageToQueue("fireBrigade", new ForesterDecision(777, new Location(3.24, 69.45))).subscribe();
+        return "Message sent!";
     }
 }
