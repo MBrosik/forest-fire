@@ -83,27 +83,29 @@ def closing_connection(connection):
     else:
         print("Connection is None")
 
+# TODO: Przerobić aby przetwarzała dane
 def callback(ch, method, properties, body):
     data = json.loads(body.decode('utf-8'))
     print("Received message:", data)
 
-# def connection_consumer(exchange_name, username, password):
-#     CONNECTION_CREDENTIALS = pika.PlainCredentials(username, password)
-#     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', port='5672', credentials=CONNECTION_CREDENTIALS))
-#     channel = connection.channel()
+def connection_consumer(exchange_name, username, password):
+     CONNECTION_CREDENTIALS = pika.PlainCredentials(username, password)
+     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', port='5672', credentials=CONNECTION_CREDENTIALS))
+     channel = connection.channel()
     
-#     channel.basic_consume(queue='fire-brigades-action', on_message_callback=on_message_received, auto_ack=True)
+     channel.basic_consume(queue='fire-brigades-action', on_message_callback=callback, auto_ack=True)
 
-#     channel.basic_consume(queue='forest-patrol-action', on_message_callback=on_message_received, auto_ack=True)
+     channel.basic_consume(queue='forest-patrol-action', on_message_callback=callback, auto_ack=True)
 
-#     Thread(target=channel.start_consuming).start()
-#     return connection, channel
+     Thread(target=channel.start_consuming).start()
+     return connection, channel
 
-# use: 
-# while True:
-#     message_producer(exchange, channel, queue_name, message)
+    #use: 
+        #while True:
+            #message_producer(exchange, channel, queue_name, message)
 
 
+# TODO: przerobić główną pętlę aby uwzględniała interaktywnych strazaków
 def run_simulation(configuration):
 
     map = ForestMap.from_conf(configuration)
@@ -118,7 +120,7 @@ def run_simulation(configuration):
         print("Connection failed")
         return
     print("Connection established")
-    # connection, channel = connection_consumer(exchange_name, username, password)
+    connection, channel = connection_consumer(EXCHANGE_NAME, USERNAME, PASSWORD)
 
     fire_situations = 0
     num_fire_brigades_available = len(fire_brigades)
