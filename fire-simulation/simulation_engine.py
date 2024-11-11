@@ -23,11 +23,7 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
-
-# TODO: przerobić główną pętlę aby uwzględniała interaktywnych strazaków
-def run_simulation(configuration):
-
-    def connection_prodcuer(exchange_name, username, password):
+def connection_prodcuer(exchange_name, username, password):
         try:
             CONNECTION_CREDENTIALS = pika.PlainCredentials(username, password)
             connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', credentials=CONNECTION_CREDENTIALS))
@@ -55,52 +51,69 @@ def run_simulation(configuration):
             channel.queue_declare(queue='camera')
             channel.queue_bind(exchange=exchange_name, queue='camera', routing_key='camera')
 
-            channel.queue_declare(queue='fireBrigade')
-            channel.queue_bind(exchange=exchange_name, queue='fireBrigade', routing_key='fireBrigade')
-
-            channel.queue_declare(queue='foresterPatrol')
-            channel.queue_bind(exchange=exchange_name, queue='foresterPatrol', routing_key='foresterPatrol')
-
             return connection, channel
         
         except Exception as e:
             print(f"Error connecting to RabbitMQ: {e}")
             return None, None
 
-    def message_producer(exchange, channel, routing_key, message):
-        try:
-            if channel is None:
-                print("Channel is None")
-                return
-            print(f"Channel: {channel}")
-            channel.basic_publish(exchange=exchange, routing_key=routing_key, body=message)
-            print(f"Sent message: {message}")
-        except Exception as e:
-            print(f"Error sending message: {e}")
+    
+def message_producer(exchange, channel, routing_key, message):
+    try:
+        if channel is None:
+            print("Channel is None")
+            return
+        print(f"Channel: {channel}")
+        channel.basic_publish(exchange=exchange, routing_key=routing_key, body=message)
+        print(f"Sent message: {message}")
+    except Exception as e:
+        print(f"Error sending message: {e}")
 
-    def closing_connection(connection):
-        if connection is not None:
-            connection.close()
-            print("Connection closed")
-        else:
-            print("Connection is None")
+def closing_connection(connection):
+    if connection is not None:
+        connection.close()
+        print("Connection closed")
+    else:
+        print("Connection is None")
 
-    # TODO: Przerobić aby przetwarzała dane
-    def callback(ch, method, properties, body):
-        data = json.loads(body.decode('utf-8'))
-        print("Received message:", data)
+# TODO: Przerobić aby przetwarzała dane
+def callback(ch, method, properties, body):
+    data = json.loads(body.decode('utf-8'))
+    print("Received message:", data)
 
-    def connection_consumer(exchange_name, username, password):
-        CONNECTION_CREDENTIALS = pika.PlainCredentials(username, password)
-        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', port='5672', credentials=CONNECTION_CREDENTIALS))
-        channel = connection.channel()
-        
-        channel.basic_consume(queue='fireBrigade', on_message_callback=callback_fire_brigade, auto_ack=True)
+# def connection_consumer(exchange_name, username, password):
+#     CONNECTION_CREDENTIALS = pika.PlainCredentials(username, password)
+#     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', port=5672, credentials=CONNECTION_CREDENTIALS))
+#     channel = connection.channel()
 
-        channel.basic_consume(queue='foresterPatrol', on_message_callback=callback, auto_ack=True)
+#     # Declare the queues and bind them to the exchange
+#     channel.queue_declare(queue='fireBrigade')
+#     channel.queue_declare(queue='foresterPatrol')
 
-        Thread(target=channel.start_consuming).start()
-        return connection, channel
+#     channel.queue_bind(exchange=exchange_name, queue='fireBrigade', routing_key='fireBrigade')
+#     channel.queue_bind(exchange=exchange_name, queue='foresterPatrol', routing_key='foresterPatrol')
+
+#     # Set up the callback functions for each queue
+#     channel.basic_consume(queue='fireBrigade', on_message_callback=callback, auto_ack=True)
+#     channel.basic_consume(queue='foresterPatrol', on_message_callback=callback, auto_ack=True)
+
+#     def start_consuming():
+#         try:
+#             channel.start_consuming()
+#         except KeyboardInterrupt:
+#             print("Consuming stopped.")
+#             channel.stop_consuming()
+
+#     # Start consuming in a separate thread
+#     consumer_thread = Thread(target=start_consuming)
+#     consumer_thread.start()
+
+#     return connection, channel
+
+
+
+# TODO: przerobić główną pętlę aby uwzględniała interaktywnych strazaków
+def run_simulation(configuration):
 
         #use: 
             #while True:
@@ -154,7 +167,7 @@ def run_simulation(configuration):
         print("Connection failed")
         return
     print("Connection established")
-    connection, channel = connection_consumer(EXCHANGE_NAME, USERNAME, PASSWORD)
+    #connection, channel = connection_consumer(EXCHANGE_NAME, USERNAME, PASSWORD)
 
     fire_situations = 0
     num_fire_brigades_available = len(fire_brigades)
@@ -195,13 +208,13 @@ def run_simulation(configuration):
                 # simulate fire extinguishing
                 if current_sector.burn_level > 0:
                     extinguish = 0
-                    for fire_brigade in fire_brigades:
-                        # TODO: TUTAJ IF: jeśli fire_brigade jest w danym sektorze
-                        if fire_brigade.state == MOVING_AGENT_STATE.AVAILABLE or fire_brigade.state == MOVING_AGENT_STATE.EXTINGUISHING:
-                            extinguish = extinguish + random.uniform(0.001, 0.02)
-                            fire_brigade.set_fireBrigadeState(state = MOVING_AGENT_STATE.EXTINGUISHING)
-                            break
-                        fire_brigade.move()
+                    # for fire_brigade in fire_brigades:
+                    #     # TODO: TUTAJ IF: jeśli fire_brigade jest w danym sektorze
+                    #     if fire_brigade.state == MOVING_AGENT_STATE.AVAILABLE or fire_brigade.state == MOVING_AGENT_STATE.EXTINGUISHING:
+                    #         extinguish = extinguish + random.uniform(0.001, 0.02)
+                    #         fire_brigade.set_fireBrigadeState(state = MOVING_AGENT_STATE.EXTINGUISHING)
+                    #         break
+                    #     fire_brigade.move()
                     map.sectors[current_sector.row][current_sector.column].extinguish_level += extinguish
                     map.sectors[current_sector.row][current_sector.column].state.temperature -= extinguish
                     map.sectors[current_sector.row][current_sector.column].state.air_humidity += extinguish

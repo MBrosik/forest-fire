@@ -27,7 +27,7 @@ public class TestController {
 
     @GetMapping("/sendTestDataToMQ")
     public String sendToMQ(){
-        stateUpdatesService.sendMessageToQueue("fireBrigade", new ForesterDecision(777, new Location(3.24, 69.45))).subscribe();
+        stateUpdatesService.sendMessageToQueue("foresterPatrol", new ForesterDecision(777, new Location(3.24, 69.45))).subscribe();
         return "Message sent!";
     }
 }
