@@ -8,8 +8,9 @@
     "start": "webpack serve --open --mode development",
     "build": "webpack --mode production",
     "electron-start": "MODE=production electron .",
-    "electron-start-windows": "cross-env MODE=production ./node_modules/.bin/electron .",    
-    "serve": "concurrently \"webpack serve --no-open --mode development\" \"wait-on tcp:8080 && MODE=development electron .\""
+    "electron-start-windows": "cross-env MODE=production ./node_modules/.bin/electron .",        
+    "serve": "concurrently \"webpack serve --no-open --mode development\" \"wait-on tcp:8080 && MODE=development electron .\"",
+    "serve-windows": "concurrently \"webpack serve --no-open --mode development\" \"wait-on tcp:8080 && cross-env MODE=development ./node_modules/.bin/electron .\""
   },
   "keywords": [],
   "author": "",
