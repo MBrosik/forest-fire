@@ -1,6 +1,6 @@
 from enum import Enum
 
-class MOVING_AGENT_STATE(Enum):
+class FIRE_BRIGADE_STATE:
     AVAILABLE = 1
     TRAVELLING = 2
-    EXECUTING = 3
+    EXTINGIUSHING = 3

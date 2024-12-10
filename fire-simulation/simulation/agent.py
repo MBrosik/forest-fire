@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import TypeAlias, Union
+#from typing import TypeAlias, Union
 
 from simulation.sectors.sector import Sector
 from simulation.agent_state import MOVING_AGENT_STATE
@@ -9,7 +9,7 @@ from simulation.agent_state import MOVING_AGENT_STATE
 from simulation.forest_map import ForestMap
 from simulation.location import Location
 
-# MovingAgentState: TypeAlias = Union[FireBrigadeState, ForesterPatrolState]
+#MovingAgentState: TypeAlias = Union[FireBrigadeState, ForesterPatrolState]
 
 
 class Agent(ABC):
@@ -49,7 +49,7 @@ class MovingAgent(Agent, ABC):
         timestamp: datetime,
         base_location: Location,
         initial_location: Location,
-        destination: Location
+        destination: Location,
     ):
         self._base_location = base_location
         self._destination = destination
@@ -70,21 +70,19 @@ class MovingAgent(Agent, ABC):
     def base_location(self):
         return self._base_location
 
-    def change_destination(self, new_destination: Location): # to wywołać jak dostaniemy nową lokalizację na kolejce strażaków
+    def change_destination(self, new_destination: Location): 
         self._destination = new_destination
         if abs(self._destination.row - self._location.row) <= 0.1 and abs(self._destination.column - self._location.column) <= 0.1:
             self._state = MOVING_AGENT_STATE.AVAILABLE
-            print('Fire brigade has reached the destination.')
 
         else:
             self._state = MOVING_AGENT_STATE.TRAVELLING
         self.move()
 
-    def move(self) -> None: # to w każdej pętli
+    def move(self) -> None:
         delta = 0.1
 
         if(self._state == MOVING_AGENT_STATE.TRAVELLING):
-            # make location delta = 0.1
             if(self._destination.row > self._location.row):
                 self._location.row += delta
             elif(self._destination.row < self._location.row):
@@ -96,7 +94,6 @@ class MovingAgent(Agent, ABC):
 
         if abs(self._destination.row - self._location.row) <= 0.1 and abs(self._destination.column - self._location.column) <= 0.1:
                 self._state = MOVING_AGENT_STATE.AVAILABLE
-                print('Fire brigade has reached the destination.')
 
 
         if next_destination is None:
@@ -105,19 +102,18 @@ class MovingAgent(Agent, ABC):
         if self._state == MOVING_AGENT_STATE.AVAILABLE and next_destination != None:
             self._state = MOVING_AGENT_STATE.TRAVELLING
             self._destination = next_destination
-            print('Fire brigade is travelling to the fire.')
         
         elif self._state == MOVING_AGENT_STATE.TRAVELLING:
             if self._destination == self._base_location:
                 self._state = MOVING_AGENT_STATE.AVAILABLE
-                print('Fire brigade has returned to the base.')
+                
             elif self._destination == self._initial_location:
-                self._state = MOVING_AGENT_STATE.EXTINGUISHING
+                self._state = MOVING_AGENT_STATE.EXECUTING
         
             if next_destination != None:
                 self._destination = next_destination
         
-        elif self._state == MOVING_AGENT_STATE.EXTINGUISHING:
+        elif self._state == MOVING_AGENT_STATE.EXECUTING:
             self._state = MOVING_AGENT_STATE.AVAILABLE
             self._destination = self._base_location
 

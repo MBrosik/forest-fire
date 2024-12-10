@@ -1,8 +1,9 @@
 import random
 from threading import Lock
 
-from simulation.sectors.sector_state import SectorState
-from simulation.sectors.sector_type import SectorType
+from sector_state import SectorState
+from sector_type import SectorType
+from fire_state import FireState
 
 
 class Sector:
@@ -20,9 +21,11 @@ class Sector:
         self._column = column
         self._sector_type = sector_type
         self._state = initial_state
-        self._extinguish_level = 0 #scale 0-100
-        self._burn_level = 0 #scale 0-100
+        self._extinguish_level = 0 #scale 0-100 - power of ex
+        self._fire_level = 0 #scale 0-100 - size of fire
+        self._burn_level = 0 #scale 0-100 - burned area
         self._sensors = []
+        self._fire_state = FireState.INACTIVE
 
     @property
     def sector_id(self) -> int:

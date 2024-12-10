@@ -3,171 +3,75 @@ import random
 
 from threading import Thread
 import time
-import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-import pika
 import json
-from datetime import datetime, timezone
 
 from simulation.forest_map import ForestMap
 from simulation.fire_brigades.fire_brigade import FireBrigade
 from simulation.forester_patrols.forester_patrol import ForesterPatrol
 from simulation.agent_state import MOVING_AGENT_STATE
-from simulation.fire_situation.fire_situation import FireSituation
-from simulation.fire_situation.fire_situation_state import FireSituationState
-
-logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s %(message)s',
-    level=logging.INFO,
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
-
-def connection_prodcuer(exchange_name, username, password):
-        try:
-            CONNECTION_CREDENTIALS = pika.PlainCredentials(username, password)
-            connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', credentials=CONNECTION_CREDENTIALS))
-            channel = connection.channel()
-            channel.exchange_declare(exchange_name, durable=True, exchange_type='topic')
-
-            channel.queue_declare(queue='tempAndAirHumidity')
-            channel.queue_bind(exchange=exchange_name, queue='tempAndAirHumidity', routing_key='tempAndAirHumidity')
-
-            channel.queue_declare(queue='windSpeed')
-            channel.queue_bind(exchange=exchange_name, queue='windSpeed', routing_key='windSpeed')
-
-            channel.queue_declare(queue='windDirection')
-            channel.queue_bind(exchange=exchange_name, queue='windDirection', routing_key='windDirection')
-
-            channel.queue_declare(queue='litterMoisture')
-            channel.queue_bind(exchange=exchange_name, queue='litterMoisture', routing_key='litterMoisture')
-
-            channel.queue_declare(queue='pm25')
-            channel.queue_bind(exchange=exchange_name, queue='pm25', routing_key='pm25')
-
-            channel.queue_declare(queue='co2')
-            channel.queue_bind(exchange=exchange_name, queue='co2', routing_key='co2')
-
-            channel.queue_declare(queue='camera')
-            channel.queue_bind(exchange=exchange_name, queue='camera', routing_key='camera')
-
-            return connection, channel
-        
-        except Exception as e:
-            print(f"Error connecting to RabbitMQ: {e}")
-            return None, None
-
-    
-def message_producer(exchange, channel, routing_key, message):
-    try:
-        if channel is None:
-            print("Channel is None")
-            return
-        print(f"Channel: {channel}")
-        channel.basic_publish(exchange=exchange, routing_key=routing_key, body=message)
-        print(f"Sent message: {message}")
-    except Exception as e:
-        print(f"Error sending message: {e}")
-
-def closing_connection(connection):
-    if connection is not None:
-        connection.close()
-        print("Connection closed")
-    else:
-        print("Connection is None")
-
-# TODO: Przerobić aby przetwarzała dane
-def callback(ch, method, properties, body):
-    data = json.loads(body.decode('utf-8'))
-    print("Received message:", data)
-
-# def connection_consumer(exchange_name, username, password):
-#     CONNECTION_CREDENTIALS = pika.PlainCredentials(username, password)
-#     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', port=5672, credentials=CONNECTION_CREDENTIALS))
-#     channel = connection.channel()
-
-#     # Declare the queues and bind them to the exchange
-#     channel.queue_declare(queue='fireBrigade')
-#     channel.queue_declare(queue='foresterPatrol')
-
-#     channel.queue_bind(exchange=exchange_name, queue='fireBrigade', routing_key='fireBrigade')
-#     channel.queue_bind(exchange=exchange_name, queue='foresterPatrol', routing_key='foresterPatrol')
-
-#     # Set up the callback functions for each queue
-#     channel.basic_consume(queue='fireBrigade', on_message_callback=callback, auto_ack=True)
-#     channel.basic_consume(queue='foresterPatrol', on_message_callback=callback, auto_ack=True)
-
-#     def start_consuming():
-#         try:
-#             channel.start_consuming()
-#         except KeyboardInterrupt:
-#             print("Consuming stopped.")
-#             channel.stop_consuming()
-
-#     # Start consuming in a separate thread
-#     consumer_thread = Thread(target=start_consuming)
-#     consumer_thread.start()
-
-#     return connection, channel
 
 
+from simulation.rabbitmq import producer, consumer, connection_manager
+from simulation.rabbitmq.message_store import MessageStore
 
-# TODO: przerobić główną pętlę aby uwzględniała interaktywnych strazaków
+logger = logging.getLogger(__name__)
+
+EXCHANGE_NAME = "updates"
+USERNAME = "guest"
+PASSWORD = "guest"
+
+WRITE_QUEUE_NAMES = [
+    "Forester patrol state queue",
+    "Camera queue",
+    "Temp and air humidity queue",
+    "Wind speed queue",
+    "Wind direction queue",
+    "Litter moisture queue",
+    "CO2 queue",
+    "PM2.5 queue",
+    "Fire brigades action queue"
+]
+
+READ_QUEUE_NAMES = [
+    "Forester patrol action queue",
+    "Fire brigades state queue"
+]
+
+
 def run_simulation(configuration):
+    store = MessageStore()
+    read_threads = []
+    write_threads = []
+    
+    #===================Get connection and channel===================
 
-        #use: 
-            #while True:
-                #message_producer(exchange, channel, queue_name, message)
+    while(1):
+        connection, channel = connection_manager.create_queues(EXCHANGE_NAME, USERNAME, PASSWORD)
+        if(connection and channel):
+            break
+        logger.error("Error while connecting to RabbitMQ. Trying to reconnect.")
+        time.sleep(200)
 
-    def callback_fire_brigade(ch, method, properties, body):
-        try:
-            # Dekodowanie wiadomości
-            message = json.loads(body.decode('utf-8'))
-            print(f"Received message: {message}")
+    #===================Threads with producing and consuming===================
 
-            # Przetwarzanie wiadomości
-            if 'fireBrigadeId' in message and 'action' in message:
-                fire_brigade_id = message['fireBrigadeId']
-                action = message['action']
+    for index, queue in enumerate(READ_QUEUE_NAMES):
+        read_threads[index] = Thread(target=producer.start_producing_messages, args=(EXCHANGE_NAME, channel, queue, store))
+        read_threads[index].start()
+        logger.info(f"Producer for {queue} has started working.")
 
-                # Znajdowanie odpowiedniej jednostki straży pożarnej
-                fire_brigade = next((fb for fb in fire_brigades if fb.id == fire_brigade_id), None)
-                if fire_brigade is not None:
-                    if action == 'move':
-                        destination = message.get('destination')
-                        if destination:
-                            fire_brigade.set_destination(destination)
-                            fire_brigade.set_state(MOVING_AGENT_STATE.TRAVELLING)
-                            print(f"Fire brigade {fire_brigade_id} is moving to {destination}")
-                    elif action == 'extinguish':
-                        fire_brigade.set_state(MOVING_AGENT_STATE.EXTINGUISHING)
-                        print(f"Fire brigade {fire_brigade_id} is extinguishing fire")
-                    elif action == 'return':
-                        fire_brigade.set_state(MOVING_AGENT_STATE.RETURNING)
-                        print(f"Fire brigade {fire_brigade_id} is returning to base")
-                else:
-                    print(f"Fire brigade with ID {fire_brigade_id} not found")
-            else:
-                print("Invalid message format")
-
-        except Exception as e:
-            print(f"Error processing message: {e}")
-        
+    for index, queue in enumerate(WRITE_QUEUE_NAMES):
+        write_threads[index] = Thread(target=consumer.consume_messages_from_queue, args=(channel, queue, store))
+        write_threads[index].start()
+        logger.info(f"Consumer for {queue} has started working.")
+    
+    #===================Get configuration===================
 
     map = ForestMap.from_conf(configuration)
     fire_brigades = FireBrigade.from_conf(configuration)
     forest_patrols = ForesterPatrol.from_conf(configuration)
+
     
-    EXCHANGE_NAME = "updates"
-    USERNAME = "guest"
-    PASSWORD = "guest"
-    # WAITING FOR RABBITMQ SERVER
-    connection, channel = connection_prodcuer(EXCHANGE_NAME, USERNAME, PASSWORD)
-    if connection is None or channel is None:
-        print("Connection failed")
-        return
-    print("Connection established")
-    #connection, channel = connection_consumer(EXCHANGE_NAME, USERNAME, PASSWORD)
 
     fire_situations = 0
     num_fire_brigades_available = len(fire_brigades)
@@ -261,7 +165,7 @@ def run_simulation(configuration):
                     for sensor in map.sectors[current_sector.row][current_sector.column].sensors:
                         time.sleep(1)
                         print(json.dumps(map.sectors[current_sector.row][current_sector.column].make_json(sensor, sensor['sensorId'])))
-                        message_producer(EXCHANGE_NAME, channel, switcher.get(sensor['sensorType']),
+                        producer.produce_message(EXCHANGE_NAME, channel, switcher.get(sensor['sensorType']),
                                         json.dumps(map.sectors[current_sector.row][current_sector.column].make_json(sensor, sensor['sensorId'])))
 
         time.sleep(2.0)
@@ -270,65 +174,38 @@ def run_simulation(configuration):
             #visualize_fire(map)
 
         print('-----------------------')
-    closing_connection(connection)
 
 
+    # def callback_fire_brigade(ch, method, properties, body):
+    #     try:
+    #         # Dekodowanie wiadomości
+    #         message = json.loads(body.decode('utf-8'))
+    #         print(f"Received message: {message}")
 
-def visualize_fire(map: ForestMap):
-    fire_sectors = np.zeros((len(map.sectors), len(map.sectors[1])))
-    print("TEST")
-    print(map.rows, map.columns)
-    print(fire_sectors.shape)
+    #         # Przetwarzanie wiadomości
+    #         if 'fireBrigadeId' in message and 'action' in message:
+    #             fire_brigade_id = message['fireBrigadeId']
+    #             action = message['action']
 
-    for row in range(1, len(map.sectors)):
-        for column in range(1, len(map.sectors[1])):
-            if map.sectors[row][column] is None:
-                # print("Column is None: " + str(row))
-                continue
-            if map.sectors[row][column].burn_level > map.sectors[row][column].extinguish_level:
-                # print(f"Row: {column.row}, Column: {column.column}, Burn level: {column.burn_level}")
-                fire_sectors[row][column] = map.sectors[row][column].burn_level
-            else:
-                # print(f"Row: {column.row}, Column: {column.column}, Extinguish level: {column.extinguish_level}")
-                fire_sectors[row][column] = -map.sectors[row][column].extinguish_level
+    #             # Znajdowanie odpowiedniej jednostki straży pożarnej
+    #             fire_brigade = next((fb for fb in fire_brigades if fb.id == fire_brigade_id), None)
+    #             if fire_brigade is not None:
+    #                 if action == 'move':
+    #                     destination = message.get('destination')
+    #                     if destination:
+    #                         fire_brigade.set_destination(destination)
+    #                         fire_brigade.set_state(MOVING_AGENT_STATE.TRAVELLING)
+    #                         print(f"Fire brigade {fire_brigade_id} is moving to {destination}")
+    #                 elif action == 'extinguish':
+    #                     fire_brigade.set_state(MOVING_AGENT_STATE.EXTINGUISHING)
+    #                     print(f"Fire brigade {fire_brigade_id} is extinguishing fire")
+    #                 elif action == 'return':
+    #                     fire_brigade.set_state(MOVING_AGENT_STATE.RETURNING)
+    #                     print(f"Fire brigade {fire_brigade_id} is returning to base")
+    #             else:
+    #                 print(f"Fire brigade with ID {fire_brigade_id} not found")
+    #         else:
+    #             print("Invalid message format")
 
-    # for i in range(1, len(fire_sectors)):
-    #     for j in range(1, len(fire_sectors[1])):
-    #         print(f"Row: {i}, Column: {j}, Burn level: {fire_sectors[i][j]}")
-    
-    print(max(fire_sectors.flatten()), min(fire_sectors.flatten()))
-
-
-    # Plot the heatmap
-    plt.xticks(range(0, len(fire_sectors[1])-1), range(1, len(fire_sectors[1])))
-    plt.yticks(range(0, len(fire_sectors)-1), range(1, len(fire_sectors)))
-    # plt.imshow(image)
-    plt.imshow(fire_sectors[1:,1:], cmap='bwr', alpha=0.5, interpolation='nearest', vmin=-100, vmax=100)
-
-
-    plt.savefig('plot.png')
-
-    plot = cv2.imread('plot.png')
-    cv2.imshow('image', plot)
-  
-    # vmin = -100
-    # vmax = 100
-    # normalized_values = (fire_sectors - vmin) / (vmax - vmin)
-    # normalized_values = np.clip(normalized_values, 0, 1)
-    # normalized_values = cv2.normalize(fire_sectors, None, 0.0, 1.0, cv2.NORM_MINMAX)
-
-    # heatmap = np.uint8(normalized_values * 255)
-    # heatmap = cv2.normalize(heatmap, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-
-    # # heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_AUTUMN)
-    # heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_SUMMER)
-    # window_size = (image.shape[1], image.shape[0])
-    # overlay = cv2.addWeighted(image, 0.7, heatmap, 0.3, 0)
-    # # cv2.imshow('Heatmap', overlay)
-
-    # cv2.namedWindow('Heatmap', cv2.WINDOW_NORMAL)
-    # cv2.resizeWindow('Heatmap', window_size)
-    # cv2.imshow('Heatmap', overlay)
-
-    cv2.waitKey(1000)
-    cv2.destroyAllWindows()
+    #     except Exception as e:
+    #         print(f"Error processing message: {e}")
