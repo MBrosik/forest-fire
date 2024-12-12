@@ -1,9 +1,14 @@
 import random
 from threading import Lock
+import logging
 
-from sector_state import SectorState
-from sector_type import SectorType
-from fire_state import FireState
+from simulation.sectors.sector_state import SectorState
+from simulation.sectors.sector_type import SectorType
+from simulation.sectors.fire_state import FireState
+from simulation.config import const
+from simulation.fire_spread import coef_generator
+
+logger = logging.getLogger(__name__)
 
 
 class Sector:
@@ -24,6 +29,7 @@ class Sector:
         self._extinguish_level = 0 #scale 0-100 - power of ex
         self._fire_level = 0 #scale 0-100 - size of fire
         self._burn_level = 0 #scale 0-100 - burned area
+        self._number_of_fire_brigades = 0
         self._sensors = []
         self._fire_state = FireState.INACTIVE
 
@@ -66,6 +72,10 @@ class Sector:
     @property
     def sensors(self):
         return self._sensors
+    
+    @property
+    def fire_state(self):
+        return self._fire_state
 
     def add_sensor(self, sensor):
         self._sensors.append(sensor)
@@ -73,6 +83,43 @@ class Sector:
     def remove_sensor(self, sensor):
         self._sensors.remove(sensor)
 
+    def start_fire(self):
+        self._burn_level = random.randint(0, 20)
+        self._fire_state = FireState.ACTIVE
+        logger.info(f"Fire started in sector {self.sector_id}")
+
+    def update_extinguish_level(self):
+        self._extinguish_level = self._number_of_fire_brigades * const.FIRE_FIGHTERS_MULTIPLIER
+        logger.info(f"New extinguish level in sector {self._sector_id} is {self._extinguish_level}")
+
+    def update_fire_level(self):
+        fire_add = (self._fire_level/10) * coef_generator.calculate_alpha(self._sector_type) * const.FIRE_LEVEL_MULTIPLIER
+        fire_sub = self._extinguish_level
+        new_fire_level =  min(self._fire_level + fire_add - fire_sub, 100)
+        if new_fire_level <= 0:
+            self._fire_state = FireState.INACTIVE
+            self._fire_level = 0
+            logger.info(f"Sector {self._sector_id} is extinguished")
+        else:
+            self._fire_level = new_fire_level
+        logger.info(f"New fire level in sector {self._sector_id} is {self._fire_level}")
+        
+
+    def update_burn_level(self):
+        new_burn_level = min(self._burn_level + 0.00005 * self._fire_level**3, 100)
+        if (new_burn_level >= 100):
+            self._fire_state = FireState.LOST
+            self._fire_level = 0
+            self._extinguish_level = 0
+            logger.info(f"Sector {self._sector_id} is lost!")
+        self._burn_level = new_burn_level
+        logger.info(f"New burn level in sector {self._sector_id} is {self._burn_level}")
+
+    def update_sector(self):
+        self.update_extinguish_level
+        self.update_fire_level
+        self.update_burn_level
+    
     def update_sensors(self):
         # update sector state date regarding extingush and burn level
 

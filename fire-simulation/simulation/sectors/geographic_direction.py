@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class GeographicDirection(Enum):
     N = 1
     NE = 2

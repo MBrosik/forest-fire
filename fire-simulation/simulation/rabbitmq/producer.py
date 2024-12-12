@@ -1,6 +1,6 @@
 import pika
 import logging
-from message_store import MessageStore
+from simulation.rabbitmq.message_store import MessageStore
 
 logger = logging.getLogger(__name__)
     
@@ -22,4 +22,5 @@ def start_producing_messages(exchange, channel, routing_key, store: MessageStore
             logger.info("Message to sent found.")
             produce_message(exchange, channel, routing_key, message)
         else:
-            logger.info("No messages to sent")
+            #logger.info("No messages to sent")
+            pass

@@ -1,7 +1,7 @@
 import pika
 import logging
 import json
-from message_store import MessageStore
+from simulation.rabbitmq.message_store import MessageStore
 import functools
 
 
