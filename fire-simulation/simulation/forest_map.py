@@ -1,10 +1,13 @@
 import json
+import random
 
 from simulation.sectors.sector import Sector
 from typing import TypeAlias
 from simulation.location import Location
 from simulation.sectors.sector_state import SectorState
 from simulation.sectors.sector_type import SectorType
+from simulation.sectors.geographic_direction import GeographicDirection
+from typing import Tuple, List
 
 ForestMapCornerLocations: TypeAlias = tuple[Location, Location, Location, Location]  # cw start upper left
 
@@ -114,6 +117,12 @@ class ForestMap:
     def sectors(self) -> list[list[Sector]]:
         return self._sectors
     
+    def start_new_fire(self) -> Sector:
+        row = random.choice(self.sectors)
+        sector = random.choice(row)
+        sector.start_fire()
+        return sector
+    
     def get_sector_with_max_burn_level(self) -> Sector:
         max_burn_level = 0
         max_burn_sector = None
@@ -153,22 +162,27 @@ class ForestMap:
 
         return self._sectors[height_index][width_index]
 
-    def get_adjacent_sectors(self, sector: Sector, old_sectors: list[list[Sector]]) -> list[Sector]:
+    def get_adjacent_sectors(self, sector: Sector) -> List[Tuple[Sector, GeographicDirection]]:
         row = sector.row
         column = sector.column
         adjacent_sectors = []
 
-        if row > 0:
-            adjacent_sectors.append(old_sectors[row - 1][column])
-        if row < len(old_sectors) - 1:
-            adjacent_sectors.append(old_sectors[row + 1][column])
-        if column > 0:
-            adjacent_sectors.append(old_sectors[row][column - 1])
-        if column < len(old_sectors[1]) - 1:
-            adjacent_sectors.append(old_sectors[row][column + 1])
+        directions = [
+            (-1, 0, GeographicDirection.N),
+            (-1, 1, GeographicDirection.NE),
+            (0, 1, GeographicDirection.E),
+            (1, 1, GeographicDirection.SE),
+            (1, 0, GeographicDirection.S),
+            (1, -1, GeographicDirection.SW),
+            (0, -1, GeographicDirection.W),
+            (-1, -1, GeographicDirection.NW)
+        ]
 
-        # for row_index in range(max(row - 1, 0), min(row + 1, self.height - 1)):
-        #     for column_index in range(max(column - 1, 0), min(column + 1, self.width - 1)):
-        #         adjacent_sectors.append(self._sectors[row_index][column_index])
+        for delta_row, delta_column, direction in directions:
+            new_row = row + delta_row
+            new_column = column + delta_column
+
+            if 0 <= new_row < len(self.sectors) and 0 <= new_column < len(self.sectors[new_row]):
+                adjacent_sectors.append((self.sectors[new_row][new_column], direction))
 
         return adjacent_sectors
