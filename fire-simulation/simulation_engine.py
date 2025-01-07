@@ -125,8 +125,8 @@ def run_simulation(configuration):
         for sector in all_sectors:
             sector.update_sensors()
             
-            for sector_type, jsons in sector.make_jsons().items():
-                queue = get_topic_for_sensor(sector_type)
+            for sensor_type, jsons in sector.make_jsons().items():
+                queue = get_topic_for_sensor(sensor_type)
                 for json in jsons:
                     store.add_message_to_sent(queue, json)
             

@@ -4,12 +4,22 @@ import logging
 from typing import List
 import random
 import json as jssonLib
+from datetime import timedelta
 
+from simulation.sensors.sensor import Sensor
 from simulation.sectors.sector_state import SectorState
 from simulation.sectors.sector_type import SectorType
 from simulation.sectors.fire_state import FireState
+from simulation.sensors.sensor_type import SensorType
 from simulation.config import const
 from simulation.fire_spread import coef_generator
+
+from simulation.sensors.temperature_and_air_humidity_sensor import TemperatureAndAirHumiditySensor
+from simulation.sensors.wind_speed_sensor import WindSpeedSensor
+from simulation.sensors.wind_direction_sensor import WindDirectionSensor
+from simulation.sensors.co2_sensor import CO2Sensor
+from simulation.sensors.litter_moisture_sensor import LitterMoistureSensor
+from simulation.sensors.pm2_5_sensor import PM2_5Sensor
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +43,7 @@ class Sector:
         self._fire_level = 0 #scale 0-100 - size of fire
         self._burn_level = 0 #scale 0-100 - burned area
         self._number_of_fire_brigades = 0
-        self._sensors: List = []
+        self._sensors: List[Sensor] = []
         self._fire_state = FireState.INACTIVE
 
     @property
@@ -157,60 +167,44 @@ class Sector:
         # Wind speed mildly increases with fire level and random fluctuation simulates gusts.
         self._state.wind_speed = self._state.wind_speed + (self._fire_level * 0.03) - (self._state.wind_speed * 0.01) + random.uniform(-0.3, 0.3)
 
+        
+
+        
 
     def update_sector(self):
         self.update_extinguish_level()
         self.update_fire_level()
         self.update_burn_level()
         self.update_sector_state()
-            
-    def update_sensors(self):
-        
-        for sensor in self._sensors:
-            sensor['timestamp'] = sensor['timestamp'] + 1000
-            if sensor['sensorType'] == "PM2_5":                
-                sensor['data'] = {
-                    "pm2_5Concentration": self._state.pm2_5_concentration + random.uniform(-0.1, 0.1)
-                }
-            elif sensor['sensorType'] == "TEMPERATURE_AND_AIR_HUMIDITY":
-                sensor['data'] = {
-                    "temperature": self._state.temperature + random.uniform(-5.0, 5.0),
-                    "airHumidity": self._state.air_humidity + random.uniform(-5.0, 5.0)
-                }
-            elif sensor['sensorType'] == "LITTER_MOISTURE":
-                sensor['data'] = {
-                    "plantLitterMoisture": self._state.plant_litter_moisture + random.uniform(-5.0, 5.0)
-                }
-            elif sensor['sensorType'] == "CO2":
-                sensor['data'] = {
-                    "co2Concentration": self._state.co2_concentration + random.uniform(-5.0, 5.0)
-                }
-            elif sensor['sensorType'] == "WIND_SPEED":
-                sensor['data'] = {
-                    "windSpeed": self._state.wind_speed + random.uniform(-5.0, 5.0)
-                }
-            elif sensor['sensorType'] == "WIND_DIRECTION":
-                sensor['data'] = {
-                    # only NE, NW, SE, SW
-                    "windDirection": self._state.wind_direction
-                }
 
+    def update_sensors(self):
+        for sensor in self.sensors:
+            sensor._timestamp = timedelta(seconds=1)
+            if isinstance(sensor, PM2_5Sensor):              
+                sensor._pm2_5 = self._state.pm2_5_concentration + random.uniform(-0.1, 0.1)
+            elif isinstance(sensor, TemperatureAndAirHumiditySensor):                
+                sensor._temperature = self._state.temperature + random.uniform(-5.0, 5.0)
+                sensor._humidity = self._state.air_humidity + random.uniform(-5.0, 5.0)
+            elif isinstance(sensor, LitterMoistureSensor):
+                sensor._litter_moisture = self._state.plant_litter_moisture + random.uniform(-5.0, 5.0)
+            elif isinstance(sensor, CO2Sensor):
+                sensor._co2 = self._state.co2_concentration + random.uniform(-5.0, 5.0)
+            elif isinstance(sensor, WindSpeedSensor) :              
+                sensor._wind_speed = self._state.wind_speed + random.uniform(-5.0, 5.0)
+            elif isinstance(sensor, WindDirectionSensor):
+                sensor._wind_direction = self._state.wind_direction
 
     def make_jsons(self):
         jsons_by_type = {}
-        
-        print("kurwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-        print(jssonLib.dumps(self.sensors, indent=5))
-        print("aaaaaaaaaaaaaaaaaaaaaaaaaa")
 
         for sensor in self.sensors:        
             json = {
                 "sensorId": sensor.sensor_id,
-                "timestamp": sensor.timestamp,
+                "timestamp": sensor._timestamp,
                 "sensorType": sensor.sensor_type,
                 "location": {
-                    "longitude": sensor.location.longitude,
-                    "latitude": sensor.location.latitude,
+                    "longitude": sensor._location.longitude,
+                    "latitude": sensor._location.latitude,
                 },
                 "data": sensor.data
             }
