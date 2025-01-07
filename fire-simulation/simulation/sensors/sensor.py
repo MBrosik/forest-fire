@@ -1,21 +1,23 @@
 from abc import ABC, abstractmethod
-
+from typing import Dict
 from simulation.location import Location
 from datetime import datetime
-from simulation.agent import SteadyAgent
-from ..forest_map import ForestMap
+from simulation.sensors.sensor_type import SensorType 
 
-
-class Sensor(SteadyAgent, ABC):
+class Sensor(ABC):
     def __init__(
         self,
-        forest_map: ForestMap,
         timestamp: datetime,
         location: Location,
         sensor_id: str,
-    ) -> None:
-        SteadyAgent.__init__(self, forest_map, timestamp, location)
+    ):
+        self._timestamp = timestamp
+        self._location = location
         self._sensor_id = sensor_id
+
+    @property
+    def timestamp(self) -> int:        
+        return self.timestamp
 
     @property
     def sensor_id(self) -> str:
@@ -27,4 +29,19 @@ class Sensor(SteadyAgent, ABC):
 
     @abstractmethod
     def log(self) -> None:
+        pass
+
+    @property
+    @abstractmethod
+    def sensor_type(self) -> SensorType:
+        pass
+
+    @property
+    @abstractmethod
+    def data(self) -> Dict[str, float]:
+        pass
+
+    @property
+    @abstractmethod
+    def unit(self) -> Dict[str, str]:
         pass

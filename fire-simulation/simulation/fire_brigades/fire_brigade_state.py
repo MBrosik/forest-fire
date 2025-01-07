@@ -1,7 +1,6 @@
 from enum import Enum
 
-
-class FireBrigadeState(Enum):
+class FIRE_BRIGADE_STATE:
     AVAILABLE = 1
     TRAVELLING = 2
-    EXTINGUISHING = 3
+    EXTINGIUSHING = 3
