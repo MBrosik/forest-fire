@@ -16,6 +16,7 @@ from simulation.sensors.co2_sensor import CO2Sensor
 from simulation.sensors.litter_moisture_sensor import LitterMoistureSensor
 from simulation.sensors.pm2_5_sensor import PM2_5Sensor
 from datetime import datetime
+from simulation.cameras.camera import Camera
 
 ForestMapCornerLocations: TypeAlias = tuple[Location, Location, Location, Location]  # cw start upper left
 
@@ -50,6 +51,8 @@ class ForestMap:
 
         # Dodaj sensory do odpowiednich sektorów
         cls._assign_sensors_to_sectors(conf["sensors"], sectors, bounds)
+
+        cls._assign_cameras_to_sectors(conf["cameras"], sectors, bounds)
 
         # Stwórz i zwróć obiekt ForestMap
         return cls(
@@ -100,6 +103,7 @@ class ForestMap:
             "height_sectors": diff_lat / rows
         }
 
+    
     @staticmethod
     def _assign_sensors_to_sectors(sensors, sectors, bounds):
         for sensor in sensors:
@@ -113,6 +117,20 @@ class ForestMap:
 
             if 0 <= row < len(sectors) and 0 <= column < len(sectors[0]) and sectors[row][column]:
                 sectors[row][column].add_sensor(sensor_obj)
+
+    def _assign_cameras_to_sectors(cameras, sectors, bounds):
+        for camera in cameras:
+            camera_obj = ForestMap._create_camera(camera)
+
+            if not camera_obj:
+                continue
+
+            camera_location = Location(**camera["location"])
+            row = int((camera_location.latitude - bounds["min_lat"]) / bounds["height_sectors"])
+            column = int((camera_location.longitude - bounds["min_lon"]) / bounds["width_sectors"])
+
+            if 0 <= row < len(sectors) and 0 <= column < len(sectors[0]) and sectors[row][column]:
+                sectors[row][column].add_sensor(camera_obj)
 
     @staticmethod
     def _create_sensor(sensor_conf):
@@ -136,6 +154,11 @@ class ForestMap:
                 return CO2Sensor(**sensor_arguments)
             case _:
                 return None
+
+    @staticmethod
+    def _create_camera(camera_conf):
+        return Camera(datetime.now(), Location(camera_conf["location"]["latitude"], camera_conf["location"]["longitude"]), camera_conf["cameraId"])
+
 
 
 

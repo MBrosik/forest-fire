@@ -33,7 +33,7 @@ class WindDirectionSensor(Sensor):
     
     @property
     def data(self):
-        return {"windDirection": self.wind_direction}
+        return {"windDirection": self.wind_direction.name}
 
     @property
     def unit(self):
@@ -45,7 +45,7 @@ class WindDirectionSensor(Sensor):
     def log(self) -> None:
         logging.debug(
             f"Sensor {self._sensor_id} of type {WindDirectionSensor.sensor_type} "
-            f"reported wind direction: {self._wind_direction}."
+            f"reported wind direction: {self._wind_direction.name}."
         )
 
     @property 

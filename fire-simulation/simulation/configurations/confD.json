@@ -4111,7 +4111,16 @@
           "timestamp": 1719343002000
       }
   ],
-  "cameras": [],
+  "cameras": [
+    {
+        "cameraId": 103,        
+        "location": {
+            "longitude": 20.138385645406604,
+            "latitude": 49.50380172096455
+        },
+        "timestamp": 1719343002000
+    }
+  ],
   "fireBrigades": [],
   "foresterPatrols": []
 }

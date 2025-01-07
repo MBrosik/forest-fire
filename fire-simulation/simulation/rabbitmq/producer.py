@@ -1,5 +1,6 @@
 import pika
 import logging
+import json
 from simulation.rabbitmq.message_store import MessageStore
 import time
 
@@ -11,7 +12,7 @@ def produce_message(exchange, channel, routing_key, message):
             logger.info("Channel is None")
             return
         logger.info(f"Channel: {channel}")
-        channel.basic_publish(exchange=exchange, routing_key=routing_key, body=message)
+        channel.basic_publish(exchange=exchange, routing_key=routing_key, body=json.dumps(message))
         logger.info(f"Sent message: {message}")
     except Exception as e:
         logger.error(f"Error sending message: {e}")
