@@ -12,8 +12,8 @@ export const StopSimulationButton = () => {
   const navigate = useNavigate();  
 
   const startSimulation = useCallback(() => {       
-    console.log("Simulation stopped");
-    
+    // console.log("Simulation stopped");
+    navigate('/');
   }, []);
 
 
