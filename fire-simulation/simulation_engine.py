@@ -16,6 +16,7 @@ from simulation.sectors.fire_state import FireState
 from simulation.fire_spread.coef_generator import calculate_beta
 from simulation.fire_spread.wind import Wind
 from simulation.sectors.geographic_direction import GeographicDirection
+from simulation.agent_manager.agent_manager import AgentManager
 
 from simulation.rabbitmq import producer, consumer, connection_manager
 from simulation.rabbitmq.message_store import MessageStore
@@ -89,8 +90,7 @@ def run_simulation(configuration):
     #===================Get configuration===================
 
     map = ForestMap.from_conf(configuration)
-    fire_brigades = FireBrigade.from_conf(configuration)  
-    forest_patrols = ForesterPatrol.from_conf(configuration)
+    agents_manager = AgentManager(map, store)
 
     #===================SIMULATION===================
     wind = Wind()
@@ -132,16 +132,7 @@ def run_simulation(configuration):
                     store.add_message_to_sent(queue, json)
 
         #TODO: rozkazy z storage przetworzone
-
-        for agent in map.fireBrigades:
-            sector = map.find_sector(agent.location)
-            agent.update_state(sector)
-
-        for agent in map.foresterPatrols:
-            sector = map.find_sector(agent.location)
-            agent.update_state(sector)
-
-        #TODO: Jak zrobić aby wysyłali updaty dotyczące statusu
-            
+        
+        agents_manager.update_agents_states()
 
         time.sleep(5)

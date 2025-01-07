@@ -66,17 +66,17 @@ class Agent(ABC):
     def decrement_agents_in_sector(self, sector: Sector):
         pass
 
-    def update_state(self, dest_sector : Sector):
-        if self.state == AGENT_STATE.TRAVELLING:
-            if(self.update_position()):
-                if(self.destination == self.base_location):
-                    self.set_state_available()
-                else:
-                    self.set_state_executing()
-                    self.increment_agents_in_sector(dest_sector) 
-        elif self.state == AGENT_STATE.EXECUTING:
-            if(self.is_task_finished(dest_sector)):
-                self.set_state_available()
+    # def update_state(self, dest_sector : Sector):
+    #     if self.state == AGENT_STATE.TRAVELLING:
+    #         if(self.update_position()):
+    #             if(self.destination == self.base_location):
+    #                 self.set_state_available()
+    #             else:
+    #                 self.set_state_executing()
+    #                 self.increment_agents_in_sector(dest_sector) 
+    #     elif self.state == AGENT_STATE.EXECUTING:
+    #         if(self.is_task_finished(dest_sector)):
+    #             self.set_state_available()
 
     def set_state_available(self):
         self._state = AGENT_STATE.AVAILABLE
@@ -90,17 +90,17 @@ class Agent(ABC):
         self._state = AGENT_STATE.EXECUTING
         self._destination = self.location
 
-    def calculate_step(self, target: float, current: float, delta: float) -> float:
-        if target > current:
-            return min(delta, target - current)
-        elif target < current:
-            return max(-delta, target - current)
-        return 0
+    # def calculate_step(self, target: float, current: float, delta: float) -> float:
+    #     if target > current:
+    #         return min(delta, target - current)
+    #     elif target < current:
+    #         return max(-delta, target - current)
+    #     return 0
 
-    def update_position(self) -> bool:
-        self.location.latitude += self.calculate_step(self.destination.latitude, self.location.latitude, 0.1)
-        self.location.longitude +=  self.calculate_step(self.destination.longitude, self.location.longitude, 0.1)
-        return (
-             abs(self.destination.latitude - self.location.latitude) <= 0.1 and
-             abs(self.destination.longitude - self.location.longitude) <= 0.1
-         )
+    # def update_position(self) -> bool:
+    #     self.location.latitude += self.calculate_step(self.destination.latitude, self.location.latitude, 0.1)
+    #     self.location.longitude +=  self.calculate_step(self.destination.longitude, self.location.longitude, 0.1)
+    #     return (
+    #          abs(self.destination.latitude - self.location.latitude) <= 0.1 and
+    #          abs(self.destination.longitude - self.location.longitude) <= 0.1
+    #      )

@@ -98,7 +98,7 @@ class Sector:
         return self._sensors
     
     @property
-    def fire_state(self):
+    def fire_state(self) -> FireState:
         return self._fire_state
 
     def add_sensor(self, sensor):
