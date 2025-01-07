@@ -1,10 +1,21 @@
 import json
+import random
 
 from simulation.sectors.sector import Sector
 from typing import TypeAlias
 from simulation.location import Location
 from simulation.sectors.sector_state import SectorState
 from simulation.sectors.sector_type import SectorType
+from simulation.sectors.geographic_direction import GeographicDirection
+from typing import Tuple, List
+from simulation.sensors.sensor_type import SensorType
+from simulation.sensors.temperature_and_air_humidity_sensor import TemperatureAndAirHumiditySensor
+from simulation.sensors.wind_speed_sensor import WindSpeedSensor
+from simulation.sensors.wind_direction_sensor import WindDirectionSensor
+from simulation.sensors.co2_sensor import CO2Sensor
+from simulation.sensors.litter_moisture_sensor import LitterMoistureSensor
+from simulation.sensors.pm2_5_sensor import PM2_5Sensor
+from datetime import datetime
 
 ForestMapCornerLocations: TypeAlias = tuple[Location, Location, Location, Location]  # cw start upper left
 
@@ -26,69 +37,203 @@ class ForestMap:
         self._location = location
         self._sectors = sectors
 
-
-
     @classmethod
     def from_conf(cls, conf):
+        # Przetwórz dane lokalizacji
+        location = cls._parse_locations(conf["location"])
 
-        locations = conf["location"]
-        sectors_:list[list[Sector | None]] = [[None for _ in range(conf["columns"] + 1)] for _ in range(conf["rows"] + 1)]
+        # Przetwórz sektory
+        sectors = cls._parse_sectors(conf)
+
+        # Oblicz parametry mapy na podstawie lokalizacji
+        bounds = cls._calculate_bounds(location, conf["rows"], conf["columns"])
+
+        # Dodaj sensory do odpowiednich sektorów
+        cls._assign_sensors_to_sectors(conf["sensors"], sectors, bounds)
+
+        # Stwórz i zwróć obiekt ForestMap
+        return cls(
+            forest_id=conf["forestId"],
+            forest_name=conf["forestName"],
+            rows=conf["rows"],
+            columns=conf["columns"],
+            location=location,
+            sectors=sectors
+        )
+
+    @staticmethod
+    def _parse_locations(locations_conf):
+        return tuple(Location(**location) for location in locations_conf)
+
+    @staticmethod
+    def _parse_sectors(conf):
+        sectors = [[None for _ in range(conf["columns"])] for _ in range(conf["rows"])]
         for val in conf["sectors"]:
-            # print(val)
             initial_state = SectorState(
                 temperature=val["initialState"]["temperature"],
                 wind_speed=val["initialState"]["windSpeed"],
-                wind_direction=val["initialState"]["windDirection"],
+                wind_direction=GeographicDirection[val["initialState"]["windDirection"]],
                 air_humidity=val["initialState"]["airHumidity"],
                 plant_litter_moisture=val["initialState"]["plantLitterMoisture"],
                 co2_concentration=val["initialState"]["co2Concentration"],
                 pm2_5_concentration=val["initialState"]["pm2_5Concentration"],
             )
-
-            if SectorType[val["sectorType"]] is None:
-                print(val["sectorType"])
-            sectors_[val["row"]][val["column"]] = Sector(
+            sectors[val["row"]][val["column"]] = Sector(
                 sector_id=val["sectorId"],
                 row=val["row"],
                 column=val["column"],
-                sector_type= SectorType[val["sectorType"]],
+                sector_type=SectorType[val["sectorType"]],
                 initial_state=initial_state,
             )
+        return sectors
 
-
-
-        values = {
-            "forest_id": conf["forestId"],
-            "forest_name": conf["forestName"],
-            "rows": conf["rows"],
-            "columns": conf["columns"],
-            "location": (
-                tuple(Location(**location) for location in locations)
-            ),
-            "sectors": sectors_
+    @staticmethod
+    def _calculate_bounds(locations, rows, columns):
+        min_lat = min(location.latitude for location in locations)
+        min_lon = min(location.longitude for location in locations)
+        diff_lat = max(location.latitude for location in locations) - min_lat
+        diff_lon = max(location.longitude for location in locations)
+        return {
+            "min_lat": min_lat,
+            "min_lon": min_lon,
+            "width_sectors": diff_lon / columns,
+            "height_sectors": diff_lat / rows
         }
 
-        min_lat = min(location.latitude for location in values["location"])
-        min_lon = min(location.longitude for location in values["location"])
-        diff_lat = max(location.latitude for location in values["location"]) - min_lat
-        diff_lon = max(location.longitude for location in values["location"]) - min_lon
-        width_sectors = diff_lon / values["columns"]
-        height_sectors = diff_lat / values["rows"]
-
-        sensors = conf["sensors"]
-        print(sensors)
+    @staticmethod
+    def _assign_sensors_to_sectors(sensors, sectors, bounds):
         for sensor in sensors:
-            sensor_location = Location(**sensor["location"])
-            row = int((sensor_location.latitude - min_lat) / height_sectors) + 1
-            column = int((sensor_location.longitude - min_lon) / width_sectors) + 1
-            print(f"Adding sensor to sector {row} {column}")
-            if row < 0 or row >= len(sectors_) or column < 0 or column >= len(sectors_[0]):
+            sensor_obj = ForestMap._create_sensor(sensor)
+            if not sensor_obj:
                 continue
-            if sectors_[row][column] is not None:
-                sectors_[row][column].add_sensor(sensor)
-                print(f"Added sensor to sector {row} {column}")
 
-        return ForestMap(**values)
+            sensor_location = Location(**sensor["location"])
+            row = int((sensor_location.latitude - bounds["min_lat"]) / bounds["height_sectors"])
+            column = int((sensor_location.longitude - bounds["min_lon"]) / bounds["width_sectors"])
+
+            if 0 <= row < len(sectors) and 0 <= column < len(sectors[0]) and sectors[row][column]:
+                sectors[row][column].add_sensor(sensor_obj)
+
+    @staticmethod
+    def _create_sensor(sensor_conf):
+        sensor_arguments = {
+            "timestamp": datetime.now(),
+            "location": Location(sensor_conf["location"]["latitude"], sensor_conf["location"]["longitude"]),
+            "sensor_id": sensor_conf["sensorId"],
+        }
+        match sensor_conf["sensorType"]:
+            case "TEMPERATURE_AND_AIR_HUMIDITY":
+                return TemperatureAndAirHumiditySensor(**sensor_arguments)
+            case "WIND_SPEED":
+                return WindSpeedSensor(**sensor_arguments)
+            case "WIND_DIRECTION":
+                return WindDirectionSensor(**sensor_arguments)
+            case "LITTER_MOISTURE":
+                return LitterMoistureSensor(**sensor_arguments)
+            case "PM2_5":
+                return PM2_5Sensor(**sensor_arguments)
+            case "CO2":
+                return CO2Sensor(**sensor_arguments)
+            case _:
+                return None
+
+
+
+    # @classmethod
+    # def from_conf(cls, conf):        
+
+    #     locations = conf["location"]
+    #     sectors_:list[list[Sector | None]] = [[None for _ in range(conf["columns"])] for _ in range(conf["rows"])]
+    #     for val in conf["sectors"]:
+    #         # print(val)
+    #         initial_state = SectorState(
+    #             temperature=val["initialState"]["temperature"],
+    #             wind_speed=val["initialState"]["windSpeed"],
+    #             wind_direction=val["initialState"]["windDirection"],
+    #             air_humidity=val["initialState"]["airHumidity"],
+    #             plant_litter_moisture=val["initialState"]["plantLitterMoisture"],
+    #             co2_concentration=val["initialState"]["co2Concentration"],
+    #             pm2_5_concentration=val["initialState"]["pm2_5Concentration"],
+    #         )
+
+    #         if SectorType[val["sectorType"]] is None:
+    #             print(val["sectorType"])
+    #         sectors_[val["row"]][val["column"]] = Sector(
+    #             sector_id=val["sectorId"],
+    #             row=val["row"],
+    #             column=val["column"],
+    #             sector_type= SectorType[val["sectorType"]],
+    #             initial_state=initial_state,
+    #         )
+
+
+
+    #     values = {
+    #         "forest_id": conf["forestId"],
+    #         "forest_name": conf["forestName"],
+    #         "rows": conf["rows"],
+    #         "columns": conf["columns"],
+    #         "location": (
+    #             tuple(Location(**location) for location in locations)
+    #         ),
+    #         "sectors": sectors_
+    #     }
+
+    #     min_lat = min(location.latitude for location in values["location"])
+    #     min_lon = min(location.longitude for location in values["location"])
+    #     diff_lat = max(location.latitude for location in values["location"]) - min_lat
+    #     diff_lon = max(location.longitude for location in values["location"]) - min_lon
+    #     width_sectors = diff_lon / values["columns"]
+    #     height_sectors = diff_lat / values["rows"]
+        
+    #     sensors = conf["sensors"]
+    #     print(sensors)
+        
+    #     for sensor in sensors:
+
+            
+    #         sensor_arguments = {
+    #             "timestamp" : datetime.now(),
+    #             "location": Location(sensor["location"]["latitude"], sensor["location"]["longitude"]),
+    #             "sensor_id": sensor["sensorId"],                
+    #         }
+
+            
+        
+    #         match sensor["sensorType"]:
+    #             case "TEMPERATURE_AND_AIR_HUMIDITY":
+    #                 sensor_class = TemperatureAndAirHumiditySensor(**sensor_arguments)
+    #                 break
+    #             case "WIND_SPEED":
+    #                 sensor_class = WindSpeedSensor(**sensor_arguments)
+    #                 break
+    #             case "WIND_DIRECTION":
+    #                 sensor_class = WindDirectionSensor(**sensor_arguments)
+    #                 break
+    #             case "LITTER_MOISTURE":
+    #                 sensor_class = LitterMoistureSensor(**sensor_arguments)
+    #                 break
+    #             case "PM2_5":
+    #                 sensor_class = PM2_5Sensor(**sensor_arguments)
+    #                 break
+    #             case "CO2":
+    #                 sensor_class = CO2Sensor(**sensor_arguments)
+    #                 break
+    #             case _:
+    #                 break                            
+            
+            
+    #         sensor_location = Location(**sensor["location"])
+    #         row = int((sensor_location.latitude - min_lat) / height_sectors) + 1
+    #         column = int((sensor_location.longitude - min_lon) / width_sectors) + 1
+    #         print(f"Adding sensor to sector {row} {column}")
+    #         if row < 0 or row >= len(sectors_) or column < 0 or column >= len(sectors_[0]):                
+    #             continue
+    #         if sectors_[row][column] is not None:                        
+    #             sectors_[row][column].add_sensor(sensor_class)
+    #             print(f"Added sensor to sector {row} {column}")
+
+    #     return ForestMap(**values)
 
     @property
     def forest_id(self) -> str:
@@ -113,6 +258,16 @@ class ForestMap:
     @property
     def sectors(self) -> list[list[Sector]]:
         return self._sectors
+    
+    def start_new_fire(self) -> Sector:
+        row = random.choice(self.sectors)
+        sector = random.choice(row)
+
+        #sector = self.sectors[6][6]
+
+        sector.start_fire()
+
+        return sector        
     
     def get_sector_with_max_burn_level(self) -> Sector:
         max_burn_level = 0
@@ -153,22 +308,27 @@ class ForestMap:
 
         return self._sectors[height_index][width_index]
 
-    def get_adjacent_sectors(self, sector: Sector, old_sectors: list[list[Sector]]) -> list[Sector]:
+    def get_adjacent_sectors(self, sector: Sector) -> List[Tuple[Sector, GeographicDirection]]:
         row = sector.row
         column = sector.column
         adjacent_sectors = []
 
-        if row > 0:
-            adjacent_sectors.append(old_sectors[row - 1][column])
-        if row < len(old_sectors) - 1:
-            adjacent_sectors.append(old_sectors[row + 1][column])
-        if column > 0:
-            adjacent_sectors.append(old_sectors[row][column - 1])
-        if column < len(old_sectors[1]) - 1:
-            adjacent_sectors.append(old_sectors[row][column + 1])
+        directions = [
+            (-1, 0, GeographicDirection.N),
+            (-1, 1, GeographicDirection.NE),
+            (0, 1, GeographicDirection.E),
+            (1, 1, GeographicDirection.SE),
+            (1, 0, GeographicDirection.S),
+            (1, -1, GeographicDirection.SW),
+            (0, -1, GeographicDirection.W),
+            (-1, -1, GeographicDirection.NW)
+        ]
 
-        # for row_index in range(max(row - 1, 0), min(row + 1, self.height - 1)):
-        #     for column_index in range(max(column - 1, 0), min(column + 1, self.width - 1)):
-        #         adjacent_sectors.append(self._sectors[row_index][column_index])
+        for delta_row, delta_column, direction in directions:
+            new_row = row + delta_row
+            new_column = column + delta_column
+
+            if 0 <= new_row < len(self.sectors) and 0 <= new_column < len(self.sectors[new_row]):
+                adjacent_sectors.append((self.sectors[new_row][new_column], direction))
 
         return adjacent_sectors

@@ -8,3 +8,4 @@ class SensorType(Enum):
     LITTER_MOISTURE = 4
     PM2_5 = 5
     CO2 = 6
+    CAMERA = 7
