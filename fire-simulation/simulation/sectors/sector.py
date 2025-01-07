@@ -45,6 +45,7 @@ class Sector:
         self._fire_level = 0 #scale 0-100 - size of fire
         self._burn_level = 0 #scale 0-100 - burned area
         self._number_of_fire_brigades = 0
+        self._number_of_forester_patrols = 0
         self._sensors: List[Sensor] = []
         self._fire_state = FireState.INACTIVE
 
