@@ -20,6 +20,8 @@ from simulation.sensors.wind_direction_sensor import WindDirectionSensor
 from simulation.sensors.co2_sensor import CO2Sensor
 from simulation.sensors.litter_moisture_sensor import LitterMoistureSensor
 from simulation.sensors.pm2_5_sensor import PM2_5Sensor
+from simulation.cameras.camera import Camera
+from simulation.location import Location
 
 logger = logging.getLogger(__name__)
 
@@ -65,6 +67,10 @@ class Sector:
     @property
     def state(self) -> SectorState:
         return self._state
+    
+    @property
+    def fire_level(self) -> int:
+        return self._fire_level
 
     @property
     def extinguish_level(self) -> int:
@@ -73,6 +79,10 @@ class Sector:
     @property
     def burn_level(self) -> int:
         return self._burn_level
+    
+    @fire_level.setter
+    def fire_level(self, fire):
+        self._fire_level = fire
 
     @burn_level.setter
     def burn_level(self, burn):
@@ -179,8 +189,8 @@ class Sector:
 
     def update_sensors(self):
         for sensor in self.sensors:
-            sensor._timestamp = timedelta(seconds=1)
-            if isinstance(sensor, PM2_5Sensor):              
+            sensor._timestamp += timedelta(seconds=1)
+            if isinstance(sensor, PM2_5Sensor):
                 sensor._pm2_5 = self._state.pm2_5_concentration + random.uniform(-0.1, 0.1)
             elif isinstance(sensor, TemperatureAndAirHumiditySensor):                
                 sensor._temperature = self._state.temperature + random.uniform(-5.0, 5.0)
@@ -193,15 +203,18 @@ class Sector:
                 sensor._wind_speed = self._state.wind_speed + random.uniform(-5.0, 5.0)
             elif isinstance(sensor, WindDirectionSensor):
                 sensor._wind_direction = self._state.wind_direction
-
+            elif isinstance(sensor, Camera):
+                sensor._camera_data.smoke_detected = 1 if self.fire_level > 0 else 0
+                sensor._camera_data.smoke_level = self.fire_level
+                
     def make_jsons(self):
         jsons_by_type = {}
 
-        for sensor in self.sensors:        
+        for sensor in self.sensors:
             json = {
                 "sensorId": sensor.sensor_id,
-                "timestamp": sensor._timestamp,
-                "sensorType": sensor.sensor_type,
+                "timestamp": sensor._timestamp.strftime('%Y-%m-%dT%H:%M:%S'),
+                "sensorType": sensor.sensor_type.name,
                 "location": {
                     "longitude": sensor._location.longitude,
                     "latitude": sensor._location.latitude,
@@ -209,10 +222,10 @@ class Sector:
                 "data": sensor.data
             }
             
-            if sensor.sensor_type not in jsons_by_type:
-                jsons_by_type[sensor.sensor_type] = []
+            if sensor.sensor_type.name not in jsons_by_type:
+                jsons_by_type[sensor.sensor_type.name] = []
             
-            jsons_by_type[sensor.sensor_type].append(json)
+            jsons_by_type[sensor.sensor_type.name].append(json)
         
         return jsons_by_type
 

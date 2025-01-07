@@ -13,11 +13,9 @@ class Camera(Sensor):
         timestamp: datetime,
         initial_location: Location,
         sensor_id: str,
-        initial_data: CameraData,
     ) -> None:
-        Sensor.__init__(self, timestamp, initial_location)
-        self._sensor_id = sensor_id
-        self._camera_data = initial_data
+        Sensor.__init__(self, timestamp, initial_location, sensor_id)
+        self._camera_data = CameraData(0, 0, self._location)
         self._sensor_type = SensorType.CAMERA
 
     @property

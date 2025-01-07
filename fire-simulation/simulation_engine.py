@@ -44,15 +44,16 @@ READ_QUEUE_TOPICS = [
     "Fire brigades action queue"
 ]
 
-def get_topic_for_sensor(sensor_type: SensorType) -> str:
+def get_topic_for_sensor(sensor_type: str) -> str:
     # Indeksy odpowiadające typom sensorów w SensorType
     topic_mapping = {
-        SensorType.TEMPERATURE_AND_AIR_HUMIDITY: WRITE_QUEUE_TOPICS[2],
-        SensorType.WIND_SPEED: WRITE_QUEUE_TOPICS[3],
-        SensorType.WIND_DIRECTION: WRITE_QUEUE_TOPICS[4],
-        SensorType.LITTER_MOISTURE: WRITE_QUEUE_TOPICS[5],
-        SensorType.PM2_5: WRITE_QUEUE_TOPICS[7],
-        SensorType.CO2: WRITE_QUEUE_TOPICS[6],
+        SensorType.TEMPERATURE_AND_AIR_HUMIDITY.name: WRITE_QUEUE_TOPICS[2],
+        SensorType.WIND_SPEED.name: WRITE_QUEUE_TOPICS[3],
+        SensorType.WIND_DIRECTION.name: WRITE_QUEUE_TOPICS[4],
+        SensorType.LITTER_MOISTURE.name: WRITE_QUEUE_TOPICS[5],
+        SensorType.PM2_5.name: WRITE_QUEUE_TOPICS[7],
+        SensorType.CO2.name: WRITE_QUEUE_TOPICS[6],
+        SensorType.CAMERA.name: WRITE_QUEUE_TOPICS[1]
     }
     return topic_mapping.get(sensor_type, "Unknown topic")
 
