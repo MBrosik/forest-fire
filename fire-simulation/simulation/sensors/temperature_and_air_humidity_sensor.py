@@ -8,7 +8,7 @@ from ..location import Location
 
 
 class TemperatureAndAirHumiditySensor(Sensor):
-    sensor_type: SensorType = SensorType.TEMPERATURE_AND_AIR_HUMIDITY
+    _sensor_type: SensorType = SensorType.TEMPERATURE_AND_AIR_HUMIDITY
 
     def __init__(
             self,
@@ -35,12 +35,13 @@ class TemperatureAndAirHumiditySensor(Sensor):
             )
 
     @property
-    def temperature(self):
-        return self._temperature
-
+    def data(self):
+        return {"temperature" : round(self._temperature, 2), "humidity" : round(self._humidity, 2)}
+    
     @property
-    def humidity(self):
-        return
+    def unit(self):
+        return {"temperature" : "°C", "humidity" : "%"}
+
 
     def next(self) -> None:
         pass
@@ -50,3 +51,7 @@ class TemperatureAndAirHumiditySensor(Sensor):
             f"Sensor {self._sensor_id} of type {TemperatureAndAirHumiditySensor.sensor_type} "
             f"reported temperature: {self._temperature:.2f} °C and air humidity: {self._temperature:.2f}%."
         )
+
+    @property 
+    def sensor_type(self):
+        return self._sensor_type

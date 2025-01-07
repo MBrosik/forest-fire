@@ -8,7 +8,7 @@ from simulation.location import Location
 
 
 class WindSpeedSensor(Sensor):
-    sensor_type: SensorType = SensorType.WIND_SPEED
+    _sensor_type: SensorType = SensorType.WIND_SPEED
 
     def __init__(
         self,
@@ -26,9 +26,14 @@ class WindSpeedSensor(Sensor):
                 f"is missing wind direction data!"
             )
 
+    
     @property
-    def wind_speed(self) -> float:
-        return self._wind_speed
+    def data(self) -> float:
+        return {"windSpeed": round(self._wind_speed, 2)}
+    
+    @property
+    def unit(self) -> str:
+        return {"windSpeed":"m/s"}
 
     def next(self) -> None:
         pass
@@ -38,3 +43,7 @@ class WindSpeedSensor(Sensor):
             f'Sensor {self._sensor_id} of type {WindSpeedSensor.sensor_type} '
             f'reported wind speed: {self._wind_speed:.2f} m/s.'
         )
+
+    @property 
+    def sensor_type(self):
+        return self._sensor_type

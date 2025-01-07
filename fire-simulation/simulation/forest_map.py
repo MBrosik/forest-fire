@@ -8,6 +8,13 @@ from simulation.sectors.sector_state import SectorState
 from simulation.sectors.sector_type import SectorType
 from simulation.sectors.geographic_direction import GeographicDirection
 from typing import Tuple, List
+from sensors.sensor_type import SensorType
+from sensors.temperature_and_air_humidity_sensor import TemperatureAndAirHumiditySensor
+from sensors.wind_speed_sensor import WindSpeedSensor
+from sensors.wind_direction_sensor import WindDirectionSensor
+from sensors.co2_sensor import CO2Sensor
+from sensors.litter_moisture_sensor import LitterMoistureSensor
+from sensors.pm2_5_sensor import PM2_5Sensor
 
 ForestMapCornerLocations: TypeAlias = tuple[Location, Location, Location, Location]  # cw start upper left
 
@@ -35,7 +42,7 @@ class ForestMap:
     def from_conf(cls, conf):
 
         locations = conf["location"]
-        sectors_:list[list[Sector | None]] = [[None for _ in range(conf["columns"] + 1)] for _ in range(conf["rows"] + 1)]
+        sectors_:list[list[Sector | None]] = [[None for _ in range(conf["columns"])] for _ in range(conf["rows"])]
         for val in conf["sectors"]:
             # print(val)
             initial_state = SectorState(
@@ -77,17 +84,43 @@ class ForestMap:
         diff_lon = max(location.longitude for location in values["location"]) - min_lon
         width_sectors = diff_lon / values["columns"]
         height_sectors = diff_lat / values["rows"]
-
+        
         sensors = conf["sensors"]
         print(sensors)
+        
         for sensor in sensors:
+
+            timestamp = 
+        
+            match sensor["sensorType"]:
+                case "TEMPERATURE_AND_AIR_HUMIDITY":
+                    sensor_class = TemperatureAndAirHumiditySensor()
+                case "WIND_SPEED":
+                    sensor_class = WindSpeedSensor()
+                    break;
+                case "WIND_DIRECTION":
+                    sensor_class = WindDirectionSensor()
+                    break
+                case "LITTER_MOISTURE":
+                    sensor_class = LitterMoistureSensor()
+                    break
+                case "PM2_5":
+                    sensor_class = PM2_5Sensor()
+                    break
+                case "CO2":
+                    sensor_class = CO2Sensor()
+                    break
+                case _:
+                    break
+                
+            
             sensor_location = Location(**sensor["location"])
             row = int((sensor_location.latitude - min_lat) / height_sectors) + 1
             column = int((sensor_location.longitude - min_lon) / width_sectors) + 1
             print(f"Adding sensor to sector {row} {column}")
             if row < 0 or row >= len(sectors_) or column < 0 or column >= len(sectors_[0]):
                 continue
-            if sectors_[row][column] is not None:
+            if sectors_[row][column] is not None:        
                 sectors_[row][column].add_sensor(sensor)
                 print(f"Added sensor to sector {row} {column}")
 
@@ -120,8 +153,12 @@ class ForestMap:
     def start_new_fire(self) -> Sector:
         row = random.choice(self.sectors)
         sector = random.choice(row)
+
+        #sector = self.sectors[6][6]
+
         sector.start_fire()
-        return sector
+
+        return sector        
     
     def get_sector_with_max_burn_level(self) -> Sector:
         max_burn_level = 0

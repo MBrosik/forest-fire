@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 #from typing import TypeAlias, Union
 
-from simulation.sectors.sector import Sector
+# from simulation.sectors.sector import Sector
 from simulation.agent_state import MOVING_AGENT_STATE
 # from simulation.forester_patrols.forester_patrol import ForesterPatrolState
 
@@ -29,9 +29,6 @@ class Agent(ABC):
     @property
     def forest_map(self):
         return self._forest_map
-
-    def find_sector(self) -> Sector:
-        pass
 
     @abstractmethod
     def next(self) -> None:

@@ -9,7 +9,7 @@ class Wind:
 
     def __init__(self):
         self._speed = random.uniform(0, 32)
-        self._direction = random.choice(GeographicDirection)
+        self._direction = random.choice(list(GeographicDirection))
         logger.info(f"Initial wind: {self._speed} {self._direction}")
     
     def update_wind(self):
@@ -29,9 +29,11 @@ class Wind:
         self._direction = GeographicDirection(new_direction_value)
 
         logger.info(f"New wind: {self._speed} {self._direction}")
-        
+
+    @property 
     def get_speed(self) -> float:
         return self._speed
 
+    @property
     def get_direction(self) -> GeographicDirection:
         return self._direction

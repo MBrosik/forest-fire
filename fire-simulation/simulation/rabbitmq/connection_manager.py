@@ -46,7 +46,6 @@ def create_queues(exchange_name, username, password):
             logger.info(f"Queue created: {queue_name}")
 
         # Tworzenie wymiany typu "topic"
-        exchange_name = "forest_fire_exchange"
         channel.exchange_declare(exchange=exchange_name, exchange_type='topic')
 
         # Wiązanie kolejek z tematami
@@ -56,17 +55,14 @@ def create_queues(exchange_name, username, password):
 
         # Zamknięcie połączenia
         logger.info("All queues and topics are created and bound.")
-
         return connection, channel
         
     except Exception as e:
         logger.error(f"Error connecting to RabbitMQ: {e}")
         return None, None
-    
-
-def close_connection(connection):
-    if connection is not None:
-        connection.close()
-        print("Connection closed")
-    else:
-        print("Connection is None")
+        
+    # if connection is not None:
+    #     connection.close()
+    #     print("Connection closed")
+    # else:
+    #     print("Connection is None")

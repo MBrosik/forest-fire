@@ -7,7 +7,7 @@ def calculate_beta(wind: Wind, target_sector_type: SectorType, direction: Geogra
 
     speed_coef = wind._speed / 40
 
-    diff = abs(wind.get_direction - direction)
+    diff = abs(wind.get_direction.value - direction.value)
     diff = min(diff, 8 - diff)
     match diff:
         case 0:

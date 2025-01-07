@@ -9,7 +9,7 @@ from simulation.location import Location
 
 
 class WindDirectionSensor(Sensor):
-    sensor_type: SensorType = SensorType.WIND_DIRECTION
+    _sensor_type: SensorType = SensorType.WIND_DIRECTION
 
     def __init__(
         self,
@@ -20,16 +20,27 @@ class WindDirectionSensor(Sensor):
         initial_data: dict[str, GeographicDirection],
     ) -> None:
         Sensor.__init__(self, forest_map, timestamp, location, sensor_id)
-        self._wind_direction = initial_data.get('wind_direction', None)
+        self._wind_direction:GeographicDirection | None = initial_data.get('wind_direction', None)
         if not self._wind_direction:
             logging.warning(
                 f"Sensor {self._sensor_id} of type {WindDirectionSensor.sensor_type} "
                 f"is missing wind direction data!"
             )
 
+    
+
     @property
     def wind_direction(self) -> GeographicDirection | None:
         return self._wind_direction
+
+    
+    @property
+    def data(self):
+        return {"windDirection": self.wind_direction.value}
+
+    @property
+    def unit(self):
+        return {"windDirection": None}
 
     def next(self) -> None:
         pass
@@ -39,3 +50,7 @@ class WindDirectionSensor(Sensor):
             f"Sensor {self._sensor_id} of type {WindDirectionSensor.sensor_type} "
             f"reported wind direction: {self._wind_direction}."
         )
+
+    @property 
+    def sensor_type(self):
+        return self._sensor_type

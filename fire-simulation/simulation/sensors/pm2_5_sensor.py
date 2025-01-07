@@ -8,7 +8,7 @@ from simulation.location import Location
 
 
 class PM2_5Sensor(Sensor):
-    sensor_type: SensorType = SensorType.PM2_5
+    _sensor_type: SensorType = SensorType.PM2_5
 
     def __init__(
             self,
@@ -27,8 +27,12 @@ class PM2_5Sensor(Sensor):
             )
 
     @property
-    def pm2_5(self) -> float:
-        return self._pm2_5
+    def data(self):
+        return {"pm2_5" : round(self._pm2_5, 2)}
+
+    @property
+    def unit(self) -> str:
+        return {"pm2_5" : "ppm"}
 
     def next(self) -> None:
         pass
@@ -38,3 +42,7 @@ class PM2_5Sensor(Sensor):
             f'Sensor {self._sensor_id} of type {PM2_5Sensor.sensor_type} '
             f'reported PM2.5 concentration: {self._pm2_5:.2f} ppm.'
         )
+
+    @property 
+    def sensor_type(self):
+        return self._sensor_type

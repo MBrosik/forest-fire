@@ -8,7 +8,7 @@ from simulation.location import Location
 
 
 class CO2Sensor(Sensor):
-    sensor_type: SensorType = SensorType.CO2
+    _sensor_type: SensorType = SensorType.CO2
 
     def __init__(
         self,
@@ -27,8 +27,12 @@ class CO2Sensor(Sensor):
             )
 
     @property
-    def co2(self) -> float:
-        return self._co2
+    def unit(self):
+        return {"co2" : "μg/m³"}
+    
+    @property
+    def data(self):
+        return {"co2" : round(self._co2, 2)}
 
     def next(self) -> None:
         pass
@@ -38,3 +42,7 @@ class CO2Sensor(Sensor):
             f'Sensor {self._sensor_id} of type {CO2Sensor.sensor_type} '
             f'reported CO₂ concentration: {self._co2:.2f} μg/m³.'
         )
+
+    @property 
+    def sensor_type(self):
+        return self._sensor_type

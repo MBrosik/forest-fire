@@ -1,6 +1,9 @@
 import random
 from threading import Lock
 import logging
+from typing import List
+import random
+import json as jssonLib
 
 from simulation.sectors.sector_state import SectorState
 from simulation.sectors.sector_type import SectorType
@@ -30,7 +33,7 @@ class Sector:
         self._fire_level = 0 #scale 0-100 - size of fire
         self._burn_level = 0 #scale 0-100 - burned area
         self._number_of_fire_brigades = 0
-        self._sensors = []
+        self._sensors: List = []
         self._fire_state = FireState.INACTIVE
 
     @property
@@ -84,9 +87,9 @@ class Sector:
         self._sensors.remove(sensor)
 
     def start_fire(self):
-        self._burn_level = random.randint(0, 20)
+        self._fire_level = random.randint(5, 20)
         self._fire_state = FireState.ACTIVE
-        logger.info(f"Fire started in sector {self.sector_id}")
+        logger.info(f"Fire started in sector {self.sector_id} column:{self.column}, row:{self.row}.")
 
     def update_extinguish_level(self):
         self._extinguish_level = self._number_of_fire_brigades * const.FIRE_FIGHTERS_MULTIPLIER
@@ -115,17 +118,57 @@ class Sector:
         self._burn_level = new_burn_level
         logger.info(f"New burn level in sector {self._sector_id} is {self._burn_level}")
 
-    def update_sector(self):
-        self.update_extinguish_level
-        self.update_fire_level
-        self.update_burn_level
-    
-    def update_sensors(self):
-        # update sector state date regarding extingush and burn level
+    # def update_sector_state(self):
+    #     # Temperature increases based on fire level, but also considers the current state temperature.
+    #     self._state.temperature = self._state.temperature + (self._fire_level * 0.8) - (self._state.temperature * 0.05)
 
+    #     # Air humidity decreases as fire level increases, but also considers the current state humidity.
+    #     self._state.air_humidity = max(self._state.air_humidity - self._fire_level * 0.5, 0)
+
+    #     # CO2 concentration increases logarithmically with fire level, but also depends on current CO2 levels.
+    #     self._state.co2_concentration = self._state.co2_concentration + (self._fire_level ** 1.2) - (self._state.co2_concentration * 0.01)
+
+    #     # Plant litter moisture decreases sharply as fire level increases but also depends on its current state.
+    #     self._state.plant_litter_moisture = max(self._state.plant_litter_moisture - self._fire_level * 0.6, 0)
+
+    #     # PM2.5 concentration increases exponentially, but takes into account its current value.
+    #     self._state.pm2_5_concentration = self._state.pm2_5_concentration + (self._fire_level ** 1.5 / 20) - (self._state.pm2_5_concentration * 0.02)
+
+    #     # Wind speed mildly increases with fire level, considering current wind speed.
+    #     self._state.wind_speed = self._state.wind_speed + (self._fire_level * 0.03) - (self._state.wind_speed * 0.01)    
+
+
+    def update_sector_state(self):
+        # Temperature increases with fire level, influenced by current state and random fluctuation.
+        self._state.temperature = self._state.temperature + (self._fire_level * 0.8) - (self._state.temperature * 0.05) + random.uniform(-2, 2)
+
+        # Air humidity decreases with fire level, with random variation simulating environmental factors.
+        self._state.air_humidity = max(self._state.air_humidity - self._fire_level * 0.5 + random.uniform(-3, 3), 0)
+
+        # CO2 concentration increases logarithmically with fire level, with slight randomness.
+        self._state.co2_concentration = self._state.co2_concentration + (self._fire_level ** 1.2) - (self._state.co2_concentration * 0.01) + random.uniform(-10, 10)
+
+        # Plant litter moisture decreases sharply as fire level increases, with random fluctuation.
+        self._state.plant_litter_moisture = max(self._state.plant_litter_moisture - self._fire_level * 0.6 + random.uniform(-1, 1), 0)
+
+        # PM2.5 concentration increases exponentially with random variation for unpredictable smoke dispersion.
+        self._state.pm2_5_concentration = self._state.pm2_5_concentration + (self._fire_level ** 1.5 / 20) - (self._state.pm2_5_concentration * 0.02) + random.uniform(-0.5, 0.5)
+
+        # Wind speed mildly increases with fire level and random fluctuation simulates gusts.
+        self._state.wind_speed = self._state.wind_speed + (self._fire_level * 0.03) - (self._state.wind_speed * 0.01) + random.uniform(-0.3, 0.3)
+
+
+    def update_sector(self):
+        self.update_extinguish_level()
+        self.update_fire_level()
+        self.update_burn_level()
+        self.update_sector_state()
+            
+    def update_sensors(self):
+        
         for sensor in self._sensors:
             sensor['timestamp'] = sensor['timestamp'] + 1000
-            if sensor['sensorType'] == "PM2_5":
+            if sensor['sensorType'] == "PM2_5":                
                 sensor['data'] = {
                     "pm2_5Concentration": self._state.pm2_5_concentration + random.uniform(-0.1, 0.1)
                 }
@@ -151,16 +194,33 @@ class Sector:
                     # only NE, NW, SE, SW
                     "windDirection": self._state.wind_direction
                 }
-            # print(sensor)
 
-    def make_json(self, sensor, sensor_id):
-        return {
-            "sensorId": sensor_id,
-            "timestamp": sensor['timestamp'],
-            "sensorType": sensor['sensorType'],
-            "location": {
-                "longitude": sensor['location']['longitude'],
-                "latitude": sensor['location']['latitude'],
-            },
-            "data": sensor['data']
-        }
+
+    def make_jsons(self):
+        jsons_by_type = {}
+        
+        print("kurwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        print(jssonLib.dumps(self.sensors, indent=5))
+        print("aaaaaaaaaaaaaaaaaaaaaaaaaa")
+
+        for sensor in self.sensors:        
+            json = {
+                "sensorId": sensor.sensor_id,
+                "timestamp": sensor.timestamp,
+                "sensorType": sensor.sensor_type,
+                "location": {
+                    "longitude": sensor.location.longitude,
+                    "latitude": sensor.location.latitude,
+                },
+                "data": sensor.data
+            }
+            
+            if sensor.sensor_type not in jsons_by_type:
+                jsons_by_type[sensor.sensor_type] = []
+            
+            jsons_by_type[sensor.sensor_type].append(json)
+        
+        return jsons_by_type
+
+    
+
