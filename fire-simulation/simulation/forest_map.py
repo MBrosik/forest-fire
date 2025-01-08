@@ -83,7 +83,11 @@ class ForestMap:
         return tuple(Location(**location) for location in locations_conf)
 
     @staticmethod
-    def _parse_sectors(conf):
+    def _parse_sectors(conf):        
+        print(conf)
+        json_conf = json.dumps(conf, indent=4)
+        print(json_conf)
+
         sectors = [[None for _ in range(conf["columns"])] for _ in range(conf["rows"])]
         for val in conf["sectors"]:
             initial_state = SectorState(
@@ -109,7 +113,7 @@ class ForestMap:
         for fb_data in conf["fireBrigades"]:
             fire_brigade_id = fb_data["fireBrigadeId"]
             timestamp = datetime.fromisoformat(fb_data["timestamp"]) 
-            state = FIREBRIGADE_STATE[fb_data["state"].split(".")[1]]
+            state = FIREBRIGADE_STATE[fb_data["state"]]
             base_location = Location(
                 longitude=float(fb_data["baseLocation"]["longitude"]),
                 latitude=float(fb_data["baseLocation"]["latitude"])
@@ -134,7 +138,7 @@ class ForestMap:
         for fb_data in conf["foresterPatrols"]:
             forester_patrol_id = fb_data["foresterPatrolId"]
             timestamp = datetime.fromisoformat(fb_data["timestamp"]) 
-            state = FORESTERPATROL_STATE[fb_data["state"].split(".")[1]]
+            state = FORESTERPATROL_STATE[fb_data["state"]]
             base_location = Location(
                 longitude=float(fb_data["baseLocation"]["longitude"]),
                 latitude=float(fb_data["baseLocation"]["latitude"])
@@ -145,7 +149,7 @@ class ForestMap:
             )
 
             foresterPatrols.append(ForesterPatrol(
-                fire_brigade_id=forester_patrol_id,
+                forester_patrol_id=forester_patrol_id,
                 timestamp=timestamp,
                 initial_state=state,
                 base_location=base_location,

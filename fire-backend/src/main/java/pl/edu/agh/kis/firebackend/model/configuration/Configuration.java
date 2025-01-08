@@ -10,6 +10,8 @@ public record Configuration(
     String forestName,
     double width,
     double height,
+    int columns,
+    int rows, 
     double sectorSize,
     String imageReference,
     List<Location> location,

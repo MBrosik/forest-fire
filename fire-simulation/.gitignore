@@ -1,0 +1,10 @@
+# Ignorowanie folderów __pycache__ w całym projekcie
+**/__pycache__/
+
+# Opcjonalne ignorowanie plików pyc i pyo, które mogą być w innych miejscach
+*.pyc
+*.pyo
+
+# Ignorowanie folderów test/__pycache__ lub src/__pycache__ itp.
+test/__pycache__/
+src/**/__pycache__/
