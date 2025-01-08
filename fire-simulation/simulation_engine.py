@@ -8,9 +8,6 @@ import numpy as np
 import json
 
 from simulation.forest_map import ForestMap
-from simulation.fire_brigades.fire_brigade import FireBrigade
-from simulation.forester_patrols.forester_patrol import ForesterPatrol
-from simulation.agent_state import MOVING_AGENT_STATE
 from simulation.sectors.sector import Sector
 from simulation.sectors.fire_state import FireState
 from simulation.fire_spread.coef_generator import calculate_beta
@@ -131,8 +128,11 @@ def run_simulation(configuration):
                 for json in jsons:
                     store.add_message_to_sent(queue, json)
 
-        #TODO: rozkazy z storage przetworzone
+        orderProcessingThread = Thread(target=agents_manager.start_processing_orders)
+        orderProcessingThread.start()
         
         agents_manager.update_agents_states()
 
-        time.sleep(5)
+        
+
+        time.sleep(10)

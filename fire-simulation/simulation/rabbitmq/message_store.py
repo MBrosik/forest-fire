@@ -22,14 +22,14 @@ class MessageStore:
         """Dodaje wiadomość do określonej kolejki."""
         with self.lock:
             self.messages_to_sent[queue_name].append(message)
-            logger.info(f"Added message to queue '{queue_name}': {message}")
+            #logger.info(f"Added message to queue '{queue_name}': {message}")
 
     def get_message_to_sent(self, queue_name):
         """Pobiera i usuwa najstarszą wiadomość z danej kolejki."""
         with self.lock:
             if self.messages_to_sent[queue_name]:
                 oldest_message = self.messages_to_sent[queue_name].popleft()
-                logger.info(f"Retrieved oldest sent message from queue '{queue_name}': {oldest_message}")
+                #logger.info(f"Retrieved oldest sent message from queue '{queue_name}': {oldest_message}")
                 return oldest_message
             else:
                 #logger.info(f"No messages available in queue '{queue_name}'")
@@ -46,7 +46,7 @@ class MessageStore:
                 logger.info(f"Retrieved oldest received message: {oldest_message} from  queue: {queue_name}")
                 return oldest_message
             else:
-                logger.info("No received messages available")
+                #logger.info("No received messages available")
                 return None
 
 # Stworzenie globalnego obiektu MessageStore

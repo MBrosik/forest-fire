@@ -2,7 +2,7 @@ import json
 import random
 from datetime import datetime
 from typing import TypeAlias
-from typing import Tuple, List
+from typing import Tuple
 
 
 from simulation.sectors.sector import Sector
@@ -19,6 +19,8 @@ from simulation.sensors.pm2_5_sensor import PM2_5Sensor
 from simulation.cameras.camera import Camera
 from simulation.forester_patrols.forester_patrol import ForesterPatrol
 from simulation.fire_brigades.fire_brigade import FireBrigade
+from simulation.fire_brigades.fire_brigade_state import FIREBRIGADE_STATE
+from simulation.forester_patrols.forest_patrols_state import FORESTERPATROL_STATE
 
 ForestMapCornerLocations: TypeAlias = tuple[Location, Location, Location, Location]  # cw start upper left
 
@@ -33,7 +35,7 @@ class ForestMap:
         location: ForestMapCornerLocations,
         sectors: list[list[Sector]],
         foresterPatrols: list[ForesterPatrol],
-        fireBrigades: List[FireBrigade]
+        fireBrigades: list[FireBrigade]
     ):
         self._forest_id = forest_id
         self._forest_name = forest_name
@@ -60,6 +62,10 @@ class ForestMap:
 
         cls._assign_cameras_to_sectors(conf["cameras"], sectors, bounds)
 
+        brigades = cls._parse_fire_brigades(conf)
+        patrols = cls._parse_forester_patrols(conf)
+        
+
         # Stwórz i zwróć obiekt ForestMap
         return cls(
             forest_id=conf["forestId"],
@@ -67,7 +73,9 @@ class ForestMap:
             rows=conf["rows"],
             columns=conf["columns"],
             location=location,
-            sectors=sectors
+            sectors=sectors,
+            foresterPatrols=patrols,
+            fireBrigades=brigades
         )
 
     @staticmethod
@@ -95,6 +103,56 @@ class ForestMap:
                 initial_state=initial_state,
             )
         return sectors
+    
+    def _parse_fire_brigades(conf):
+        fire_brigades = []
+        for fb_data in conf["fireBrigades"]:
+            fire_brigade_id = fb_data["fireBrigadeId"]
+            timestamp = datetime.fromisoformat(fb_data["timestamp"]) 
+            state = FIREBRIGADE_STATE[fb_data["state"].split(".")[1]]
+            base_location = Location(
+                longitude=float(fb_data["baseLocation"]["longitude"]),
+                latitude=float(fb_data["baseLocation"]["latitude"])
+            )
+            current_location = Location(
+                longitude=float(fb_data["currentLocation"]["longitude"]),
+                latitude=float(fb_data["currentLocation"]["latitude"])
+            )
+
+            fire_brigades.append(FireBrigade(
+                fire_brigade_id=fire_brigade_id,
+                timestamp=timestamp,
+                initial_state=state,
+                base_location=base_location,
+                initial_location=current_location
+            ))
+
+        return fire_brigades
+    
+    def _parse_forester_patrols(conf):
+        foresterPatrols = []
+        for fb_data in conf["foresterPatrols"]:
+            forester_patrol_id = fb_data["foresterPatrolId"]
+            timestamp = datetime.fromisoformat(fb_data["timestamp"]) 
+            state = FORESTERPATROL_STATE[fb_data["state"].split(".")[1]]
+            base_location = Location(
+                longitude=float(fb_data["baseLocation"]["longitude"]),
+                latitude=float(fb_data["baseLocation"]["latitude"])
+            )
+            current_location = Location(
+                longitude=float(fb_data["currentLocation"]["longitude"]),
+                latitude=float(fb_data["currentLocation"]["latitude"])
+            )
+
+            foresterPatrols.append(ForesterPatrol(
+                fire_brigade_id=forester_patrol_id,
+                timestamp=timestamp,
+                initial_state=state,
+                base_location=base_location,
+                initial_location=current_location
+            ))
+
+        return foresterPatrols
 
     @staticmethod
     def _calculate_bounds(locations, rows, columns):
@@ -249,7 +307,7 @@ class ForestMap:
 
         return self._sectors[height_index][width_index]
 
-    def get_adjacent_sectors(self, sector: Sector) -> List[Tuple[Sector, GeographicDirection]]:
+    def get_adjacent_sectors(self, sector: Sector) -> list[Tuple[Sector, GeographicDirection]]:
         row = sector.row
         column = sector.column
         adjacent_sectors = []

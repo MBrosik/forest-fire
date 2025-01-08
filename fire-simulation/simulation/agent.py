@@ -90,6 +90,9 @@ class Agent(ABC):
         self._state = AGENT_STATE.EXECUTING
         self._destination = self.location
 
+    def change_destination(self, new_destination: Location):
+        self._destination = new_destination
+
     # def calculate_step(self, target: float, current: float, delta: float) -> float:
     #     if target > current:
     #         return min(delta, target - current)

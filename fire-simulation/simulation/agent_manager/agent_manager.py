@@ -1,3 +1,5 @@
+import json
+
 from simulation.forest_map import ForestMap
 from simulation.rabbitmq.message_store import MessageStore
 from simulation.agent_state import AGENT_STATE
@@ -5,6 +7,8 @@ from simulation.agent import Agent
 from simulation.agent_manager.message_generator import *
 from simulation.fire_brigades.fire_brigade import FireBrigade
 from simulation.forester_patrols.forester_patrol import ForesterPatrol
+from simulation.agent_manager.order import *
+from simulation.agent_manager.action_type import *
 
 class AgentManager:
 
@@ -13,12 +17,12 @@ class AgentManager:
         self._storage = storage
 
         self._brigades = {
-            fire_brigade: map.find_sector(fire_brigade.location)
+            fire_brigade.fire_brigade_id: fire_brigade
             for fire_brigade in map._fire_brigades
         }
 
         self._patrols = {
-            patrol: map.find_sector(patrol.location)
+            patrol.forester_patrol_id: patrol
             for patrol in map._forester_patrols
         }
 
@@ -86,5 +90,51 @@ class AgentManager:
     def update_agents_states(self):
         for agent in self.agents.keys():
             self.update_state(agent)
+
+    
+    def process_order(self, order: Order):
+        if isinstance(order, FireBrigadeOrder):
+            
+            brigade = self.brigades.get(order._fire_brigade_id)
+
+            if order._action == FIREBRIGADE_ACTION.GO_TO_BASE:
+                brigade.change_destination(brigade.base_location)
+                
+            elif order._action == FIREBRIGADE_ACTION.EXTINGUISH:
+                brigade.change_destination(order._location)
+
+        elif isinstance(order, ForesterPatrolOrder):
+            patrol = self.patrols.get(order._forester_patrol_id)
+
+            if order._action == FORESTERPATROL_ACTION.GO_TO_BASE:
+                patrol.change_destination(patrol.base_location)
+            
+            elif order._action == FORESTERPATROL_ACTION.PATROL:
+                patrol.change_destination(order._location)
+                
+    
+    def start_processing_orders(self):
+        while True:
+            message = self._storage.get_received_message("Fire brigades state topic")
+            if message is not None:
+                json_message = json.loads(message)
+                if json_message["action"] == "FIREBRIGADE_ACTION.GO_TO_BASE":
+                    action = FIREBRIGADE_ACTION.GO_TO_BASE
+                else:
+                    action = FIREBRIGADE_ACTION.EXTINGUISH
+                    location = Location(json_message["location"]["latitude"], json_message["location"]["longitude"])
+                order = FireBrigadeOrder(fire_brigade_id=json_message["fireBrigadeId"], action=action, location=location)
+                self.process_order(order)
+            
+            message = self._storage.get_received_message("Forester patrol state topic")
+            if message is not None:
+                json_message = json.loads(message)
+                if json_message["action"] == "FORESTERPATROL_ACTION.GO_TO_BASE":
+                    action = FORESTERPATROL_ACTION.GO_TO_BASE
+                else:
+                    action = FORESTERPATROL_ACTION.PATROL
+                    location = Location(json_message["location"]["latitude"], json_message["location"]["longitude"])
+                order = ForesterPatrolOrder(forester_patrol_id=["foresterPatrolId"], action=action, location=location)
+                self.process_order(order)
 
     
