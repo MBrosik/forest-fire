@@ -99,6 +99,10 @@ def get_topic_for_sensor(sensor_type: str) -> str:
 
 
 def run_simulation(configuration):
+
+    plt.ion()
+
+
     store = MessageStore()
     read_threads = []
     write_threads = []
