@@ -1,22 +1,26 @@
 import json
 import random
+from datetime import datetime
+from typing import TypeAlias
+from typing import Tuple
+
 
 from simulation.sectors.sector import Sector
-from typing import TypeAlias
 from simulation.location import Location
 from simulation.sectors.sector_state import SectorState
 from simulation.sectors.sector_type import SectorType
 from simulation.sectors.geographic_direction import GeographicDirection
-from typing import Tuple, List
-from simulation.sensors.sensor_type import SensorType
 from simulation.sensors.temperature_and_air_humidity_sensor import TemperatureAndAirHumiditySensor
 from simulation.sensors.wind_speed_sensor import WindSpeedSensor
 from simulation.sensors.wind_direction_sensor import WindDirectionSensor
 from simulation.sensors.co2_sensor import CO2Sensor
 from simulation.sensors.litter_moisture_sensor import LitterMoistureSensor
 from simulation.sensors.pm2_5_sensor import PM2_5Sensor
-from datetime import datetime
 from simulation.cameras.camera import Camera
+from simulation.forester_patrols.forester_patrol import ForesterPatrol
+from simulation.fire_brigades.fire_brigade import FireBrigade
+from simulation.fire_brigades.fire_brigade_state import FIREBRIGADE_STATE
+from simulation.forester_patrols.forest_patrols_state import FORESTERPATROL_STATE
 
 ForestMapCornerLocations: TypeAlias = tuple[Location, Location, Location, Location]  # cw start upper left
 
@@ -29,7 +33,9 @@ class ForestMap:
         rows: int,
         columns: int,
         location: ForestMapCornerLocations,
-        sectors: list[list[Sector]]
+        sectors: list[list[Sector]],
+        foresterPatrols: list[ForesterPatrol],
+        fireBrigades: list[FireBrigade]
     ):
         self._forest_id = forest_id
         self._forest_name = forest_name
@@ -37,6 +43,8 @@ class ForestMap:
         self._columns = columns
         self._location = location
         self._sectors = sectors
+        self._forester_patrols = foresterPatrols
+        self._fire_brigades = fireBrigades
 
     @classmethod
     def from_conf(cls, conf):
@@ -54,6 +62,10 @@ class ForestMap:
 
         cls._assign_cameras_to_sectors(conf["cameras"], sectors, bounds)
 
+        brigades = cls._parse_fire_brigades(conf)
+        patrols = cls._parse_forester_patrols(conf)
+        
+
         # Stwórz i zwróć obiekt ForestMap
         return cls(
             forest_id=conf["forestId"],
@@ -61,7 +73,9 @@ class ForestMap:
             rows=conf["rows"],
             columns=conf["columns"],
             location=location,
-            sectors=sectors
+            sectors=sectors,
+            foresterPatrols=patrols,
+            fireBrigades=brigades
         )
 
     @staticmethod
@@ -89,6 +103,56 @@ class ForestMap:
                 initial_state=initial_state,
             )
         return sectors
+    
+    def _parse_fire_brigades(conf):
+        fire_brigades = []
+        for fb_data in conf["fireBrigades"]:
+            fire_brigade_id = fb_data["fireBrigadeId"]
+            timestamp = datetime.fromisoformat(fb_data["timestamp"]) 
+            state = FIREBRIGADE_STATE[fb_data["state"].split(".")[1]]
+            base_location = Location(
+                longitude=float(fb_data["baseLocation"]["longitude"]),
+                latitude=float(fb_data["baseLocation"]["latitude"])
+            )
+            current_location = Location(
+                longitude=float(fb_data["currentLocation"]["longitude"]),
+                latitude=float(fb_data["currentLocation"]["latitude"])
+            )
+
+            fire_brigades.append(FireBrigade(
+                fire_brigade_id=fire_brigade_id,
+                timestamp=timestamp,
+                initial_state=state,
+                base_location=base_location,
+                initial_location=current_location
+            ))
+
+        return fire_brigades
+    
+    def _parse_forester_patrols(conf):
+        foresterPatrols = []
+        for fb_data in conf["foresterPatrols"]:
+            forester_patrol_id = fb_data["foresterPatrolId"]
+            timestamp = datetime.fromisoformat(fb_data["timestamp"]) 
+            state = FORESTERPATROL_STATE[fb_data["state"].split(".")[1]]
+            base_location = Location(
+                longitude=float(fb_data["baseLocation"]["longitude"]),
+                latitude=float(fb_data["baseLocation"]["latitude"])
+            )
+            current_location = Location(
+                longitude=float(fb_data["currentLocation"]["longitude"]),
+                latitude=float(fb_data["currentLocation"]["latitude"])
+            )
+
+            foresterPatrols.append(ForesterPatrol(
+                fire_brigade_id=forester_patrol_id,
+                timestamp=timestamp,
+                initial_state=state,
+                base_location=base_location,
+                initial_location=current_location
+            ))
+
+        return foresterPatrols
 
     @staticmethod
     def _calculate_bounds(locations, rows, columns):
@@ -160,103 +224,13 @@ class ForestMap:
         return Camera(datetime.now(), Location(camera_conf["location"]["latitude"], camera_conf["location"]["longitude"]), camera_conf["cameraId"])
 
 
-
-
-    # @classmethod
-    # def from_conf(cls, conf):        
-
-    #     locations = conf["location"]
-    #     sectors_:list[list[Sector | None]] = [[None for _ in range(conf["columns"])] for _ in range(conf["rows"])]
-    #     for val in conf["sectors"]:
-    #         # print(val)
-    #         initial_state = SectorState(
-    #             temperature=val["initialState"]["temperature"],
-    #             wind_speed=val["initialState"]["windSpeed"],
-    #             wind_direction=val["initialState"]["windDirection"],
-    #             air_humidity=val["initialState"]["airHumidity"],
-    #             plant_litter_moisture=val["initialState"]["plantLitterMoisture"],
-    #             co2_concentration=val["initialState"]["co2Concentration"],
-    #             pm2_5_concentration=val["initialState"]["pm2_5Concentration"],
-    #         )
-
-    #         if SectorType[val["sectorType"]] is None:
-    #             print(val["sectorType"])
-    #         sectors_[val["row"]][val["column"]] = Sector(
-    #             sector_id=val["sectorId"],
-    #             row=val["row"],
-    #             column=val["column"],
-    #             sector_type= SectorType[val["sectorType"]],
-    #             initial_state=initial_state,
-    #         )
-
-
-
-    #     values = {
-    #         "forest_id": conf["forestId"],
-    #         "forest_name": conf["forestName"],
-    #         "rows": conf["rows"],
-    #         "columns": conf["columns"],
-    #         "location": (
-    #             tuple(Location(**location) for location in locations)
-    #         ),
-    #         "sectors": sectors_
-    #     }
-
-    #     min_lat = min(location.latitude for location in values["location"])
-    #     min_lon = min(location.longitude for location in values["location"])
-    #     diff_lat = max(location.latitude for location in values["location"]) - min_lat
-    #     diff_lon = max(location.longitude for location in values["location"]) - min_lon
-    #     width_sectors = diff_lon / values["columns"]
-    #     height_sectors = diff_lat / values["rows"]
-        
-    #     sensors = conf["sensors"]
-    #     print(sensors)
-        
-    #     for sensor in sensors:
-
-            
-    #         sensor_arguments = {
-    #             "timestamp" : datetime.now(),
-    #             "location": Location(sensor["location"]["latitude"], sensor["location"]["longitude"]),
-    #             "sensor_id": sensor["sensorId"],                
-    #         }
-
-            
-        
-    #         match sensor["sensorType"]:
-    #             case "TEMPERATURE_AND_AIR_HUMIDITY":
-    #                 sensor_class = TemperatureAndAirHumiditySensor(**sensor_arguments)
-    #                 break
-    #             case "WIND_SPEED":
-    #                 sensor_class = WindSpeedSensor(**sensor_arguments)
-    #                 break
-    #             case "WIND_DIRECTION":
-    #                 sensor_class = WindDirectionSensor(**sensor_arguments)
-    #                 break
-    #             case "LITTER_MOISTURE":
-    #                 sensor_class = LitterMoistureSensor(**sensor_arguments)
-    #                 break
-    #             case "PM2_5":
-    #                 sensor_class = PM2_5Sensor(**sensor_arguments)
-    #                 break
-    #             case "CO2":
-    #                 sensor_class = CO2Sensor(**sensor_arguments)
-    #                 break
-    #             case _:
-    #                 break                            
-            
-            
-    #         sensor_location = Location(**sensor["location"])
-    #         row = int((sensor_location.latitude - min_lat) / height_sectors) + 1
-    #         column = int((sensor_location.longitude - min_lon) / width_sectors) + 1
-    #         print(f"Adding sensor to sector {row} {column}")
-    #         if row < 0 or row >= len(sectors_) or column < 0 or column >= len(sectors_[0]):                
-    #             continue
-    #         if sectors_[row][column] is not None:                        
-    #             sectors_[row][column].add_sensor(sensor_class)
-    #             print(f"Added sensor to sector {row} {column}")
-
-    #     return ForestMap(**values)
+    @property
+    def foresterPatrols(self):
+        return self._forester_patrols
+    
+    @property
+    def fireBrigades(self):
+        return self._fire_brigades
 
     @property
     def forest_id(self) -> str:
@@ -326,12 +300,14 @@ class ForestMap:
                 / (self._location[1].longitude - self._location[0].longitude)
         )
 
-        height_index = int(self._height * lat_interpolation)
-        width_index = int(self._width * lon_interpolation)
+        height_index = int(self.rows * lat_interpolation)
+        width_index = int(self.columns * lon_interpolation)
+        height_index = min(7, height_index)
+        width_index = min(11, width_index)
 
         return self._sectors[height_index][width_index]
 
-    def get_adjacent_sectors(self, sector: Sector) -> List[Tuple[Sector, GeographicDirection]]:
+    def get_adjacent_sectors(self, sector: Sector) -> list[Tuple[Sector, GeographicDirection]]:
         row = sector.row
         column = sector.column
         adjacent_sectors = []

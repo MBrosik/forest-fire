@@ -4121,6 +4121,35 @@
         "timestamp": 1719343002000
     }
   ],
-  "fireBrigades": [],
-  "foresterPatrols": []
+  "fireBrigades": [
+        {
+            "fireBrigadeId": "123",
+            "timestamp": "2025-01-01T12:00:00",
+            "state": "FIREBRIGADE_STATE.AVAILABLE",
+            "baseLocation": {
+                "longitude": 20.20,
+                "latitude": 49.51
+            },
+            "currentLocation": {
+                "longitude": 20.15,
+                "latitude": 49.54
+            }
+        },
+        {
+            "fireBrigadeId": "456",
+            "timestamp": "2025-01-02T15:00:00",
+            "state": "FIREBRIGADE_STATE.AVAILABLE",
+            "baseLocation": {
+                "longitude": 20.21,
+                "latitude": 49.52
+            },
+            "currentLocation": {
+                "longitude": 20.17,
+                "latitude": 49.53
+            }
+        }
+  ],
+  "foresterPatrols": [
+    
+  ]
 }

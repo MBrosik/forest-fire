@@ -11,9 +11,9 @@ def produce_message(exchange, channel, routing_key, message):
         if channel is None:
             logger.info("Channel is None")
             return
-        logger.info(f"Channel: {channel}")
+        #logger.info(f"Channel: {channel}")
         channel.basic_publish(exchange=exchange, routing_key=routing_key, body=json.dumps(message))
-        logger.info(f"Sent message: {message}")
+        #logger.info(f"Sent message: {message}")
     except Exception as e:
         logger.error(f"Error sending message: {e}")
 
@@ -26,7 +26,7 @@ def start_producing_messages(exchange, routing_key, store: MessageStore, usernam
     while(1):
         message = store.get_message_to_sent(routing_key)
         if(message):
-            logger.info("Message to sent found.")
+            #logger.info("Message to sent found.")
             produce_message(exchange, channel, routing_key, message)
         else:
             #logger.info("No messages to sent")

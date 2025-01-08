@@ -2,21 +2,29 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 #from typing import TypeAlias, Union
 
-# from simulation.sectors.sector import Sector
-from simulation.agent_state import MOVING_AGENT_STATE
+from simulation.sectors.sector import Sector
+from simulation.agent_state import AGENT_STATE
 # from simulation.forester_patrols.forester_patrol import ForesterPatrolState
 
-from simulation.forest_map import ForestMap
 from simulation.location import Location
 
 #MovingAgentState: TypeAlias = Union[FireBrigadeState, ForesterPatrolState]
 
 
 class Agent(ABC):
-    def __init__(self, forest_map: ForestMap, timestamp: datetime, initial_location: Location) -> None:
+        
+    def __init__(
+        self,
+        timestamp: datetime,
+        base_location: Location,
+        initial_location: Location,
+        destination: Location = None,
+    ):
+        self._base_location = base_location
+        self._destination = destination or base_location
         self._timestamp = timestamp
         self._location = initial_location
-        self._forest_map = forest_map
+        self._state = AGENT_STATE.AVAILABLE
 
     @property
     def timestamp(self) -> datetime:
@@ -25,10 +33,18 @@ class Agent(ABC):
     @property
     def location(self) -> Location:
         return self._location
-
+    
     @property
-    def forest_map(self):
-        return self._forest_map
+    def base_location(self):
+        return self._base_location
+    
+    @property
+    def state(self):
+        return self._state
+    
+    @property
+    def destination(self):
+        return self._destination
 
     @abstractmethod
     def next(self) -> None:
@@ -38,103 +54,56 @@ class Agent(ABC):
     def log(self):
         pass
 
-
-class MovingAgent(Agent, ABC):
-    def __init__(
-        self,
-        forest_map: ForestMap,
-        timestamp: datetime,
-        base_location: Location,
-        initial_location: Location,
-        destination: Location,
-    ):
-        self._base_location = base_location
-        self._destination = destination
-        Agent.__init__(self, forest_map, timestamp, initial_location)
-
-    def __init__(
-            self,
-            forest_map: ForestMap,
-            timestamp: datetime,
-            base_location: Location,
-            initial_location: Location,
-    ):
-        self._base_location = base_location
-        self._destination = base_location
-        Agent.__init__(self, forest_map, timestamp, initial_location)
-
-    @property
-    def base_location(self):
-        return self._base_location
-
-    def change_destination(self, new_destination: Location): 
-        self._destination = new_destination
-        if abs(self._destination.row - self._location.row) <= 0.1 and abs(self._destination.column - self._location.column) <= 0.1:
-            self._state = MOVING_AGENT_STATE.AVAILABLE
-
-        else:
-            self._state = MOVING_AGENT_STATE.TRAVELLING
-        self.move()
-
-    def move(self) -> None:
-        delta = 0.1
-
-        if(self._state == MOVING_AGENT_STATE.TRAVELLING):
-            if(self._destination.row > self._location.row):
-                self._location.row += delta
-            elif(self._destination.row < self._location.row):
-                self._location.row -= delta
-            if(self._destination.column > self._location.column):
-                self._location.column += delta
-            elif(self._destination.column < self._location.column):
-                self._location.column -= delta
-
-        if abs(self._destination.row - self._location.row) <= 0.1 and abs(self._destination.column - self._location.column) <= 0.1:
-                self._state = MOVING_AGENT_STATE.AVAILABLE
-
-
-        if next_destination is None:
-            next_destination = self._destination
-
-        if self._state == MOVING_AGENT_STATE.AVAILABLE and next_destination != None:
-            self._state = MOVING_AGENT_STATE.TRAVELLING
-            self._destination = next_destination
-        
-        elif self._state == MOVING_AGENT_STATE.TRAVELLING:
-            if self._destination == self._base_location:
-                self._state = MOVING_AGENT_STATE.AVAILABLE
-                
-            elif self._destination == self._initial_location:
-                self._state = MOVING_AGENT_STATE.EXECUTING
-        
-            if next_destination != None:
-                self._destination = next_destination
-        
-        elif self._state == MOVING_AGENT_STATE.EXECUTING:
-            self._state = MOVING_AGENT_STATE.AVAILABLE
-            self._destination = self._base_location
-
-        self.log()
-
-
-class SteadyAgent(Agent, ABC):
-    def __init__(
-        self,
-        forest_map: ForestMap,
-        timestamp: datetime,
-        initial_location: Location
-    ):
-        Agent.__init__(self, forest_map, timestamp, initial_location)
-        self._sector = forest_map.find_sector(initial_location)
-        self._adjacent_sectors = forest_map.get_adjacent_sectors(self._sector)
-
     @abstractmethod
-    def log(self) -> None:
+    def is_task_finished(self, sector : Sector) -> bool:
         pass
 
+    @abstractmethod
+    def increment_agents_in_sector(self, sector: Sector):
+        pass
 
-def agent_worker(
-        agent: Agent
-) -> None:
-    while True:
-        agent.next()
+    @abstractmethod
+    def decrement_agents_in_sector(self, sector: Sector):
+        pass
+
+    # def update_state(self, dest_sector : Sector):
+    #     if self.state == AGENT_STATE.TRAVELLING:
+    #         if(self.update_position()):
+    #             if(self.destination == self.base_location):
+    #                 self.set_state_available()
+    #             else:
+    #                 self.set_state_executing()
+    #                 self.increment_agents_in_sector(dest_sector) 
+    #     elif self.state == AGENT_STATE.EXECUTING:
+    #         if(self.is_task_finished(dest_sector)):
+    #             self.set_state_available()
+
+    def set_state_available(self):
+        self._state = AGENT_STATE.AVAILABLE
+        self.destination = self.location
+
+    def set_state_travelling(self, destination: Location):
+        self._state = AGENT_STATE.TRAVELLING
+        self._destination = destination
+
+    def set_state_executing(self):
+        self._state = AGENT_STATE.EXECUTING
+        self._destination = self.location
+
+    def change_destination(self, new_destination: Location):
+        self._destination = new_destination
+
+    # def calculate_step(self, target: float, current: float, delta: float) -> float:
+    #     if target > current:
+    #         return min(delta, target - current)
+    #     elif target < current:
+    #         return max(-delta, target - current)
+    #     return 0
+
+    # def update_position(self) -> bool:
+    #     self.location.latitude += self.calculate_step(self.destination.latitude, self.location.latitude, 0.1)
+    #     self.location.longitude +=  self.calculate_step(self.destination.longitude, self.location.longitude, 0.1)
+    #     return (
+    #          abs(self.destination.latitude - self.location.latitude) <= 0.1 and
+    #          abs(self.destination.longitude - self.location.longitude) <= 0.1
+    #      )

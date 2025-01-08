@@ -9,7 +9,7 @@ import pl.edu.agh.kis.firebackend.model.primitives.Location;
 @Getter
 public class ForesterDecision {
     @JsonProperty
-    private int foresterPatrolId;
+    private int foresterPatrolId; 
 
     @JsonProperty
     private Location location;
