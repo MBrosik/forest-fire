@@ -25,6 +25,7 @@ function createWindow() {
     case 'development':
       console.log('Starting app as a development server on PORT: 8080 - app window will open shortly');
       mainWindow.loadURL('http://localhost:8080/index.html');
+      mainWindow.webContents.openDevTools();
       break;
     default:
       console.error(`Unknown run mode specified: ${process.env.MODE}`);

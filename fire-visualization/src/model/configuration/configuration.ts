@@ -59,6 +59,8 @@ export const Configuration = {
     const sectors: Sector[] = [];
 
     let sectorId = 1;
+    // for (let row = 0; row < rows; row++) {
+    //   for (let column = 0; column < columns; column++) {
     for (let row = 1; row <= rows; row++) {
       for (let column = 1; column <= columns; column++) {
         const defaultSector = getDefaultSector();

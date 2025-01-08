@@ -2,41 +2,21 @@
 import { useTheme } from '@mui/material/styles';
 import { AppBar, IconButton, Toolbar, useMediaQuery } from '@mui/material';
 
-// project import
-import { AppBarStyled } from './AppBarStyled';
-
 // assets
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { RunSimulationButton } from '../../../components/simulationButtons/RunSimulationButton';
+import { StopSimulationButton } from '../../components/simulationButtons/StopSimulationButton';
+import { AppBarStyled } from '../MainLayout/Header/AppBarStyled';
 
 // ==============================|| MAIN LAYOUT - HEADER ||============================== //
 
-type HeaderProps = {
-  open: boolean;
-  handleDrawerToggle: () => void;
-};
-
-export const Header = ({ open, handleDrawerToggle }: HeaderProps) => {
+export const Header = () => {
   const theme = useTheme();
   const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const iconBackColor = 'grey.100';
-  const iconBackColorOpen = 'grey.200';
-
   // common header
   const mainHeader = (
-    <Toolbar sx={{ justifyContent: 'space-between' }}>
-      <IconButton
-        disableRipple
-        aria-label="open drawer"
-        onClick={handleDrawerToggle}
-        edge="start"
-        color="secondary"
-        sx={{ color: 'text.primary', bgcolor: open ? iconBackColorOpen : iconBackColor, ml: { xs: 0, lg: -2 } }}
-      >
-        {!open ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-      </IconButton>
-      <RunSimulationButton />
+    <Toolbar sx={{ justifyContent: 'end' }}>    
+      <StopSimulationButton />
     </Toolbar>
   );
 
@@ -54,8 +34,7 @@ export const Header = ({ open, handleDrawerToggle }: HeaderProps) => {
   return (
     <>
       {!matchDownMD ? (
-        <AppBarStyled
-          open={open}
+        <AppBarStyled          
           {...appBar}
         >
           {mainHeader}

@@ -20,3 +20,22 @@ export const useSelectedSectorLayer = (sector: ProcessedSector | undefined) => {
     });
   }, [sector]);
 };
+
+export const useTargetSectorLayer = (sector: ProcessedSector | undefined) => {
+  return useMemo(() => {
+    if (!sector) return null;
+    return new PolygonLayer<ProcessedSector>({
+      id: 'TargeSector',
+      data: [sector],
+
+      extruded: false,
+      filled: false,
+      stroked: true,
+      getPolygon: (sector) => sector.contours,
+      getLineColor: [0, 255, 0],
+      getLineWidth: 30,
+      lineWidthMinPixels: 4,
+      pickable: false,
+    });
+  }, [sector]);
+};
