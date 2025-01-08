@@ -19,11 +19,14 @@ const styles = {
 } satisfies Record<string, CSSProperties>;
 
 export const useSectorsLayer = ({ sectors }: Configuration, disableOnHover?: boolean, onClickHandler?: (sectorId: number) => void) => {
-  return useMemo(
+  // console.log(sectors.map(sector => ({ ...sector, row: sector.row + 1, column: sector.column + 1 })))
+
+  // const newSectors = sectors.map(sector => ({ ...sector, row: sector.row + 1, column: sector.column + 1 }))
+  return useMemo(    
     () =>
       new PolygonLayer<Sector>({
         id: 'PolygonLayer',
-        data: sectors,
+        data: sectors,        
 
         extruded: false,
         filled: true,
@@ -83,10 +86,10 @@ export const useSectorsLayer = ({ sectors }: Configuration, disableOnHover?: boo
         },
         onClick: (pickingInfo: PickingInfo<Sector>) => {
           const { object: sector } = pickingInfo;
-          if(onClickHandler && sector) {
+          if (onClickHandler && sector) {
             onClickHandler(sector.sectorId);
           }
-          if(disableOnHover) return
+          if (disableOnHover) return
           eventEmitter.emit('onSectorChange', sector?.sectorId ?? null);
         },
         autoHighlight: true,

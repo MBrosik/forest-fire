@@ -53,20 +53,36 @@ export const startFetchingConfigurationUpdate = (): ThunkAction<void, RootState,
       return;
     }
 
+    console.log(mapConfiguration.configuration);
+
+    const newConfiguration: Configuration = JSON.parse(JSON.stringify(mapConfiguration.configuration));
+
+    newConfiguration.sectors.forEach((sector) => {
+      sector.row-=1;
+      sector.column-=1;
+    });
+
+    // const newConfiguration = mapConfiguration.configuration;
+    
     // serverCommunication.isFetching = true;
     dispatch(serverCommunicationSlice.actions.setIsFetching({isFetching: true}));
 
-    fetchEventSource(`http://localhost:8181/run-simulation?interval=${1}`, {
+    fetchEventSource(`http://localhost:8181/run-simulation?interval=${5}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(mapConfiguration.configuration),
+      body: JSON.stringify(newConfiguration),
       // signal: serverCommunication.abortController.signal,
       signal: abortController.signal,
 
       onmessage: (event) => {
         const newState = JSON.parse(event.data) as ConfigurationUpdate;
+        // newState.sectors.forEach((sector) => {
+          
+        //   sector.row+=1;
+        //   sector.column+=1;
+        // });
         console.log('Event received:', newState);
         if (abortController.signal.aborted) {
           console.log("Aborted")

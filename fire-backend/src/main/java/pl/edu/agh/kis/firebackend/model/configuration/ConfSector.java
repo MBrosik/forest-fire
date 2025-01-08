@@ -9,6 +9,7 @@ public record ConfSector(
     int row,
     int column,
     SectorState initialState,
+    SectorType sectorType,
     List<List<Double>> contours
 ) {
 }
