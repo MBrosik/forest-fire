@@ -6,10 +6,11 @@ import { Camera } from "../../../model/camera";
 import { FireBrigade } from "../../../model/FireBrigade";
 import { ForesterPatrol } from "../../../model/ForesterPatrol";
 import { Sensor } from "../../../model/sensor";
-import { getObjectsInSector } from "../../../utils/configuration/getSensorsInSector";
+import { getObjectsInSector } from "../../../utils/configuration/getObjectsInSector";
 import RenderSimulationItem from "../RenderSimulationItem";
 import { MapWrapper } from "../../maps/MapWrapper";
-import { MainMap } from "../../maps/MainMap";
+import { MainMap } from "../../maps/maps/MainMap";
+import { FireBrigadeMap } from "../../maps/maps/FireBrigadeMap";
 
 export default function FireBrigadeDialog() {
 
@@ -18,6 +19,8 @@ export default function FireBrigadeDialog() {
       currentSectorId,
       fileSystemNode,
    } = useSelector((state: RootState) => state.mapConfiguration);
+
+   const [targetSector, setTargetSector] = useState<number | null>(null);
 
    const [open, setOpen] = useState(false);
 
@@ -32,6 +35,11 @@ export default function FireBrigadeDialog() {
    if (currentSectorId === null) {
       return null;
    }
+
+   const onSelectTargetSector = (sectorId: number) => {
+      setTargetSector(sectorId);
+   }
+
 
    return (
       <>
@@ -50,7 +58,7 @@ export default function FireBrigadeDialog() {
             </DialogTitle>
             <DialogContent>
                <MapWrapper>
-                  <MainMap />
+                  <FireBrigadeMap targetSectorId={targetSector} onClickHandler={onSelectTargetSector}/>
                </MapWrapper>
             </DialogContent>
             <DialogActions>

@@ -1,6 +1,6 @@
 // maps
 import { Map, useMap } from '@vis.gl/react-google-maps';
-import { DeckGlOverlay } from './DeckGlOverlay';
+import { DeckGlOverlay } from '../DeckGlOverlay';
 
 // maps styles overrides
 /**
@@ -11,21 +11,21 @@ import './maps-styles-overrides.css';
 
 // material-ui
 import { Grid, Box, Typography } from '@mui/material';
-import { MainCard } from '../MainCard';
+import { MainCard } from '../../MainCard';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
-import { Configuration } from '../../model/configuration/configuration';
-import { useForestBorderLayer } from '../../hooks/maps/useForestBorderLayer';
-import { useSectorsLayer } from '../../hooks/maps/useSectorsLayer';
-import { useSelectedSectorLayer } from '../../hooks/maps/useSelectedSectorLayer';
-import { useOnSectorChange } from '../../hooks/maps/useOnSectorChange';
-import { useOnTooltipChange } from '../../hooks/maps/useOnTooltipChange';
+import { Configuration } from '../../../model/configuration/configuration';
+import { useForestBorderLayer } from '../../../hooks/maps/useForestBorderLayer';
+import { useSectorsLayer } from '../../../hooks/maps/useSectorsLayer';
+import { useSelectedSectorLayer } from '../../../hooks/maps/useSelectedSectorLayer';
+import { useOnSectorChange } from '../../../hooks/maps/useOnSectorChange';
+import { useOnTooltipChange } from '../../../hooks/maps/useOnTooltipChange';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/reduxStore';
-import { setCurrentSectorId } from '../../store/reducers/mapConfigurationSlice';
-import { SensorMarkers } from './SensorMarkers';
-import { CameraMarkers } from './CameraMarkers';
-import { ForesterPatrolMarkers } from './ForesterPatrolMarkers';
-import { FireBrigadeMarkers } from './FireBrigadeMarkers';
+import { RootState } from '../../../store/reduxStore';
+import { setCurrentSectorId } from '../../../store/reducers/mapConfigurationSlice';
+import { SensorMarkers } from '../SensorMarkers';
+import { CameraMarkers } from '../CameraMarkers';
+import { ForesterPatrolMarkers } from '../ForesterPatrolMarkers';
+import { FireBrigadeMarkers } from '../FireBrigadeMarkers';
 
 export const MainMap = () => {
   const map = useMap('main-map');

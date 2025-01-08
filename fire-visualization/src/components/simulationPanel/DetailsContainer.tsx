@@ -8,7 +8,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ReactNode, useState } from "react";
-import { getObjectsInSector } from "../../utils/configuration/getSensorsInSector";
+import { getObjectsInSector } from "../../utils/configuration/getObjectsInSector";
 import { Camera, isCamera } from "../../model/camera";
 import { FireBrigade } from "../../model/FireBrigade";
 import { ForesterPatrol, isForesterPatrol } from "../../model/ForesterPatrol";

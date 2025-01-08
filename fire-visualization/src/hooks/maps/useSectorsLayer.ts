@@ -18,7 +18,7 @@ const styles = {
   } as const,
 } satisfies Record<string, CSSProperties>;
 
-export const useSectorsLayer = ({ sectors }: Configuration) => {
+export const useSectorsLayer = ({ sectors }: Configuration, disableOnHover?: boolean, onClickHandler?: (sectorId: number) => void) => {
   return useMemo(
     () =>
       new PolygonLayer<Sector>({
@@ -35,6 +35,7 @@ export const useSectorsLayer = ({ sectors }: Configuration) => {
         lineWidthMinPixels: 1,
         pickable: true,
         onHover: (pickingInfo: PickingInfo<Sector>) => {
+          if (disableOnHover) return
           const { x, y, object: sector, viewport } = pickingInfo;
           if (!sector) {
             eventEmitter.emit('onTooltipChange', null);
@@ -82,6 +83,10 @@ export const useSectorsLayer = ({ sectors }: Configuration) => {
         },
         onClick: (pickingInfo: PickingInfo<Sector>) => {
           const { object: sector } = pickingInfo;
+          if(onClickHandler && sector) {
+            onClickHandler(sector.sectorId);
+          }
+          if(disableOnHover) return
           eventEmitter.emit('onSectorChange', sector?.sectorId ?? null);
         },
         autoHighlight: true,

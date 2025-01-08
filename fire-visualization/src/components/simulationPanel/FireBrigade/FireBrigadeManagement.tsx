@@ -5,7 +5,7 @@ import { mock } from "node:test";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/reduxStore";
 import { useMemo } from "react";
-import { getObjectsInSector } from "../../../utils/configuration/getSensorsInSector";
+import { getObjectsInSector } from "../../../utils/configuration/getObjectsInSector";
 
 export default function FireBrigadeManagement() {
    const {

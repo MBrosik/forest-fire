@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 
 // maps
 import { MapWrapper } from '../components/maps/MapWrapper';
-import { MainMap } from '../components/maps/MainMap';
+import { MainMap } from '../components/maps/maps/MainMap';
 import DetailsContainer from '../components/simulationPanel/DetailsContainer';
 import FireInformationContainer from '../components/simulationPanel/FireInformationContainer';
 import RecommendedDecisions from '../components/simulationPanel/RecomendedDecisions';
