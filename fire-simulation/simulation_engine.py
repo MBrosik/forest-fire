@@ -135,4 +135,4 @@ def run_simulation(configuration):
         
         # agents_manager.update_agents_states()
 
-        time.sleep(5)
+        time.sleep(1)

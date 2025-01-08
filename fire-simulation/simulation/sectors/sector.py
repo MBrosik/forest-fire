@@ -198,6 +198,9 @@ class Sector:
                 sensor._pm2_5 = self._state.pm2_5_concentration + random.uniform(-0.1, 0.1)
             elif isinstance(sensor, TemperatureAndAirHumiditySensor):                
                 sensor._temperature = self._state.temperature + random.uniform(-5.0, 5.0)
+                print("++++++++++++")
+                print(f"sensor temperature is {sensor._temperature} while state temp is {self.state.temperature}")
+                print("++++++++++++")
                 sensor._humidity = self._state.air_humidity + random.uniform(-5.0, 5.0)
             elif isinstance(sensor, LitterMoistureSensor):
                 sensor._litter_moisture = self._state.plant_litter_moisture + random.uniform(-5.0, 5.0)
