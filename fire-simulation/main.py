@@ -13,7 +13,7 @@ def run():
 
     thread = threading.Thread(target=background_task, args=(data,))
     thread.start()
-    
+        
     return 'Simulation is running'
 
 
