@@ -162,6 +162,9 @@ class Sector:
     def update_sector_state(self):
         # Temperature increases with fire level, influenced by current state and random fluctuation.
         self._state.temperature = self._state.temperature + (self._fire_level * 0.8) - (self._state.temperature * 0.05) + random.uniform(-2, 2)
+        print("====================================================")
+        print(self._state.temperature)
+        print("====================================================")
 
         # Air humidity decreases with fire level, with random variation simulating environmental factors.
         self._state.air_humidity = max(self._state.air_humidity - self._fire_level * 0.5 + random.uniform(-3, 3), 0)

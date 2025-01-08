@@ -21,45 +21,6 @@ from simulation.rabbitmq import producer, consumer, connection_manager
 from simulation.rabbitmq.message_store import MessageStore
 from simulation.sensors.sensor_type import SensorType
 
-def visualize_forest_map(map: ForestMap):
-    """
-    Tworzy i uruchamia wizualizację mapy lasu w czasie rzeczywistym.
-    """
-    rows, cols = len(map.sectors), len(map.sectors[0])
-    fig, ax = plt.subplots(figsize=(10, 10))
-
-    # Siatka danych: 0 - brak pożaru, 1 - aktywny pożar, 2 - spalone
-    data = np.zeros((rows, cols))
-
-    # Tworzenie obrazu
-    img = ax.imshow(data, cmap="hot", interpolation="nearest", vmin=0, vmax=2)
-    ax.set_title("Symulacja pożaru lasu")
-    ax.set_xticks(range(cols))
-    ax.set_yticks(range(rows))
-    ax.set_xticklabels(range(cols))
-    ax.set_yticklabels(range(rows))
-    ax.set_xlabel("Kolumny")
-    ax.set_ylabel("Wiersze")
-
-    def update_visualization():
-        """
-        Aktualizuje dane do wizualizacji na podstawie stanu symulacji.
-        """
-        for i in range(rows):
-            for j in range(cols):
-                sector = map.sectors[i][j]
-                if sector.fire_state is FireState.ACTIVE:
-                    data[i, j] = 1  # Pożar
-                elif sector.fire_state is FireState.LOST:
-                    data[i, j] = 2  # Spalone
-                else:
-                    data[i, j] = 0  # Brak pożaru
-
-        img.set_data(data)
-        fig.canvas.draw_idle()
-
-    return fig, update_visualization
-
 logger = logging.getLogger(__name__)
 
 EXCHANGE_NAME = "fire_updates"
@@ -138,11 +99,6 @@ def run_simulation(configuration):
     sectors_on_fire: List[Sector] = []
     sectors_on_fire.append(map.start_new_fire())
 
-        # Inicjalizacja wizualizacji
-    fig, update_visualization = visualize_forest_map(map)
-    plt.ion()
-    plt.show()
-
     while True:
 
         for sector in sectors_on_fire:
@@ -179,6 +135,4 @@ def run_simulation(configuration):
         
         # agents_manager.update_agents_states()
 
-        update_visualization()
-
-        time.sleep(10)
+        time.sleep(5)
