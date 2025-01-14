@@ -19,7 +19,7 @@ public record FireBrigade(
                 0,
                 confFireBrigade.currentLocation(),
                 confFireBrigade.state(),
-                FireBrigadeAction.EXTINGUISHING
+                FireBrigadeAction.EXTINGUISH
         );
     }
 
@@ -29,7 +29,7 @@ public record FireBrigade(
                 0,
                 evFireBrigade.location(),
                 evFireBrigade.state(),
-                FireBrigadeAction.EXTINGUISHING
+                FireBrigadeAction.EXTINGUISH
         );
     }
 }

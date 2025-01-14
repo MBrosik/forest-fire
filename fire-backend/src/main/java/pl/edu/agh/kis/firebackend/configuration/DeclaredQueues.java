@@ -58,4 +58,5 @@ public class DeclaredQueues {
     Flux<EvCamera> cameraUpdates() {
         return stateUpdatesService.createUpdatesFlux(new UpdatesQueue<>("Camera queue", EvCamera.class));
     }
+
 }
