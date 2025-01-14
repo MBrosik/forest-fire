@@ -20,10 +20,10 @@ def setup_logging():
     console_handler.setFormatter(formatter)
 
     #Tworzenie handlera do zapisu do pliku
-    file_handler = logging.FileHandler(os.path.join(log_dir, 'logfile.log'))
-    file_handler.setLevel(logging.DEBUG)  # Poziom logowania do pliku (można zmienić)
-    file_handler.setFormatter(formatter)
+    # file_handler = logging.FileHandler(os.path.join(log_dir, 'logfile.log'))
+    # file_handler.setLevel(logging.DEBUG)  # Poziom logowania do pliku (można zmienić)
+    # file_handler.setFormatter(formatter)
 
     # Dodanie handlerów do loggera
     logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
+    # logger.addHandler(file_handler)

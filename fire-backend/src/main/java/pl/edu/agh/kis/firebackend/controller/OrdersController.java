@@ -1,6 +1,7 @@
 package pl.edu.agh.kis.firebackend.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import pl.edu.agh.kis.firebackend.service.OrdersService;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class OrdersController {
     private OrdersService ordersService;
 
