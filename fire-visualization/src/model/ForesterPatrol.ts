@@ -1,3 +1,4 @@
+import { ForesterPatrolBaseMarker } from '../components/maps/ForesterPatrolBaseMarkers';
 import { ForesterPatrolMarker } from '../components/maps/ForesterPatrolMarkers';
 import { getDefaultMapLocation } from './common';
 import { MapLocation } from './geography';
@@ -43,6 +44,15 @@ export const ForesterPatrol = {
     };
   },
 };
+
+export const ForesterPatrolBase = {
+  toMarkerProps: (foresterPatrol: ForesterPatrol): ForesterPatrolBaseMarker => {
+    return {
+      location: { lng: foresterPatrol.baseLocation.longitude, lat: foresterPatrol.baseLocation.latitude },
+      key: `foresterPatrolBase-${foresterPatrol.foresterPatrolId}`,      
+    };
+  },
+}
 
 export const isForesterPatrol = (obj: unknown): obj is ForesterPatrol => {
   return (obj as ForesterPatrol).foresterPatrolId !== undefined;

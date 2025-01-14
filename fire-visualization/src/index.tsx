@@ -5,6 +5,7 @@ import { reduxStore } from './store/reduxStore';
 import { ScrollTop } from './components/ScrollTop';
 import { ThemeCustomization } from './themes/ThemeCustomization';
 import { Routes } from './Routes';
+import "./index-overrides.css";
 
 const App = () => {
   return (

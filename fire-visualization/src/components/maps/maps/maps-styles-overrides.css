@@ -1,3 +1,7 @@
 .gm-style iframe + div {
-  border: none !important;
+  border: none !important;  
+}
+
+.gm-style{
+  font-size: 20px;
 }

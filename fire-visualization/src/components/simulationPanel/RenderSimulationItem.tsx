@@ -5,6 +5,10 @@ import { FireBrigade } from "../../model/FireBrigade";
 import { ForesterPatrol, isForesterPatrol } from "../../model/ForesterPatrol";
 import { Sensor, isSensor } from "../../model/sensor";
 import FireBrigadeDialog from "./FireBrigade/FireBrigadeDialog";
+import MoveBrigadeToBaseButton from "./FireBrigade/MoveToBaseButton";
+import MoveForestPatrolToBaseButton from "./ForestPatrol/MoveToBaseButton";
+import ForestPatrolDialog from "./ForestPatrol/ForestPatrolDialog";
+
 
 type Props = {
    object: Sensor | Camera | FireBrigade | ForesterPatrol;  
@@ -30,6 +34,8 @@ export default function RenderSimulationItem({object}: Props): ReactNode {
          <>
             <Typography sx={{ width: 50 }}>ID: {object.foresterPatrolId}</Typography>
             <Typography>State: {object.state}</Typography>
+            <MoveForestPatrolToBaseButton forestPatrolID={object.foresterPatrolId}/>
+            <ForestPatrolDialog forestPatrolID={object.foresterPatrolId} />
          </>
       );
    } else {
@@ -37,9 +43,9 @@ export default function RenderSimulationItem({object}: Props): ReactNode {
       return (
          <>
             <Typography sx={{ width: 50 }}>ID: {object.fireBrigadeId}</Typography>
-            <Typography>State: {object.state}</Typography>
-            {/* <Button variant="contained" color="primary">Move</Button> */}
-            <FireBrigadeDialog />
+            <Typography>State: {object.state}</Typography>            
+            <MoveBrigadeToBaseButton fireBrigadeID={object.fireBrigadeId}/>
+            <FireBrigadeDialog fireBrigadeID={object.fireBrigadeId} />
          </>
       );
    }

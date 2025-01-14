@@ -12,12 +12,13 @@ import { MapWrapper } from "../../maps/MapWrapper";
 import { MainMap } from "../../maps/maps/MainMap";
 import { FireBrigadeMap } from "../../maps/maps/FireBrigadeMap";
 import { sendBrigadeOrForesterMoveOrder } from "../../../store/reducers/serverCommunicationReducers";
+import { ForesterMap } from "../../maps/maps/ForesterMap";
 
 type Props = {
-   fireBrigadeID: number;
+   forestPatrolID: number;
 }
 
-export default function FireBrigadeDialog(props: Props) {
+export default function ForestPatrolDialog(props: Props) {
    const {
       configuration: mapConfiguration,
       currentSectorId,
@@ -50,7 +51,7 @@ export default function FireBrigadeDialog(props: Props) {
          console.error("Target sector is null");
          return;
       }
-      dispatch(sendBrigadeOrForesterMoveOrder(props.fireBrigadeID, targetSector, "brigade"));
+      dispatch(sendBrigadeOrForesterMoveOrder(props.forestPatrolID, targetSector, "forester"));
       handleClose();
    }
 
@@ -67,11 +68,11 @@ export default function FireBrigadeDialog(props: Props) {
             aria-describedby="alert-dialog-description"
          >
             <DialogTitle id="alert-dialog-title" sx={{ textAlign: 'center' }}>
-               Move Brigade
+               Move forest patrol
             </DialogTitle>
             <DialogContent>
                <MapWrapper>
-                  <FireBrigadeMap targetSectorId={targetSector} onClickHandler={onSelectTargetSector}/>
+                  <ForesterMap targetSectorId={targetSector} onClickHandler={onSelectTargetSector}/>
                </MapWrapper>
             </DialogContent>
             <DialogActions>

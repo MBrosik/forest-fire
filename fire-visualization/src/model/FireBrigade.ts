@@ -1,3 +1,4 @@
+import { FireBrigadeBaseMarker } from '../components/maps/FireBrigadeBaseMarkers';
 import { FireBrigadeMarker } from '../components/maps/FireBrigadeMarkers';
 import { getDefaultMapLocation } from './common';
 import { MapLocation } from './geography';
@@ -39,6 +40,15 @@ export const FireBrigade = {
     };
   },
 };
+
+export const FireBrigadeBase = {
+  toMarkerProps: (fireBrigade: FireBrigade): FireBrigadeBaseMarker => {
+    return {
+      location: { lng: fireBrigade.baseLocation.longitude, lat: fireBrigade.baseLocation.latitude },
+      key: `fireBrigadeBase-${fireBrigade.fireBrigadeId}`,      
+    };
+  },
+}
 
 export const isFireBrigade = (obj: unknown): obj is FireBrigade => {
   return (obj as FireBrigade).fireBrigadeId !== undefined;

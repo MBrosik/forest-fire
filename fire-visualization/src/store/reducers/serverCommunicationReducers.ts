@@ -29,7 +29,7 @@ export const serverCommunicationSlice = createSlice({
     abortConnection(state) {
       // state.abortController.abort();
       // state.abortController = new AbortController();
-      if(abortController.signal.aborted) {
+      if (abortController.signal.aborted) {
         return;
       }
       abortController.abort();
@@ -48,7 +48,7 @@ export const serverCommunicationSlice = createSlice({
 export const startFetchingConfigurationUpdate = (): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch: any, getState: () => RootState) => {
     const state = getState();
-    const {serverCommunication,  mapConfiguration} = state;
+    const { serverCommunication, mapConfiguration } = state;
     if (serverCommunication.isFetching) {
       return;
     }
@@ -58,14 +58,16 @@ export const startFetchingConfigurationUpdate = (): ThunkAction<void, RootState,
     const newConfiguration: Configuration = JSON.parse(JSON.stringify(mapConfiguration.configuration));
 
     newConfiguration.sectors.forEach((sector) => {
-      sector.row-=1;
-      sector.column-=1;
+      sector.row -= 1;
+      sector.column -= 1;
     });
 
+    console.log(JSON.stringify(newConfiguration))
+
     // const newConfiguration = mapConfiguration.configuration;
-    
+
     // serverCommunication.isFetching = true;
-    dispatch(serverCommunicationSlice.actions.setIsFetching({isFetching: true}));
+    dispatch(serverCommunicationSlice.actions.setIsFetching({ isFetching: true }));
 
     fetchEventSource(`http://localhost:8181/run-simulation?interval=${5}`, {
       method: 'POST',
@@ -79,7 +81,7 @@ export const startFetchingConfigurationUpdate = (): ThunkAction<void, RootState,
       onmessage: (event) => {
         const newState = JSON.parse(event.data) as ConfigurationUpdate;
         // newState.sectors.forEach((sector) => {
-          
+
         //   sector.row+=1;
         //   sector.column+=1;
         // });
@@ -88,16 +90,85 @@ export const startFetchingConfigurationUpdate = (): ThunkAction<void, RootState,
           console.log("Aborted")
           return;
         }
-        dispatch(updateConfiguration({ configurationUpdate: newState })); // TODO use timestamp that is being sent
+        dispatch(updateConfiguration({ configurationUpdate: newState }));
       },
       onerror: (event) => {
         console.error('Event error:', event);
       },
       onclose: () => {
-        console.log('Event source closed'); // TODO probably ctrl.signal doesn't work
+        console.log('Event source closed');
       },
     });
 
+  }
+}
+
+export const sendBrigadeOrForesterMoveOrder = (unitId: number, targetSectorId: number, type: "brigade"|"forester"): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return async (dispatch: any, getState: () => RootState) => {
+    const state = getState();
+    const { mapConfiguration } = state;
+
+    const targetSector = mapConfiguration.configuration.sectors.find((sector) => sector.sectorId === targetSectorId);
+
+    if (!targetSector) {
+      console.error("Target sector not found");
+      return;
+    }
+
+    const url = type == "brigade" ? "http://localhost:8181/orderFireBrigade" : "http://localhost:8181/orderForesterPatrol";
+
+    await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        [type == "brigade"?"fireBrigadeId": "forestPatrolId"]: unitId,
+        goingToBase: false,
+        location: {
+          longitude: (targetSector.contours[0][0] + targetSector.contours[1][0]) / 2,
+          latitude: (targetSector.contours[0][1] + targetSector.contours[1][1]) / 2
+        }
+      }),
+    })
+  }
+}
+
+export const sendBrigadeOrForesterMoveToBaseOrder = (brigadeID: number, type: "brigade"|"forester"): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return async (dispatch: any, getState: () => RootState) => {
+    const state = getState();
+    const { mapConfiguration } = state;
+
+
+    let unit:ForesterPatrol|FireBrigade | undefined;
+
+    if(type == "brigade") {
+      unit =  mapConfiguration.configuration.fireBrigades.find((fireBrigade) => fireBrigade.fireBrigadeId === brigadeID);
+    } else {
+      unit =  mapConfiguration.configuration.foresterPatrols.find((foresterPatrol) => foresterPatrol.foresterPatrolId === brigadeID);
+    }
+
+    if (!unit) {
+      console.error("Brigade not found");
+      return;
+    }
+
+    const url = type == "brigade" ? "http://localhost:8181/orderFireBrigade" : "http://localhost:8181/orderForesterPatrol";
+
+    await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        [type == "brigade"?"fireBrigadeId": "forestPatrolId"]: brigadeID,
+        goingToBase: true,
+        location: {
+          longitude: unit.baseLocation.longitude,
+          latitude: unit.baseLocation.latitude
+        }
+      }),
+    })
   }
 }
 

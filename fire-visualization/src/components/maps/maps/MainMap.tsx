@@ -26,6 +26,8 @@ import { SensorMarkers } from '../SensorMarkers';
 import { CameraMarkers } from '../CameraMarkers';
 import { ForesterPatrolMarkers } from '../ForesterPatrolMarkers';
 import { FireBrigadeMarkers } from '../FireBrigadeMarkers';
+import { FireBrigadeBaseMarkers } from '../FireBrigadeBaseMarkers';
+import { ForesterPatrolBaseMarkers } from '../ForesterPatrolBaseMarkers';
 
 export const MainMap = () => {
   const map = useMap('main-map');
@@ -112,7 +114,9 @@ export const MainMap = () => {
             {tooltip}
             <DeckGlOverlay layers={[forestBorderLayer, sectorsLayer, selectedSectorLayer]} />
             <FireBrigadeMarkers />
+            <FireBrigadeBaseMarkers />
             <ForesterPatrolMarkers />
+            <ForesterPatrolBaseMarkers />
             <CameraMarkers />
             <SensorMarkers />
           </Map>

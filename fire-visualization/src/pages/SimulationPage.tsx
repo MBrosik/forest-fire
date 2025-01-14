@@ -8,6 +8,7 @@ import DetailsContainer from '../components/simulationPanel/DetailsContainer';
 import FireInformationContainer from '../components/simulationPanel/FireInformationContainer';
 import RecommendedDecisions from '../components/simulationPanel/RecomendedDecisions';
 import FireBrigadeManagement from '../components/simulationPanel/FireBrigade/FireBrigadeManagement';
+import ForestPatrolManagement from '../components/simulationPanel/ForestPatrol/ForestPatrolManagement';
 
 export const SimulationPage = () => {
   return (
@@ -27,6 +28,7 @@ export const SimulationPage = () => {
         <FireInformationContainer />
         <RecommendedDecisions />
         <FireBrigadeManagement />
+        <ForestPatrolManagement />
       </Grid>
     </Grid>
   );
