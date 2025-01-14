@@ -2,9 +2,8 @@ package pl.edu.agh.kis.firebackend.model.simulation;
 
 import lombok.AllArgsConstructor;
 import pl.edu.agh.kis.firebackend.model.ForesterPatrol;
-import pl.edu.agh.kis.firebackend.model.ForesterPatrolState;
 import pl.edu.agh.kis.firebackend.model.configuration.Configuration;
-import pl.edu.agh.kis.firebackend.model.primitives.Location;
+
 
 import java.util.*;
 import java.util.stream.Collectors;

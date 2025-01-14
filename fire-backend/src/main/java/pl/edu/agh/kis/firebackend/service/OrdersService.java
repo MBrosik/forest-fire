@@ -1,7 +1,6 @@
 package pl.edu.agh.kis.firebackend.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import lombok.AllArgsConstructor;
 import pl.edu.agh.kis.firebackend.model.OrderFireBrigade;
