@@ -27,13 +27,14 @@ import { CameraMarkers } from '../CameraMarkers';
 import { ForesterPatrolMarkers } from '../ForesterPatrolMarkers';
 import { FireBrigadeMarkers } from '../FireBrigadeMarkers';
 import { FireBrigadeBaseMarkers } from '../FireBrigadeBaseMarkers';
+import { ForesterPatrolBaseMarkers } from '../ForesterPatrolBaseMarkers';
 
 type Props = {
    //   disableTooltip?: boolean;
    targetSectorId: number|null;
    onClickHandler: (sectorId: number) => void;
 }
-export const FireBrigadeMap = (props: Props) => {
+export const ForesterMap = (props: Props) => {
    const map = useMap('main-map');
    const { configuration: mapConfiguration, currentSectorId } = useSelector(
       (state: RootState) => state.mapConfiguration,
@@ -123,11 +124,10 @@ export const FireBrigadeMap = (props: Props) => {
                >
                   {tooltip}
                   <DeckGlOverlay layers={[forestBorderLayer, sectorsLayer, selectedSectorLayer, targetSectorLayer]} />
-                  <FireBrigadeMarkers />
-                  <FireBrigadeBaseMarkers />
-                  {/* <ForesterPatrolMarkers /> */}
-                  {/* <CameraMarkers /> */}
-                  {/* <SensorMarkers /> */}
+                
+                  <ForesterPatrolMarkers/>
+                  <ForesterPatrolBaseMarkers/>
+                 
                </Map>
             </Box>
          </MainCard>
