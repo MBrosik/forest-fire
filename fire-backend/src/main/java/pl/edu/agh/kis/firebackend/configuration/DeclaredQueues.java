@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import pl.edu.agh.kis.firebackend.model.UpdatesQueue;
 import pl.edu.agh.kis.firebackend.model.events.*;
 import pl.edu.agh.kis.firebackend.model.ForesterPatrol;
+import pl.edu.agh.kis.firebackend.model.OrderFireBrigade;
+import pl.edu.agh.kis.firebackend.model.OrderForesterPatrol;
 import pl.edu.agh.kis.firebackend.service.StateUpdatesService;
 import reactor.core.publisher.Flux;
 
@@ -58,4 +60,5 @@ public class DeclaredQueues {
     Flux<EvCamera> cameraUpdates() {
         return stateUpdatesService.createUpdatesFlux(new UpdatesQueue<>("Camera queue", EvCamera.class));
     }
+
 }

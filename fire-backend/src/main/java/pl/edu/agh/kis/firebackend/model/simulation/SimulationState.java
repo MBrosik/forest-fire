@@ -24,7 +24,7 @@ public class SimulationState {
         this.sectors = new HashMap<>();
         this.fireBrigades = new HashMap<>();
         this.foresterPatrols = new HashMap<>();
-        this.foresterPatrols.put(1, new ForesterPatrol(1, new Date(), ForesterPatrolState.PATROLLING, new Location(1.0, 1.0), new Location(12.0, 12.0)));
+        // this.foresterPatrols.put(1, new ForesterPatrol(1, new Date(), ForesterPatrolState.PATROLLING, new Location(1.0, 1.0), new Location(12.0, 12.0)));
     }
 
     public static SimulationState from(Configuration configuration) {
