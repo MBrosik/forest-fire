@@ -62,6 +62,8 @@ export const startFetchingConfigurationUpdate = (): ThunkAction<void, RootState,
       sector.column-=1;
     });
 
+    console.log(JSON.stringify(newConfiguration))
+
     // const newConfiguration = mapConfiguration.configuration;
     
     // serverCommunication.isFetching = true;
