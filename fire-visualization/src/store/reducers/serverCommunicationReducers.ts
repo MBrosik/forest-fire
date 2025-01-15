@@ -10,6 +10,7 @@ import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { dispatch, RootState } from '../reduxStore';
 import { updateConfiguration } from './mapConfigurationSlice';
 import { AnyAction } from 'redux';
+import Decimal from 'decimal.js';
 
 type serverCommunicationState = {
   // abortController: AbortController;
@@ -46,7 +47,7 @@ export const serverCommunicationSlice = createSlice({
 
 
 export const startFetchingConfigurationUpdate = (): ThunkAction<void, RootState, unknown, AnyAction> => {
-  return (dispatch: any, getState: () => RootState) => {
+  return async (dispatch: any, getState: () => RootState) => {
     const state = getState();
     const { serverCommunication, mapConfiguration } = state;
     if (serverCommunication.isFetching) {
@@ -69,7 +70,15 @@ export const startFetchingConfigurationUpdate = (): ThunkAction<void, RootState,
     // serverCommunication.isFetching = true;
     dispatch(serverCommunicationSlice.actions.setIsFetching({ isFetching: true }));
 
-    fetchEventSource(`http://localhost:8181/run-simulation?interval=${5}`, {
+    await fetch(`http://localhost:8181/send-simulation-request`, {      
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newConfiguration),      
+    });
+
+    fetchEventSource(`http://localhost:8181/run-simulation?interval=${1}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -79,7 +88,7 @@ export const startFetchingConfigurationUpdate = (): ThunkAction<void, RootState,
       signal: abortController.signal,
 
       onmessage: (event) => {
-        const newState = JSON.parse(event.data) as ConfigurationUpdate;
+        const newState = JSON.parse(event.data) as ConfigurationUpdate;        
         // newState.sectors.forEach((sector) => {
 
         //   sector.row+=1;
@@ -114,8 +123,17 @@ export const sendBrigadeOrForesterMoveOrder = (unitId: number, targetSectorId: n
       console.error("Target sector not found");
       return;
     }
+    // (point1[0] + point2[0]) / 2
+    const calculateMidpoint = (point1: number[], point2: number[]): { longitude: number, latitude: number } => {
+      return {
+        longitude: Decimal.add(point1[0], point2[0]).dividedBy(2).toNumber(),
+        latitude:  Decimal.add(point1[1], point2[1]).dividedBy(2).toNumber()
+      };
+    };
 
-    const url = type == "brigade" ? "http://localhost:8181/orderFireBrigade" : "http://localhost:8181/orderForesterPatrol";
+    const midpoint = calculateMidpoint(targetSector.contours[0], targetSector.contours[1]);
+
+    const url = type == "brigade" ? "http://localhost:8181/orderFireBrigade" : "http://localhost:8181/orderForestPatrol";
 
     await fetch(url, {
       method: 'POST',
@@ -125,10 +143,7 @@ export const sendBrigadeOrForesterMoveOrder = (unitId: number, targetSectorId: n
       body: JSON.stringify({
         [type == "brigade"?"fireBrigadeId": "forestPatrolId"]: unitId,
         goingToBase: false,
-        location: {
-          longitude: (targetSector.contours[0][0] + targetSector.contours[1][0]) / 2,
-          latitude: (targetSector.contours[0][1] + targetSector.contours[1][1]) / 2
-        }
+        location: midpoint
       }),
     })
   }
@@ -153,7 +168,7 @@ export const sendBrigadeOrForesterMoveToBaseOrder = (brigadeID: number, type: "b
       return;
     }
 
-    const url = type == "brigade" ? "http://localhost:8181/orderFireBrigade" : "http://localhost:8181/orderForesterPatrol";
+    const url = type == "brigade" ? "http://localhost:8181/orderFireBrigade" : "http://localhost:8181/orderForestPatrol";
 
     await fetch(url, {
       method: 'POST',

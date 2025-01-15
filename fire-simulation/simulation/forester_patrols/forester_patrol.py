@@ -34,6 +34,10 @@ class ForesterPatrol(Agent):
     @property
     def state(self) -> AGENT_STATE:
         return self._state
+    
+    @property
+    def getId(self):
+        return self.forester_patrol_id
 
     def next(self):
         pass

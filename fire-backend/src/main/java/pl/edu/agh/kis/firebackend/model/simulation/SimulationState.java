@@ -1,7 +1,6 @@
 package pl.edu.agh.kis.firebackend.model.simulation;
 
 import lombok.AllArgsConstructor;
-import pl.edu.agh.kis.firebackend.model.ForesterPatrol;
 import pl.edu.agh.kis.firebackend.model.configuration.Configuration;
 
 
@@ -38,7 +37,7 @@ public class SimulationState {
         Map<Integer, ForesterPatrol> foresterPatrols = configuration
                 .foresterPatrols()
                 .stream()
-                .collect(Collectors.toMap(foresterPatrol -> foresterPatrol.foresterPatrolId(), foresterPatrol -> foresterPatrol));
+                .collect(Collectors.toMap(foresterPatrol -> foresterPatrol.foresterPatrolId(), ForesterPatrol::from));
 
         return new SimulationState(
                 configuration.forestName(),

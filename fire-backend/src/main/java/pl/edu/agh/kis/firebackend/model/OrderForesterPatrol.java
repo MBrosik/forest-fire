@@ -1,11 +1,18 @@
 package pl.edu.agh.kis.firebackend.model;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pl.edu.agh.kis.firebackend.model.primitives.Location;
 
 public class OrderForesterPatrol {
+    @JsonProperty
     private int foresterPatrolId;
+    @JsonProperty
     private ForesterPatrolAction action;
+    @JsonProperty
     private Date timestamp;
+    @JsonProperty
     private Location location;
 
     public OrderForesterPatrol(int foresterPatrolId, ForesterPatrolAction action, Date timestamp, Location location) {
@@ -49,5 +56,15 @@ public class OrderForesterPatrol {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderForesterPatrol{" +
+                "foresterPatrolId=" + foresterPatrolId +
+                ", action=" + action +
+                ", timestamp=" + timestamp +
+                ", location=" + location +
+                '}';
     }
 }

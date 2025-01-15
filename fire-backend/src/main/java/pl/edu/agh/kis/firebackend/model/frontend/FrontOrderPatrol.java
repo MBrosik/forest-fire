@@ -15,5 +15,14 @@ public class FrontOrderPatrol extends FrontOrder {
     public int getId(){
         return forestPatrolId;
     }
+
+    @Override
+    public String toString() {
+        return "FrontOrderPatrol{" +
+                "forestPatrolId=" + forestPatrolId +
+                ", location=" + getLocation() +
+                ", isGoToBase=" + isGoToBase() +
+                '}';
+    }
     
 }

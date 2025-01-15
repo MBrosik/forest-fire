@@ -53,7 +53,7 @@ def generate_message_available(agent : Agent):
             "timestamp" : datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
             "location": {
                 "longitude" : agent.location.longitude,
-                "latitiude" : agent.location.latitude
+                "latitude" : agent.location.latitude
             }
         }
     
@@ -66,7 +66,7 @@ def generate_message_extinguished(agent : Agent, sector: Sector):
             "timestamp": datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
             "location": {
                 "longitude" : agent.location.longitude,
-                "latitiude" : agent.location.latitude
+                "latitude" : agent.location.latitude
             }
         }
     
@@ -78,7 +78,7 @@ def generate_message_extinguishing(agent : Agent):
             "timestamp": datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
             "location": {
                 "longitude" : agent.location.longitude,
-                "latitiude" : agent.location.latitude
+                "latitude" : agent.location.latitude
             }
         }
 
@@ -90,7 +90,7 @@ def generate_message_patrolling(agent : Agent, sector : Sector):
             "timestamp" : datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
             "location": {
                 "longitude" : agent.location.longitude,
-                "latitiude" : agent.location.latitude
+                "latitude" : agent.location.latitude
             },
             "sectorState": sector.fire_state.name
         }

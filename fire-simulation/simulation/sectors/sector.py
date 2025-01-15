@@ -162,9 +162,6 @@ class Sector:
     def update_sector_state(self):
         # Temperature increases with fire level, influenced by current state and random fluctuation.
         self._state.temperature = self._state.temperature + (self._fire_level * 0.8) - (self._state.temperature * 0.05) + random.uniform(-2, 2)
-        print("====================================================")
-        print(self._state.temperature)
-        print("====================================================")
 
         # Air humidity decreases with fire level, with random variation simulating environmental factors.
         self._state.air_humidity = max(self._state.air_humidity - self._fire_level * 0.5 + random.uniform(-3, 3), 0)
@@ -198,9 +195,6 @@ class Sector:
                 sensor._pm2_5 = self._state.pm2_5_concentration + random.uniform(-0.1, 0.1)
             elif isinstance(sensor, TemperatureAndAirHumiditySensor):                
                 sensor._temperature = self._state.temperature + random.uniform(-5.0, 5.0)
-                print("++++++++++++")
-                print(f"sensor temperature is {sensor._temperature} while state temp is {self.state.temperature}")
-                print("++++++++++++")
                 sensor._humidity = self._state.air_humidity + random.uniform(-5.0, 5.0)
             elif isinstance(sensor, LitterMoistureSensor):
                 sensor._litter_moisture = self._state.plant_litter_moisture + random.uniform(-5.0, 5.0)

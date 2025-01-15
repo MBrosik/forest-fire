@@ -18,10 +18,13 @@ export type ForesterPatrol = {
 // TODO adjust this type
 export type ForesterPatrolUpdate = {
   foresterPatrolId: number;
-  timestamp: string; // TODO change to number
+  // timestamp: string; // TODO change to number
+  action: ForesterPatrolState;
   state: ForesterPatrolState;
-  baseLocation: MapLocation;
-  currentLocation: MapLocation;
+  // baseLocation: MapLocation;
+  // currentLocation: MapLocation;
+  location: MapLocation;
+  sectorId: number;
 };
 
 export const ForesterPatrol = {
@@ -39,7 +42,8 @@ export const ForesterPatrol = {
     return {
       ...foresterPatrol,
       state: foresterPatrolUpdate.state,
-      currentLocation: foresterPatrolUpdate.currentLocation,
+      // currentLocation: foresterPatrolUpdate.currentLocation,
+      currentLocation: foresterPatrolUpdate.location,
       // TODO update rest of the fields
     };
   },

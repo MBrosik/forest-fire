@@ -8,7 +8,7 @@
     "start": "webpack serve --open --mode development",
     "build": "webpack --mode production",
     "electron-start": "MODE=production electron .",
-    "electron-start-windows": "cross-env MODE=production ./node_modules/.bin/electron .",        
+    "electron-start-windows": "cross-env MODE=production ./node_modules/.bin/electron .",
     "serve": "concurrently \"webpack serve --no-open --mode development\" \"wait-on tcp:8080 && MODE=development electron .\"",
     "serve-windows": "concurrently \"webpack serve --no-open --mode development\" \"wait-on tcp:8080 && cross-env MODE=development ./node_modules/.bin/electron .\""
   },
@@ -34,6 +34,7 @@
     "@reduxjs/toolkit": "^2.2.3",
     "@vis.gl/react-google-maps": "^0.9.0",
     "apexcharts": "^3.48.0",
+    "decimal.js": "^10.4.3",
     "dotenv": "^16.4.5",
     "electron-reload": "^2.0.0-alpha.1",
     "eventemitter3": "^5.0.1",

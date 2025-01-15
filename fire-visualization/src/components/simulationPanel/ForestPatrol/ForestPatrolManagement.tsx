@@ -24,7 +24,7 @@ export default function ForestPatrolManagement() {
       <Box>
          <Divider><Typography variant="h2">Forest Patrols</Typography></Divider>
          <List>
-            {forestPatrols.map((obj) => (
+            {forestPatrols.map((obj, ind) => (
                <ListItem
                   sx={{
                      height: 1,
@@ -39,6 +39,7 @@ export default function ForestPatrolManagement() {
                         bgcolor: 'secondary.lighter',
                      },
                   }}
+                  key={ind}
                >
                   <RenderSimulationItem object={obj} />
                </ListItem>

@@ -15,4 +15,13 @@ public class FrontOrderFire extends FrontOrder{
         public int getId() {
             return fireBrigadeId;
         }
+
+        @Override
+        public String toString() {
+            return "FrontOrderFire{" +
+                    "fireBrigadeId=" + fireBrigadeId +
+                    ", location=" + getLocation() +
+                    ", isGoToBase=" + isGoToBase() +
+                    '}';
+        }
 }

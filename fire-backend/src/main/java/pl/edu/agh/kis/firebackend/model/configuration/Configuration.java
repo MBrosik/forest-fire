@@ -1,6 +1,6 @@
 package pl.edu.agh.kis.firebackend.model.configuration;
 
-import pl.edu.agh.kis.firebackend.model.ForesterPatrol;
+//import pl.edu.agh.kis.firebackend.model.ForesterPatrol;
 import pl.edu.agh.kis.firebackend.model.primitives.Location;
 
 import java.util.List;
@@ -19,5 +19,5 @@ public record Configuration(
     List<ConfSensor> sensors,
     List<Camera> cameras,
     List<ConfFireBrigade> fireBrigades,
-    List<ForesterPatrol> foresterPatrols
+    List<ConfForesterPatrol> foresterPatrols
 ) { }

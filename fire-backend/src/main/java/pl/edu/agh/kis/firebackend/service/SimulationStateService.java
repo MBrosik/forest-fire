@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.kis.firebackend.model.configuration.Configuration;
-import pl.edu.agh.kis.firebackend.model.ForesterPatrol;
+import pl.edu.agh.kis.firebackend.model.simulation.ForesterPatrol;
 import pl.edu.agh.kis.firebackend.model.events.*;
 import pl.edu.agh.kis.firebackend.model.simulation.FireBrigade;
 import pl.edu.agh.kis.firebackend.model.simulation.SimulationState;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class SimulationStateService {
     private Flux<EvFireBrigade> fireBrigadeFlux;
-    private Flux<ForesterPatrol> foresterPatrolFlux;
+    private Flux<EvForestPatrol> foresterPatrolFlux;
     private Flux<EvWindSpeedSensor> windSpeedSensorFlux;
     private Flux<EvTempAndAirHumiditySensor> tempAndAirHumiditySensorFlux;
     private Flux<EvWindDirectionSensor> windDirectionSensorFlux;
@@ -35,9 +35,15 @@ public class SimulationStateService {
     public Flux<SimulationStateDto> runSimulation(Configuration configuration, Duration interval) {
         SimulationState state = SimulationState.from(configuration);
 
-        fireBrigadeFlux.subscribeOn(Schedulers.parallel())
+        fireBrigadeFlux.subscribeOn(Schedulers.parallel())            
             .subscribe(fireBrigade -> {
-                Integer key = fireBrigade.fireBrigadeId();
+                Integer key = fireBrigade.fireBrigadeId();                
+                System.out.println("-----------------aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-----------------");
+                System.out.println("-----------------aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-----------------");
+                System.out.println("-----------------aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-----------------");
+                System.out.println("-----------------aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-----------------");
+                System.out.println("Fire brigade id: " + key);
+                System.out.println("Fire brigade: " + fireBrigade);
                 synchronized (state) {
                     state.fireBrigades.put(key, FireBrigade.from(fireBrigade));
                 }
@@ -46,8 +52,15 @@ public class SimulationStateService {
         foresterPatrolFlux.subscribeOn(Schedulers.parallel())
             .subscribe(foresterPatrol -> {
                 Integer key = foresterPatrol.foresterPatrolId();
+                System.out.println("-----------------bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-----------------");
+                System.out.println("-----------------bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-----------------");
+                System.out.println("-----------------bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-----------------");
+                System.out.println("-----------------bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-----------------");
+                System.out.println("Forester patrol id: " + key);
+                System.out.println("Forester patrol: " + foresterPatrol);
+
                 synchronized (state) {
-                    state.foresterPatrols.put(key, foresterPatrol);
+                    state.foresterPatrols.put(key, ForesterPatrol.from(foresterPatrol));
                 }
         });
 

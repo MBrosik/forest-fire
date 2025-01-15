@@ -1,12 +1,20 @@
 package pl.edu.agh.kis.firebackend.model;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pl.edu.agh.kis.firebackend.model.primitives.Location;
 
 public class OrderFireBrigade {
+    @JsonProperty
     private int fireBrigadeId;
+    @JsonProperty
     private FireBrigadeAction action;
+    @JsonProperty
     private FireState fireState;
+    @JsonProperty
     private Date timestamp;
+    @JsonProperty
     private Location location;
 
     public OrderFireBrigade(int fireBrigadeId, FireBrigadeAction action, FireState fireState, Date timestamp, Location location) {
@@ -59,5 +67,16 @@ public class OrderFireBrigade {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderFireBrigade{" +
+                "fireBrigadeId=" + fireBrigadeId +
+                ", action=" + action +
+                ", fireState=" + fireState +
+                ", timestamp=" + timestamp +
+                ", location=" + location +
+                '}';
     }
 }

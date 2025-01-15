@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.edu.agh.kis.firebackend.model.UpdatesQueue;
 import pl.edu.agh.kis.firebackend.model.events.*;
-import pl.edu.agh.kis.firebackend.model.ForesterPatrol;
 import pl.edu.agh.kis.firebackend.service.StateUpdatesService;
 import reactor.core.publisher.Flux;
 
@@ -20,8 +19,8 @@ public class DeclaredQueues {
     }
 
     @Bean
-    Flux<ForesterPatrol> foresterPatrolUpdates() {
-        return stateUpdatesService.createUpdatesFlux(new UpdatesQueue<>("Forester patrol state queue", ForesterPatrol.class));
+    Flux<EvForestPatrol> foresterPatrolUpdates() {
+        return stateUpdatesService.createUpdatesFlux(new UpdatesQueue<>("Forester patrol state queue", EvForestPatrol.class));
     }
 
     @Bean

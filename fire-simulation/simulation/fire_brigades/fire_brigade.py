@@ -38,6 +38,10 @@ class FireBrigade(Agent):
     def decrement_agents_in_sector(self, sector):
         sector._number_of_fire_brigades += 1
 
+    @property
+    def getId(self):
+        return self.fire_brigade_id
+
     def next(self):
         pass
 

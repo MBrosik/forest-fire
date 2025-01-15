@@ -1,29 +1,32 @@
 import logging
-import os
+
+class ColoredFormatter(logging.Formatter):
+    COLORS = {
+        'DEBUG': '\033[94m',    # Niebieski
+        'INFO': '\033[92m',     # Zielony
+        'WARNING': '\033[93m',  # Żółty
+        'ERROR': '\033[91m',    # Czerwony
+        'CRITICAL': '\033[95m', # Fioletowy
+        'RESET': '\033[0m'      # Resetowanie koloru
+    }
+
+    def format(self, record):
+        log_color = self.COLORS.get(record.levelname, self.COLORS['RESET'])
+        message = super().format(record)
+        return f"{log_color}{message}{self.COLORS['RESET']}"
 
 def setup_logging():
-    # Tworzenie katalogu na logi, jeśli nie istnieje
-    log_dir = 'logs'
-    if not os.path.exists(log_dir):
-        os.makedirs(log_dir)
 
     # Tworzenie loggera
     logger = logging.getLogger()
-    logger.setLevel(logging.INFO)  # Ustawiamy poziom logowania na DEBUG, można to zmienić
+    logger.setLevel(logging.INFO)
 
     # Tworzenie formatera logów
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = ColoredFormatter('%(name)s - %(levelname)s - %(message)s')
 
     # Tworzenie handlera do konsoli
     console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.INFO)  # Poziom logowania na konsolę (można zmienić)
     console_handler.setFormatter(formatter)
-
-    #Tworzenie handlera do zapisu do pliku
-    # file_handler = logging.FileHandler(os.path.join(log_dir, 'logfile.log'))
-    # file_handler.setLevel(logging.DEBUG)  # Poziom logowania do pliku (można zmienić)
-    # file_handler.setFormatter(formatter)
 
     # Dodanie handlerów do loggera
     logger.addHandler(console_handler)
-    # logger.addHandler(file_handler)

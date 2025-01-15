@@ -24,7 +24,7 @@ export default function FireBrigadeManagement() {
       <Box>
          <Divider><Typography variant="h2">Fire Brigades</Typography></Divider>
          <List>
-            {filteredBrigades.map((obj) => (
+            {filteredBrigades.map((obj, ind) => (
                <ListItem
                   sx={{
                      height: 1,
@@ -39,6 +39,7 @@ export default function FireBrigadeManagement() {
                         bgcolor: 'secondary.lighter',
                      },
                   }}
+                  key={ind}
                >
                   <RenderSimulationItem object={obj} />
                </ListItem>

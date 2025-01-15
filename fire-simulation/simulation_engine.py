@@ -91,6 +91,9 @@ def run_simulation(configuration):
     map = ForestMap.from_conf(configuration)
     agents_manager = AgentManager(map, store)
 
+    orderProcessingThread = Thread(target=agents_manager.start_processing_orders)
+    orderProcessingThread.start()
+
     #===================SIMULATION===================
     wind = Wind()
 
@@ -129,10 +132,7 @@ def run_simulation(configuration):
                 queue = get_topic_for_sensor(sensor_type)
                 for json in jsons:
                     store.add_message_to_sent(queue, json)
-
-        orderProcessingThread = Thread(target=agents_manager.start_processing_orders)
-        orderProcessingThread.start()
         
         agents_manager.update_agents_states()
 
-        time.sleep(1)
+        time.sleep(5)
