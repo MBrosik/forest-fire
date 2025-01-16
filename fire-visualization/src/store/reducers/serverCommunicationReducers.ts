@@ -125,13 +125,23 @@ export const sendBrigadeOrForesterMoveOrder = (unitId: number, targetSectorId: n
     }
     // (point1[0] + point2[0]) / 2
     const calculateMidpoint = (point1: number[], point2: number[]): { longitude: number, latitude: number } => {
+      console.log(Decimal.add(0.1, 0.2).toNumber());
       return {
         longitude: Decimal.add(point1[0], point2[0]).dividedBy(2).toNumber(),
         latitude:  Decimal.add(point1[1], point2[1]).dividedBy(2).toNumber()
       };
+      // return {
+      //   longitude: point1[0], //lewy dolny
+      //   latitude:  point1[1]
+      // };
+      // return {
+      //   longitude: point2[0], //lewy górny
+      //   latitude:  point2[1]
+      // };
     };
 
-    const midpoint = calculateMidpoint(targetSector.contours[0], targetSector.contours[1]);
+    console.log(targetSector.contours);
+    const midpoint = calculateMidpoint(targetSector.contours[0], targetSector.contours[2]);
 
     const url = type == "brigade" ? "http://localhost:8181/orderFireBrigade" : "http://localhost:8181/orderForestPatrol";
 
