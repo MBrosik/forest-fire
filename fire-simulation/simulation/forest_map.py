@@ -295,6 +295,9 @@ class ForestMap:
         return None
 
     def find_sector(self, location: Location):
+        print(location.latitude)
+        print(self._location[1].latitude)
+        print(self._location[2].latitude)
         lat_interpolation = (
                 (location.latitude - self._location[1].latitude)
                 / (self._location[2].latitude - self._location[1].latitude)
