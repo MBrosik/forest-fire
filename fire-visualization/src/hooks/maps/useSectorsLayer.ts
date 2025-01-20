@@ -32,7 +32,52 @@ export const useSectorsLayer = ({ sectors }: Configuration, disableOnHover?: boo
         filled: true,
         stroked: true,
         getPolygon: (sector) => sector.contours,
-        getFillColor: [0, 0, 0, 0],
+        getFillColor: (sector)=> {
+          let fireLevel;
+          if(sector.initialState.temperature <= 35){
+            fireLevel = 1;
+          }
+          else if(sector.initialState.temperature <= 45){
+            fireLevel = 2;
+          }
+          else if(sector.initialState.temperature <= 55){
+            fireLevel = 3;          
+          }          
+          else {
+            fireLevel = 4;          
+          }
+
+          let pm2_5Level;
+
+          if(sector.initialState.pm2_5Concentration <= 50){
+            pm2_5Level = 1;
+          }
+          else if(sector.initialState.pm2_5Concentration <= 100){
+            pm2_5Level = 2;
+          }
+          else if(sector.initialState.pm2_5Concentration <= 250){
+            pm2_5Level = 3;          
+          }          
+          else {
+            pm2_5Level = 4;          
+          }
+
+          if(Math.max(fireLevel, pm2_5Level) === 1){
+            return [0, 0, 0, 0]
+          }   
+          else if(Math.max(fireLevel, pm2_5Level) === 2){
+            return [255, 200, 0, 100]
+          }
+          else if(Math.max(fireLevel, pm2_5Level) === 3){
+            return [255, 140, 0, 100]
+          }
+          else if(Math.max(fireLevel, pm2_5Level) === 4){
+            return [200, 0, 0, 100]
+          }
+          
+          return [0, 0, 0, 0];
+                 
+        },
         getLineColor: [255, 0, 0],
         getLineWidth: 20,
         lineWidthMinPixels: 1,

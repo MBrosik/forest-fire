@@ -95,7 +95,7 @@ export const getDefaultSector = (): Sector => {
       airHumidity: 75,
       plantLitterMoisture: 26,
       co2Concentration: 18,
-      pm2_5Concentration: 64,
+      pm2_5Concentration: 14,
     },
     contours: [],
   };
