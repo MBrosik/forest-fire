@@ -209,14 +209,15 @@ class Sector:
             if isinstance(sensor, PM2_5Sensor):
                 sensor._pm2_5 = self._state.pm2_5_concentration + random.uniform(-0.1, 0.1)
             elif isinstance(sensor, TemperatureAndAirHumiditySensor):                
-                sensor._temperature = self._state.temperature + random.uniform(-5.0, 5.0)
-                sensor._humidity = self._state.air_humidity + random.uniform(-5.0, 5.0)
+                sensor._temperature = self._state.temperature + random.uniform(-0.5, 0.5)
+                logger.info(f"Temperature {sensor._temperature} in sensor_id {sensor._sensor_id} in sector {self.sector_id}")
+                sensor._humidity = self._state.air_humidity + random.uniform(-0.5, 0.5)
             elif isinstance(sensor, LitterMoistureSensor):
-                sensor._litter_moisture = self._state.plant_litter_moisture + random.uniform(-5.0, 5.0)
+                sensor._litter_moisture = self._state.plant_litter_moisture + random.uniform(-0.5, 0.5)
             elif isinstance(sensor, CO2Sensor):
-                sensor._co2 = self._state.co2_concentration + random.uniform(-5.0, 5.0)
+                sensor._co2 = self._state.co2_concentration + random.uniform(-0.5, 0.5)
             elif isinstance(sensor, WindSpeedSensor) :              
-                sensor._wind_speed = self._state.wind_speed + random.uniform(-5.0, 5.0)
+                sensor._wind_speed = self._state.wind_speed + random.uniform(-0.5, 0.5)
             elif isinstance(sensor, WindDirectionSensor):
                 sensor._wind_direction = self._state.wind_direction
             elif isinstance(sensor, Camera):

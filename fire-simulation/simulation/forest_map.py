@@ -163,7 +163,7 @@ class ForestMap:
         min_lat = min(location.latitude for location in locations)
         min_lon = min(location.longitude for location in locations)
         diff_lat = max(location.latitude for location in locations) - min_lat
-        diff_lon = max(location.longitude for location in locations)
+        diff_lon = max(location.longitude for location in locations) - min_lon
         return {
             "min_lat": min_lat,
             "min_lon": min_lon,
@@ -295,16 +295,20 @@ class ForestMap:
         return None
 
     def find_sector(self, location: Location):
-        print(location.latitude)
-        print(self._location[1].latitude)
-        print(self._location[2].latitude)
+        # print(location.latitude)
+        # print("===========================================================")
+        # print(f"Korner 0 : {self._location[0]}")
+        # print(f"Korner 1 : {self._location[1]}")
+        # print(f"Korner 2 : {self._location[2]}")
+        # print(f"Korner 3 : {self._location[3]}")
+        # print("===========================================================")
         lat_interpolation = (
                 (location.latitude - self._location[1].latitude)
-                / (self._location[2].latitude - self._location[1].latitude)
+                / abs(self._location[1].latitude - self._location[0].latitude)
         )
         lon_interpolation = (
                 (location.longitude - self._location[0].longitude)
-                / (self._location[1].longitude - self._location[0].longitude)
+                / abs(self._location[2].longitude - self._location[1].longitude)
         )
 
         height_index = int(self.rows * lat_interpolation)

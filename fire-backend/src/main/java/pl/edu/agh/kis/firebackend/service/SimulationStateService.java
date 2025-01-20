@@ -1,21 +1,30 @@
 package pl.edu.agh.kis.firebackend.service;
 
-import lombok.AllArgsConstructor;
+import java.time.Duration;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import lombok.AllArgsConstructor;
 import pl.edu.agh.kis.firebackend.model.configuration.Configuration;
-import pl.edu.agh.kis.firebackend.model.simulation.ForesterPatrol;
-import pl.edu.agh.kis.firebackend.model.events.*;
+import pl.edu.agh.kis.firebackend.model.events.EvCO2Sensor;
+import pl.edu.agh.kis.firebackend.model.events.EvCamera;
+import pl.edu.agh.kis.firebackend.model.events.EvFireBrigade;
+import pl.edu.agh.kis.firebackend.model.events.EvForestPatrol;
+import pl.edu.agh.kis.firebackend.model.events.EvLitterMoistureSensor;
+import pl.edu.agh.kis.firebackend.model.events.EvPM25ConcentrationSensor;
+import pl.edu.agh.kis.firebackend.model.events.EvTempAndAirHumiditySensor;
+import pl.edu.agh.kis.firebackend.model.events.EvWindDirectionSensor;
+import pl.edu.agh.kis.firebackend.model.events.EvWindSpeedSensor;
 import pl.edu.agh.kis.firebackend.model.simulation.FireBrigade;
+import pl.edu.agh.kis.firebackend.model.simulation.ForesterPatrol;
 import pl.edu.agh.kis.firebackend.model.simulation.SimulationState;
 import pl.edu.agh.kis.firebackend.model.simulation.SimulationStateDto;
 import pl.edu.agh.kis.firebackend.util.SectorIdResolver;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
-
-import java.time.Duration;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -88,6 +97,9 @@ public class SimulationStateService {
                 synchronized (state) {
                     state.sectors.get(sectorId).state.temperature = tempAndAirHumiditySensor.data().temperature();
                     state.sectors.get(sectorId).state.airHumidity = tempAndAirHumiditySensor.data().airHumidity();
+                    System.out.println("----------------------cccccccccccccccccccccccccccccccccccc----------------------");
+                    System.out.println("Sector id: " + sectorId);
+                    System.out.println("Temperature: " + tempAndAirHumiditySensor.data().temperature());
                 }
         });
 

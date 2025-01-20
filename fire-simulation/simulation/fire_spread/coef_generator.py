@@ -15,7 +15,7 @@ def calculate_beta(wind: Wind, target_sector_type: SectorType, direction: Geogra
         case 1:
             direction_coef = 0.5
         case 2:
-            direction_coef = 0.2
+            direction_coef = 0.25
         case 3:
             direction_coef = 0.1
         case 4:
