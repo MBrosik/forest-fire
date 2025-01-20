@@ -138,7 +138,8 @@ class Sector:
             logger.info(f"Sector {self._sector_id} is lost!")
         self._burn_level = new_burn_level
         logger.info(f"New burn level in sector {self._sector_id} is {self._burn_level}")
-  
+
+
     def update_sector_state(self):
         # Stałe współczynniki regulujące wpływ fire_level na różne parametry
         fire_influence = 0.5  # Wpływ poziomu pożaru na temperaturę
@@ -159,29 +160,37 @@ class Sector:
         # Uwzględnienie naturalnego chłodzenia i losowych fluktuacji
         self._state.temperature += temperature_change - (self._state.temperature * cooling_factor) + random_variation_temp
         self._state.temperature = max(10, min(self._state.temperature, self._initial_temperature + 80))  # Ograniczenie zakresu
+        logger.info(f"Sector {self.sector_id} - Temperature: {self._state.temperature}")
 
         # Wilgotność powietrza – maleje wraz z pożarem, ale nie spada poniżej 5%
-        self._state.air_humidity -= self._fire_level * 0.4 + random.uniform(-2, 2)
+        humidity_change = self._fire_level * 0.4 + random.uniform(-2, 2)
+        self._state.air_humidity -= humidity_change
         self._state.air_humidity = max(5, min(self._state.air_humidity, 100))
+        logger.info(f"Sector {self.sector_id} - Air Humidity: {self._state.air_humidity}")
 
         # Stężenie CO2 – wzrost z ograniczonym wpływem losowości, kontrola wzrostu
-        co2_change = (self._fire_level ** 1.1) - (self._state.co2_concentration * 0.01)
-        self._state.co2_concentration += co2_change + random.uniform(-5, 5)
+        co2_change = (self._fire_level ** 1.1) - (self._state.co2_concentration * 0.01) + random.uniform(-5, 5)
+        self._state.co2_concentration += co2_change
         self._state.co2_concentration = max(300, self._state.co2_concentration)  # Naturalny poziom CO2 minimum
+        logger.info(f"Sector {self.sector_id} - CO2 Concentration: {self._state.co2_concentration}")
 
         # Wilgotność ściółki – gwałtowny spadek, ograniczenie przed całkowitym wysuszeniem
-        self._state.plant_litter_moisture -= self._fire_level * 0.5 + random.uniform(-1, 1)
+        litter_moisture_change = self._fire_level * 0.5 + random.uniform(-1, 1)
+        self._state.plant_litter_moisture -= litter_moisture_change
         self._state.plant_litter_moisture = max(2, min(self._state.plant_litter_moisture, 100))
+        logger.info(f"Sector {self.sector_id} - Plant Litter Moisture: {self._state.plant_litter_moisture}")
 
         # Stężenie PM2.5 – eksponencjalny wzrost ograniczony kontrolą
-        pm_increase = (self._fire_level ** 1.3 / 25) - (self._state.pm2_5_concentration * 0.02)
-        self._state.pm2_5_concentration += pm_increase + random.uniform(-0.3, 0.3)
+        pm_increase = (self._fire_level ** 1.3 / 25) - (self._state.pm2_5_concentration * 0.02) + random.uniform(-0.3, 0.3)
+        self._state.pm2_5_concentration += pm_increase
         self._state.pm2_5_concentration = max(5, self._state.pm2_5_concentration)  # Minimalny poziom PM2.5
+        logger.info(f"Sector {self.sector_id} - PM2.5 Concentration: {self._state.pm2_5_concentration}")
 
         # Prędkość wiatru – kontrolowany wzrost i fluktuacja dla realizmu
-        wind_increase = (self._fire_level * 0.025) - (self._state.wind_speed * 0.01)
-        self._state.wind_speed += wind_increase + random.uniform(-0.2, 0.2)
+        wind_increase = (self._fire_level * 0.025) - (self._state.wind_speed * 0.01) + random.uniform(-0.2, 0.2)
+        self._state.wind_speed += wind_increase
         self._state.wind_speed = max(0, min(self._state.wind_speed, 50))  # Ograniczenie prędkości wiatru
+        logger.info(f"Sector {self.sector_id} - Wind Speed: {self._state.wind_speed}")
 
 
         
