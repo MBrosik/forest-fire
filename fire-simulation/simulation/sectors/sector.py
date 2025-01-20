@@ -138,45 +138,51 @@ class Sector:
             logger.info(f"Sector {self._sector_id} is lost!")
         self._burn_level = new_burn_level
         logger.info(f"New burn level in sector {self._sector_id} is {self._burn_level}")
-
-    # def update_sector_state(self):
-    #     # Temperature increases based on fire level, but also considers the current state temperature.
-    #     self._state.temperature = self._state.temperature + (self._fire_level * 0.8) - (self._state.temperature * 0.05)
-
-    #     # Air humidity decreases as fire level increases, but also considers the current state humidity.
-    #     self._state.air_humidity = max(self._state.air_humidity - self._fire_level * 0.5, 0)
-
-    #     # CO2 concentration increases logarithmically with fire level, but also depends on current CO2 levels.
-    #     self._state.co2_concentration = self._state.co2_concentration + (self._fire_level ** 1.2) - (self._state.co2_concentration * 0.01)
-
-    #     # Plant litter moisture decreases sharply as fire level increases but also depends on its current state.
-    #     self._state.plant_litter_moisture = max(self._state.plant_litter_moisture - self._fire_level * 0.6, 0)
-
-    #     # PM2.5 concentration increases exponentially, but takes into account its current value.
-    #     self._state.pm2_5_concentration = self._state.pm2_5_concentration + (self._fire_level ** 1.5 / 20) - (self._state.pm2_5_concentration * 0.02)
-
-    #     # Wind speed mildly increases with fire level, considering current wind speed.
-    #     self._state.wind_speed = self._state.wind_speed + (self._fire_level * 0.03) - (self._state.wind_speed * 0.01)    
-
-
+  
     def update_sector_state(self):
-        # Temperature increases with fire level, influenced by current state and random fluctuation.
-        self._state.temperature = self._state.temperature + (self._fire_level * 0.8) - (self._state.temperature * 0.05) + random.uniform(-2, 2)
+        # Stałe współczynniki regulujące wpływ fire_level na różne parametry
+        fire_influence = 0.5  # Wpływ poziomu pożaru na temperaturę
+        cooling_factor = 0.02  # Naturalny spadek temperatury
+        random_variation_temp = random.uniform(-0.5, 0.5)  # Zmniejszone losowe zmiany dla stabilności
 
-        # Air humidity decreases with fire level, with random variation simulating environmental factors.
-        self._state.air_humidity = max(self._state.air_humidity - self._fire_level * 0.5 + random.uniform(-3, 3), 0)
+        # Ograniczenie wartości fire_level do przedziału [0, 100] dla bezpieczeństwa
+        self._fire_level = max(0, min(self._fire_level, 100))
 
-        # CO2 concentration increases logarithmically with fire level, with slight randomness.
-        self._state.co2_concentration = self._state.co2_concentration + (self._fire_level ** 1.2) - (self._state.co2_concentration * 0.01) + random.uniform(-10, 10)
+        # Ustalona początkowa temperatura jako baza
+        if not hasattr(self, '_initial_temperature'):
+            self._initial_temperature = self._state.temperature
 
-        # Plant litter moisture decreases sharply as fire level increases, with random fluctuation.
-        self._state.plant_litter_moisture = max(self._state.plant_litter_moisture - self._fire_level * 0.6 + random.uniform(-1, 1), 0)
+        # Docelowa temperatura zależna od fire_level w stosunku do początkowej wartości
+        target_temperature = self._initial_temperature + (self._fire_level * 0.5)
+        temperature_change = (target_temperature - self._state.temperature) * fire_influence
 
-        # PM2.5 concentration increases exponentially with random variation for unpredictable smoke dispersion.
-        self._state.pm2_5_concentration = self._state.pm2_5_concentration + (self._fire_level ** 1.5 / 20) - (self._state.pm2_5_concentration * 0.02) + random.uniform(-0.5, 0.5)
+        # Uwzględnienie naturalnego chłodzenia i losowych fluktuacji
+        self._state.temperature += temperature_change - (self._state.temperature * cooling_factor) + random_variation_temp
+        self._state.temperature = max(10, min(self._state.temperature, self._initial_temperature + 80))  # Ograniczenie zakresu
 
-        # Wind speed mildly increases with fire level and random fluctuation simulates gusts.
-        self._state.wind_speed = self._state.wind_speed + (self._fire_level * 0.03) - (self._state.wind_speed * 0.01) + random.uniform(-0.3, 0.3)
+        # Wilgotność powietrza – maleje wraz z pożarem, ale nie spada poniżej 5%
+        self._state.air_humidity -= self._fire_level * 0.4 + random.uniform(-2, 2)
+        self._state.air_humidity = max(5, min(self._state.air_humidity, 100))
+
+        # Stężenie CO2 – wzrost z ograniczonym wpływem losowości, kontrola wzrostu
+        co2_change = (self._fire_level ** 1.1) - (self._state.co2_concentration * 0.01)
+        self._state.co2_concentration += co2_change + random.uniform(-5, 5)
+        self._state.co2_concentration = max(300, self._state.co2_concentration)  # Naturalny poziom CO2 minimum
+
+        # Wilgotność ściółki – gwałtowny spadek, ograniczenie przed całkowitym wysuszeniem
+        self._state.plant_litter_moisture -= self._fire_level * 0.5 + random.uniform(-1, 1)
+        self._state.plant_litter_moisture = max(2, min(self._state.plant_litter_moisture, 100))
+
+        # Stężenie PM2.5 – eksponencjalny wzrost ograniczony kontrolą
+        pm_increase = (self._fire_level ** 1.3 / 25) - (self._state.pm2_5_concentration * 0.02)
+        self._state.pm2_5_concentration += pm_increase + random.uniform(-0.3, 0.3)
+        self._state.pm2_5_concentration = max(5, self._state.pm2_5_concentration)  # Minimalny poziom PM2.5
+
+        # Prędkość wiatru – kontrolowany wzrost i fluktuacja dla realizmu
+        wind_increase = (self._fire_level * 0.025) - (self._state.wind_speed * 0.01)
+        self._state.wind_speed += wind_increase + random.uniform(-0.2, 0.2)
+        self._state.wind_speed = max(0, min(self._state.wind_speed, 50))  # Ograniczenie prędkości wiatru
+
 
         
 
