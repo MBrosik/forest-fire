@@ -122,8 +122,8 @@ export const useSectorsLayer = ({ sectors }: Configuration, disableOnHover?: boo
               Configuration.sectors
                 .toString(sector)
                 .split('\n')
-                .map((str) => {
-                  return createElement(ListItem, { sx: { py: 0 } }, createElement(ListItemText, { primary: str }));
+                .map((str, i) => {
+                  return createElement(ListItem, { sx: { py: 0 }, key: i }, createElement(ListItemText, { primary: str }));
                 }),
             ),
           );
