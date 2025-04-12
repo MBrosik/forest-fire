@@ -1,5 +1,6 @@
 # Ignorowanie folderów __pycache__ w całym projekcie
 **/__pycache__/
+logs
 
 # Opcjonalne ignorowanie plików pyc i pyo, które mogą być w innych miejscach
 *.pyc
